@@ -24,6 +24,12 @@ public class RecordId implements Serializable {
     public RecordId() {
     }
 
+    public RecordId(Sensor sensor, Beacon beacon, LocalDateTime recordDate) {
+        this.sensor = sensor;
+        this.beacon = beacon;
+        this.recordDate = recordDate;
+    }
+
     public Sensor getSensor() {
         return sensor;
     }

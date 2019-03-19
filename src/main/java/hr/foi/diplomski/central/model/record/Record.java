@@ -18,6 +18,11 @@ public class Record {
     public Record() {
     }
 
+    public Record(RecordId recordId, Double distance) {
+        this.recordId = recordId;
+        this.distance = distance;
+    }
+
     public RecordId getRecordId() {
         return recordId;
     }
