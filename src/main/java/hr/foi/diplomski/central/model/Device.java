@@ -7,7 +7,7 @@ import javax.persistence.*;
 public class Device {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(generator = "device_id_seq")
     @Column(name = "id")
     private Integer id;
 

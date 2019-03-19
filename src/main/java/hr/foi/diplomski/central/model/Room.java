@@ -9,7 +9,7 @@ import java.util.List;
 public class Room {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(generator = "room_id_seq")
     @Column(name = "id")
     private Integer id;
 

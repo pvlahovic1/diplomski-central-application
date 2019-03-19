@@ -7,7 +7,7 @@ import javax.persistence.*;
 public class Beacon {
 
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
+    @GeneratedValue(generator = "beacon_id_seq")
     @Column(name = "id")
     private Integer id;
 

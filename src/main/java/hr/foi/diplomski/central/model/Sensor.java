@@ -7,14 +7,14 @@ import javax.persistence.*;
 public class Sensor {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(generator = "sensor_id_seq")
     @Column(name = "id")
     private Integer id;
 
-    @Column(name = "sensor_id", unique = true, length = 64)
+    @Column(name = "sensor_id")
     private String sensorId;
 
-    @Column(name = "sensor_name", unique = true)
+    @Column(name = "sensor_name")
     private String sensorName;
 
     @Column(name = "beacon_data_purge_interval")
