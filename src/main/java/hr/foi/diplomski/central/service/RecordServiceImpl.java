@@ -31,13 +31,13 @@ public class RecordServiceImpl implements RecordService {
         var sensorOptional = sensorRepository.findBySensorId(sensorData.getDeviceId());
 
         if (sensorOptional.isPresent()) {
-            saveRecordFromSensor(sensorOptional.get(), sensorData.getSensorRecords());
+            saveRecordsFromSensor(sensorOptional.get(), sensorData.getSensorRecords());
         } else {
             throw new BadDataException("Sensor identify data is not recognized!");
         }
     }
 
-    private void saveRecordFromSensor(Sensor sensor, List<SensorRecord> sensorRecords) {
+    private void saveRecordsFromSensor(Sensor sensor, List<SensorRecord> sensorRecords) {
         for (SensorRecord sensorRecord : sensorRecords) {
             var beaconOptional = beaconRepository.findByUuidAndMajorAndMinor(sensorRecord.getUuid(), sensorRecord.getMajor(),
                     sensorRecord.getMinor());
@@ -45,13 +45,13 @@ public class RecordServiceImpl implements RecordService {
             if (beaconOptional.isPresent()) {
                 Beacon beacon = beaconOptional.get();
 
-                var newestBeaconRecordOptional = recordRepository
-                        .findFirstByRecordId_BeaconAndRecordId_SensorOrderByRecordId_RecordDateDesc(beacon, sensor);
+                var lastKnownBeaconRecordOptional = recordRepository
+                        .findFirstByRecordId_BeaconOrderByRecordId_RecordDateDesc(beacon);
 
-                if (newestBeaconRecordOptional.isPresent()) {
-                    Record newestBeaconRecord = newestBeaconRecordOptional.get();
+                if (lastKnownBeaconRecordOptional.isPresent()) {
+                    Record lastKnowBeaconRecord = lastKnownBeaconRecordOptional.get();
 
-                    if (isDataImportant(newestBeaconRecord.getDistance(), sensorRecord.getDistance(), 1)) {
+                    if (isDataImportant(lastKnowBeaconRecord, sensor, sensorRecord, 1)) {
                         saveNewRecordData(sensorRecord, sensor, beacon);
                         log.info("Saving new record: {} for sensor: {}", sensorRecord, sensor.getSensorName());
                     } else {
@@ -66,10 +66,14 @@ public class RecordServiceImpl implements RecordService {
         }
     }
 
-    private boolean isDataImportant(double lastKnownDistance, double newDistance, double threshold) {
-        double absDiff = Math.abs(newDistance - lastKnownDistance);
-
-        return absDiff > threshold;
+    private boolean isDataImportant(Record lastKnowBeaconRecord, Sensor currentSensor,
+                                    SensorRecord currentSensorRecord, double threshold) {
+        if (lastKnowBeaconRecord.getRecordId().getSensor().getId().equals(currentSensor.getId())) {
+            double absDiff = Math.abs(currentSensorRecord.getDistance() - lastKnowBeaconRecord.getDistance());
+            return absDiff > threshold;
+        } else {
+            return currentSensorRecord.getDistance() < lastKnowBeaconRecord.getDistance();
+        }
     }
 
     private void saveNewRecordData(SensorRecord sensorRecord, Sensor sensor, Beacon beacon) {
