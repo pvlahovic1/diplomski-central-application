@@ -1,5 +1,7 @@
 package hr.foi.diplomski.central.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +18,8 @@ public class Room {
     @Column(name = "room_name")
     private String roomName;
 
-    @OneToMany(mappedBy = "room")
+    @OneToMany(mappedBy = "room", fetch = FetchType.LAZY)
+    @JsonManagedReference
     private List<Sensor> sensors = new ArrayList<>();
 
     public Room() {

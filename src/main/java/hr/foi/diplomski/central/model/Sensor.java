@@ -1,5 +1,7 @@
 package hr.foi.diplomski.central.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 
 @Entity
@@ -25,6 +27,7 @@ public class Sensor {
 
     @ManyToOne
     @JoinColumn(name = "room_id", referencedColumnName = "id")
+    @JsonBackReference
     private Room room;
 
     public Sensor() {

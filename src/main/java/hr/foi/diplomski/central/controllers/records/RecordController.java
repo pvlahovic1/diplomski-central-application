@@ -1,8 +1,8 @@
-package hr.foi.diplomski.central.controllers;
+package hr.foi.diplomski.central.controllers.records;
 
-import hr.foi.diplomski.central.controllers.data.SensorData;
+import hr.foi.diplomski.central.controllers.records.data.SensorData;
 import hr.foi.diplomski.central.exceptions.BadDataException;
-import hr.foi.diplomski.central.service.RecordService;
+import hr.foi.diplomski.central.service.records.RecordService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

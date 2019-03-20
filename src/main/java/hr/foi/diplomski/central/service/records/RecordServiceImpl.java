@@ -1,7 +1,7 @@
-package hr.foi.diplomski.central.service;
+package hr.foi.diplomski.central.service.records;
 
-import hr.foi.diplomski.central.controllers.data.SensorData;
-import hr.foi.diplomski.central.controllers.data.SensorRecord;
+import hr.foi.diplomski.central.controllers.records.data.SensorData;
+import hr.foi.diplomski.central.controllers.records.data.SensorRecord;
 import hr.foi.diplomski.central.exceptions.BadDataException;
 import hr.foi.diplomski.central.model.Beacon;
 import hr.foi.diplomski.central.model.Sensor;
