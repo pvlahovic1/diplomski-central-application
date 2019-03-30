@@ -1,47 +1,23 @@
 package hr.foi.diplomski.central.model;
 
+import lombok.Data;
+
 import javax.persistence.*;
 
 @Entity
 @Table(name = "device")
+@Data
 public class Device {
 
     @Id
     @GeneratedValue(generator = "device_id_seq")
-    @Column(name = "id")
+    @Column(name = "id_device")
     private Integer id;
 
     @Column(name = "device_name")
     private String deviceName;
 
     @ManyToOne
-    @JoinColumn(name = "beacon_id", referencedColumnName = "id")
+    @JoinColumn(name = "id_beacon", referencedColumnName = "id_beacon")
     private Beacon beacon;
-
-    public Device() {
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getDeviceName() {
-        return deviceName;
-    }
-
-    public void setDeviceName(String deviceName) {
-        this.deviceName = deviceName;
-    }
-
-    public Beacon getBeacon() {
-        return beacon;
-    }
-
-    public void setBeacon(Beacon beacon) {
-        this.beacon = beacon;
-    }
 }

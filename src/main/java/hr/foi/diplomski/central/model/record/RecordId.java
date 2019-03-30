@@ -11,11 +11,11 @@ import java.time.LocalDateTime;
 public class RecordId implements Serializable {
 
     @ManyToOne
-    @JoinColumn(name = "sensor_id", referencedColumnName = "id")
+    @JoinColumn(name = "id_sensor", referencedColumnName = "id_sensor")
     private Sensor sensor;
 
     @ManyToOne
-    @JoinColumns(@JoinColumn(name = "beacon_id", referencedColumnName = "id"))
+    @JoinColumns(@JoinColumn(name = "id_beacon", referencedColumnName = "id_beacon"))
     private Beacon beacon;
 
     @Column(name = "record_date")

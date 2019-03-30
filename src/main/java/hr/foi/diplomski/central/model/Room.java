@@ -1,6 +1,7 @@
 package hr.foi.diplomski.central.model;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import lombok.Data;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -8,11 +9,12 @@ import java.util.List;
 
 @Entity
 @Table(name = "room")
+@Data
 public class Room {
 
     @Id
     @GeneratedValue(generator = "room_id_seq")
-    @Column(name = "id")
+    @Column(name = "id_room")
     private Integer id;
 
     @Column(name = "room_name")
@@ -22,30 +24,4 @@ public class Room {
     @JsonManagedReference
     private List<Sensor> sensors = new ArrayList<>();
 
-    public Room() {
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getRoomName() {
-        return roomName;
-    }
-
-    public void setRoomName(String roomName) {
-        this.roomName = roomName;
-    }
-
-    public List<Sensor> getSensors() {
-        return sensors;
-    }
-
-    public void setSensors(List<Sensor> sensors) {
-        this.sensors = sensors;
-    }
 }

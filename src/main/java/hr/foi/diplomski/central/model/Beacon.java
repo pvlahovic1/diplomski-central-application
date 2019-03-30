@@ -1,14 +1,17 @@
 package hr.foi.diplomski.central.model;
 
+import lombok.Data;
+
 import javax.persistence.*;
 
 @Entity
 @Table(name = "beacon")
+@Data
 public class Beacon {
 
     @Id
     @GeneratedValue(generator = "beacon_id_seq")
-    @Column(name = "id")
+    @Column(name = "id_beacon")
     private Integer id;
 
     @Column(name = "uuid")
@@ -20,38 +23,4 @@ public class Beacon {
     @Column(name = "minor")
     private Integer minor;
 
-    public Beacon() {
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getUuid() {
-        return uuid;
-    }
-
-    public void setUuid(String uuid) {
-        this.uuid = uuid;
-    }
-
-    public Integer getMajor() {
-        return major;
-    }
-
-    public void setMajor(Integer major) {
-        this.major = major;
-    }
-
-    public Integer getMinor() {
-        return minor;
-    }
-
-    public void setMinor(Integer minor) {
-        this.minor = minor;
-    }
 }
