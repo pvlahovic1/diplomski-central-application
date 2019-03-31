@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping("/sensors")
+@RequestMapping("/api/sensors")
 @AllArgsConstructor
 public class SensorController {
 

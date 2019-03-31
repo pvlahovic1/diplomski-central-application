@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping("/records")
+@RequestMapping("/api/records")
 @AllArgsConstructor
 public class RecordController {
 
