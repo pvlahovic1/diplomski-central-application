@@ -49,3 +49,12 @@ HELP.md
 /nbdist/
 /.nb-gradle/
 /build/
+
+### Angular ###
+
+.DS_STORE
+
+webapp/node_modules
+*secret.js
+webapp/npm-debug.log
+webapp/yarn-error.log
