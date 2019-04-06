@@ -13,7 +13,7 @@ public class Sensor {
     @Id
     @GeneratedValue(generator = "sensor_id_seq")
     @Column(name = "id_sensor")
-    private Integer id;
+    private Long id;
 
     @Column(name = "sensor_id")
     private String sensorId;

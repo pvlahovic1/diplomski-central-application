@@ -1,4 +1,4 @@
-package hr.foi.diplomski.central.controllers.sensors.data;
+package hr.foi.diplomski.central.controllers.api.sensors.data;
 
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;

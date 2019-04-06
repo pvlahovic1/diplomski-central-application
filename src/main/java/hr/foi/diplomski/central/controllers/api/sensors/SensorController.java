@@ -1,6 +1,6 @@
-package hr.foi.diplomski.central.controllers.sensors;
+package hr.foi.diplomski.central.controllers.api.sensors;
 
-import hr.foi.diplomski.central.controllers.sensors.data.SensorDto;
+import hr.foi.diplomski.central.controllers.api.sensors.data.SensorDto;
 import hr.foi.diplomski.central.exceptions.BadDataException;
 import hr.foi.diplomski.central.model.Sensor;
 import hr.foi.diplomski.central.service.sensors.SensorService;

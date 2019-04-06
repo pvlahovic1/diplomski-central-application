@@ -1,6 +1,6 @@
-package hr.foi.diplomski.central.controllers.records;
+package hr.foi.diplomski.central.controllers.api.records;
 
-import hr.foi.diplomski.central.controllers.records.data.SensorData;
+import hr.foi.diplomski.central.controllers.api.records.data.SensorData;
 import hr.foi.diplomski.central.exceptions.BadDataException;
 import hr.foi.diplomski.central.service.records.RecordService;
 import lombok.AllArgsConstructor;

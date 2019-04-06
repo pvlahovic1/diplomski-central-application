@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,7 +16,7 @@ public class Room {
     @Id
     @GeneratedValue(generator = "room_id_seq")
     @Column(name = "id_room")
-    private Integer id;
+    private Long id;
 
     @Column(name = "room_name")
     private String roomName;

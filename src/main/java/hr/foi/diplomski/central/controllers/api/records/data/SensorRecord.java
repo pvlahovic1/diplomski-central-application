@@ -1,4 +1,4 @@
-package hr.foi.diplomski.central.controllers.records.data;
+package hr.foi.diplomski.central.controllers.api.records.data;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
