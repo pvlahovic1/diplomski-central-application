@@ -93,4 +93,19 @@ export class ProstorijeComponent implements OnInit {
     });
   }
 
+  deleteProstorija() {
+    if (this.dropdownModel.idProstorije !== undefined && this.dropdownModel.idProstorije.length > 0) {
+      this.prostorijeService.obrisiProstoriju(this.dropdownModel.idProstorije[0].id).subscribe(() => {
+        console.log("Uspjesno brisanje");
+        this.initProstorije();
+        this.dropdownModel.idProstorije = [];
+        this.senzoriList = [];
+      }, error => {
+        console.log(JSON.stringify(error));
+      });
+    }
+
+
+  }
+
 }

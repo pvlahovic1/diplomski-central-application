@@ -13,4 +13,6 @@ public interface RoomService {
 
     RoomDto getById(Long id);
 
+    void deleteRoom(Long id);
+
 }
