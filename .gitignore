@@ -58,3 +58,4 @@ webapp/node_modules
 *secret.js
 webapp/npm-debug.log
 webapp/yarn-error.log
+webapp/dist/*
