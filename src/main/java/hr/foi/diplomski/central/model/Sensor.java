@@ -32,4 +32,14 @@ public class Sensor {
     @JsonBackReference
     private Room room;
 
+    @Override
+    public String toString() {
+        return "Sensor{" +
+                "id=" + id +
+                ", sensorId='" + sensorId + '\'' +
+                ", sensorName='" + sensorName + '\'' +
+                ", beaconDataPurgeInterval=" + beaconDataPurgeInterval +
+                ", beaconDataSendInterval=" + beaconDataSendInterval +
+                '}';
+    }
 }

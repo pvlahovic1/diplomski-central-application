@@ -1,5 +1,6 @@
 package hr.foi.diplomski.central.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -17,7 +18,9 @@ public class Device {
     @Column(name = "device_name")
     private String deviceName;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "id_beacon", referencedColumnName = "id_beacon")
+    @JsonBackReference
     private Beacon beacon;
+
 }

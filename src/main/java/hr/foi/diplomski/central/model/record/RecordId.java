@@ -1,21 +1,26 @@
 package hr.foi.diplomski.central.model.record;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import hr.foi.diplomski.central.model.Beacon;
 import hr.foi.diplomski.central.model.Sensor;
+import lombok.Data;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Embeddable
+@Data
 public class RecordId implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "id_sensor", referencedColumnName = "id_sensor")
+    @JsonBackReference
     private Sensor sensor;
 
     @ManyToOne
     @JoinColumns(@JoinColumn(name = "id_beacon", referencedColumnName = "id_beacon"))
+    @JsonBackReference
     private Beacon beacon;
 
     @Column(name = "record_date")
@@ -30,27 +35,4 @@ public class RecordId implements Serializable {
         this.recordDate = recordDate;
     }
 
-    public Sensor getSensor() {
-        return sensor;
-    }
-
-    public void setSensor(Sensor sensor) {
-        this.sensor = sensor;
-    }
-
-    public Beacon getBeacon() {
-        return beacon;
-    }
-
-    public void setBeacon(Beacon beacon) {
-        this.beacon = beacon;
-    }
-
-    public LocalDateTime getRecordDate() {
-        return recordDate;
-    }
-
-    public void setRecordDate(LocalDateTime recordDate) {
-        this.recordDate = recordDate;
-    }
 }

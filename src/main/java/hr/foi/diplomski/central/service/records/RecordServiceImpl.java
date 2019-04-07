@@ -13,6 +13,7 @@ import hr.foi.diplomski.central.repository.SensorRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -20,6 +21,7 @@ import java.util.List;
 @Service
 @AllArgsConstructor
 @Slf4j
+@Transactional
 public class RecordServiceImpl implements RecordService {
 
     private final RecordRepository recordRepository;
@@ -55,7 +57,9 @@ public class RecordServiceImpl implements RecordService {
                         saveNewRecordData(sensorRecord, sensor, beacon);
                         log.info("Saving new record: {} for sensor: {}", sensorRecord, sensor.getSensorName());
                     } else {
-                        log.info("There will be no saving for record: {} because the distance did not change very much.", sensorRecord);
+                        log.info("There will be update for: {} because beacon is still in range for this sensor.", sensorRecord);
+                        recordRepository.delete(lastKnowBeaconRecord);
+                        saveNewRecordData(sensorRecord, sensor, beacon);
                     }
                 } else {
                     saveNewRecordData(sensorRecord, sensor, beacon);

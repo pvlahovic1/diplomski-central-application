@@ -1,8 +1,10 @@
 package hr.foi.diplomski.central.controllers.api.room;
 
+import hr.foi.diplomski.central.controllers.api.device.data.DeviceDto;
 import hr.foi.diplomski.central.controllers.api.room.data.RoomDto;
 import hr.foi.diplomski.central.controllers.api.room.data.RoomViewDto;
 import hr.foi.diplomski.central.controllers.api.sensors.data.SensorViewDto;
+import hr.foi.diplomski.central.service.device.DeviceService;
 import hr.foi.diplomski.central.service.rooms.RoomService;
 import hr.foi.diplomski.central.service.sensors.SensorService;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +22,7 @@ public class RoomController {
 
     private final RoomService roomService;
     private final SensorService sensorService;
+    private final DeviceService deviceService;
 
     @GetMapping
     public ResponseEntity<List<RoomViewDto>> getAllRoomsView() {
@@ -34,6 +37,11 @@ public class RoomController {
     @GetMapping("/{id}")
     public ResponseEntity<RoomDto> getRoomById(@PathVariable Long id) {
         return ResponseEntity.ok(roomService.getById(id));
+    }
+
+    @GetMapping("/{id}/devices")
+    public ResponseEntity<List<DeviceDto>> getAllDevicesInRoom(@PathVariable Long id) {
+        return ResponseEntity.ok(deviceService.findAllDevicesInRoom(id));
     }
 
     @PostMapping

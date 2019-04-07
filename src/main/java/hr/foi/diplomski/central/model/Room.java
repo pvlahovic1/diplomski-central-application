@@ -26,4 +26,11 @@ public class Room {
     @JsonManagedReference
     private List<Sensor> sensors = new ArrayList<>();
 
+    @Override
+    public String toString() {
+        return "Room{" +
+                "id=" + id +
+                ", roomName='" + roomName + '\'' +
+                '}';
+    }
 }
