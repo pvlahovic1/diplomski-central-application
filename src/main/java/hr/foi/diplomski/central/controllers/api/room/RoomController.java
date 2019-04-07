@@ -31,6 +31,11 @@ public class RoomController {
         return ResponseEntity.ok(sensorService.getAllSensorsViewByRoom(id));
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<RoomDto> getRoomById(@PathVariable Long id) {
+        return ResponseEntity.ok(roomService.getById(id));
+    }
+
     @PostMapping
     public ResponseEntity<RoomDto> saveNewRoom(@Valid @RequestBody RoomDto roomDto) {
         return ResponseEntity.ok(roomService.saveRoom(roomDto));

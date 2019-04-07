@@ -7,6 +7,7 @@ import hr.foi.diplomski.central.model.Room;
 import hr.foi.diplomski.central.repository.RoomRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
 
 import java.util.List;
 
@@ -29,5 +30,12 @@ public class RoomServiceImpl implements RoomService {
     @Override
     public List<RoomViewDto> getAllRoomsView() {
         return roomMapper.entitysToViewDtos(roomRepository.findAll());
+    }
+
+    @Override
+    public RoomDto getById(Long id) {
+        Room room = roomRepository.findById(id).get();
+
+        return roomMapper.entityToDto(room);
     }
 }

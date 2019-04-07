@@ -1,4 +1,4 @@
-import {Component, Input, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 
 import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 import {ProstorijaModel} from "../../model/prostorija.model";
@@ -25,16 +25,30 @@ export class ProstorijeFormComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.dropdownModel.idSenzora = [];
     this.initDropDowns();
     this.prostorijeService.dohvatiSveSlobodneSenzore().subscribe(data => {
       this.slobodniSenzori = data;
-      console.log(this.slobodniSenzori);
+      if (this.model.id != 0) {
+        this.initModel();
+      } else {
+        console.log("Iz modala - Novo je");
+      }
     });
-    if (this.model.id != 0) {
-      console.log("Iz modala - Ide dohvat sa servera: " + this.model.id);
-    } else {
-      console.log("Iz modala - Novo je");
-    }
+  }
+
+  initModel() {
+    this.prostorijeService.dohvatiProstoriju(this.model.id).subscribe(data => {
+      this.model = data;
+      console.log("Dohvat sa servera: " + JSON.stringify(data));
+      this.model.sensors.forEach(e => {
+        this.slobodniSenzori.push(e);
+        this.dropdownModel.idSenzora.push(e);
+        console.log("Nakon postavljanja forme: " + JSON.stringify(this.model));
+        console.log("Nakon postavljanja forme: " + JSON.stringify(this.slobodniSenzori));
+        console.log("Nakon postavljanja forme: " + JSON.stringify(this.dropdownModel));
+      });
+    });
   }
 
   initDropDowns() {
@@ -50,7 +64,8 @@ export class ProstorijeFormComponent implements OnInit {
       this.convertDropdownToModel();
       console.log(JSON.stringify(this.model));
       this.prostorijeService.pohraniProstoriju(this.model).subscribe(response => {
-        console.log(JSON.stringify(response))
+        console.log(JSON.stringify(response));
+        this.activeModal.close(response.id);
       }, error => {
         console.log(error);
       });
@@ -60,8 +75,9 @@ export class ProstorijeFormComponent implements OnInit {
   }
 
   convertDropdownToModel() {
+    console.log("onvert dropdown to modell");
+    this.model.sensors = [];
     if (this.dropdownModel.idSenzora !== undefined && this.dropdownModel.idSenzora.length > 0) {
-      this.model.sensors = [];
       this.dropdownModel.idSenzora.forEach(e => {
         this.model.sensors.push(e);
       });

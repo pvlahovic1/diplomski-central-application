@@ -25,7 +25,11 @@ export class ProstorijeService {
     return this.http.get(`${this.BASE_SENSOR_URL}/free`);
   }
 
-  pohraniProstoriju(prostorija: ProstorijaModel) {
+  pohraniProstoriju(prostorija: ProstorijaModel): Observable<any> {
     return this.http.post(`${this.BASE_ROOM_URL}`, prostorija);
+  }
+
+  dohvatiProstoriju(idProsotrije: number): Observable<any> {
+    return this.http.get(`${this.BASE_ROOM_URL}/${idProsotrije}`);
   }
 }

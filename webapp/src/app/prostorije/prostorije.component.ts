@@ -16,6 +16,7 @@ export class ProstorijeComponent implements OnInit {
   senzoriList: SenzorViewModel[];
   columnsToDisplay = ['name', 'beaconDataPurgeInterval', 'beaconDataSendInterval'];
   prikaziUcitavanjeSenzora = false;
+  refreshDropDown = false;
 
   dropdownModel: any = {};
   dropdownSettings = {};
@@ -27,9 +28,14 @@ export class ProstorijeComponent implements OnInit {
   ngOnInit() {
     this.prostorije = [];
     this.senzoriList = [];
+    this.initProstorije();
     this.initDropDowns();
+  }
+
+  initProstorije() {
     this.prostorijeService.dohvatiSveProstorije().subscribe(data => {
       this.prostorije = data;
+      this.refreshDropdown();
     });
   }
 
@@ -49,19 +55,42 @@ export class ProstorijeComponent implements OnInit {
     });
   }
 
+  refreshDropdown() {
+    if (this.refreshDropDown == true) {
+      if (this.dropdownModel.idProstorije !== undefined && this.dropdownModel.idProstorije.length > 0) {
+        this.dropdownModel.idProstorije = [this.prostorije.find(e => e.id == this.dropdownModel.idProstorije[0].id)];
+      }
+    }
+
+    this.refreshDropDown = false;
+  }
+
   editProstorija() {
     if (this.dropdownModel.idProstorije !== undefined && this.dropdownModel.idProstorije.length > 0) {
-      const modalRef = this.modalService.open(ProstorijeFormComponent, { size: 'lg', backdrop: 'static',windowClass:'app-modal-window animated slideInUp'});
+      const modalRef = this.modalService.open(ProstorijeFormComponent, {size: 'lg', backdrop: 'static'});
       modalRef.componentInstance.model = {
         id: this.dropdownModel.idProstorije[0].id,
         name: this.dropdownModel.idProstorije[0].itemName
-      }
+      };
+
+      modalRef.result.then(result => {
+        if (result != 0) {
+          this.onItemSelect({id: result});
+          this.initProstorije();
+          this.refreshDropDown = true;
+        }
+      });
     }
   }
 
   addProstorija() {
-    const modalRef = this.modalService.open(ProstorijeFormComponent,{ size: 'lg', backdrop: 'static',windowClass:'app-modal-window animated slideInUp'});
+    const modalRef = this.modalService.open(ProstorijeFormComponent, {size: 'lg', backdrop: 'static'});
     modalRef.componentInstance.model = {id: 0};
+    modalRef.result.then(result => {
+      if (result != 0) {
+        this.initProstorije();
+      }
+    });
   }
 
 }

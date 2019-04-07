@@ -17,6 +17,7 @@ public interface RoomMapper {
     @Mapping(source = "roomName", target = "itemName")
     RoomViewDto entityToViewDto(Room room);
 
+    @Mapping(source = "roomName", target = "name")
     RoomDto entityToDto(Room dto);
 
     List<RoomViewDto> entitysToViewDtos(List<Room> rooms);

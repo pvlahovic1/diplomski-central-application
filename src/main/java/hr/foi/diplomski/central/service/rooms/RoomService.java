@@ -11,4 +11,6 @@ public interface RoomService {
 
     List<RoomViewDto> getAllRoomsView();
 
+    RoomDto getById(Long id);
+
 }
