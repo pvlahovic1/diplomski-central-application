@@ -1,12 +1,16 @@
 <div class="container app-site-body">
   <div class="row">
-    <div class="col-2"><label>Raspoložive prostorije: </label></div>
-    <div class="col-4">
-      <angular2-multiselect [data]="prostorije" [(ngModel)]="dropdownModel"
-                            [settings]="dropdownSettings"
-                            (onSelect)="onItemSelect($event)">
-      </angular2-multiselect>
-    </div>
+      <div class="col-2"><label>Raspoložive prostorije: </label></div>
+      <div class="col-4">
+        <angular2-multiselect [data]="prostorije" [(ngModel)]="dropdownModel.idProstorije"
+                              [settings]="dropdownSettings"
+                              (onSelect)="onItemSelect($event)">
+        </angular2-multiselect>
+      </div>
+      <div class="col-2">
+        <i class="fas fa-pencil-alt pad10" (click)="editProstorija()"></i>
+        <i class="fas fa-plus pad10" (click)="addProstorija()"></i>
+      </div>
   </div>
   <div class="row top30"></div>
   <div class="row">
@@ -15,15 +19,15 @@
         <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
         <tr mat-row *matRowDef="let row; columns: columnsToDisplay"></tr>
         <ng-container matColumnDef="name">
-          <th mat-header-cell *matHeaderCellDef> Naziv </th>
+          <th mat-header-cell *matHeaderCellDef> Naziv</th>
           <td mat-cell *matCellDef="let senzor"> {{senzor.name}} </td>
         </ng-container>
         <ng-container matColumnDef="beaconDataPurgeInterval">
-          <th mat-header-cell *matHeaderCellDef> Interval brisanja podataka </th>
+          <th mat-header-cell *matHeaderCellDef> Interval brisanja podataka</th>
           <td mat-cell *matCellDef="let senzor"> {{senzor.beaconDataPurgeInterval }} </td>
         </ng-container>
         <ng-container matColumnDef="beaconDataSendInterval">
-          <th mat-header-cell *matHeaderCellDef> Interval slanja podataka </th>
+          <th mat-header-cell *matHeaderCellDef> Interval slanja podataka</th>
           <td mat-cell *matCellDef="let senzor"> {{senzor.beaconDataSendInterval }} </td>
         </ng-container>
         <ng-container matColumnDef="loading">
@@ -36,7 +40,8 @@
             Nema podataka
           </mat-footer-cell>
         </ng-container>
-        <mat-footer-row *matFooterRowDef="['loading']" [ngClass]="{'hide' : !prikaziUcitavanjeSenzora}"></mat-footer-row>
+        <mat-footer-row *matFooterRowDef="['loading']"
+                        [ngClass]="{'hide' : !prikaziUcitavanjeSenzora}"></mat-footer-row>
         <mat-footer-row *matFooterRowDef="['noData']" [ngClass]="{'hide' : senzoriList.length != 0}"></mat-footer-row>
       </table>
     </div>

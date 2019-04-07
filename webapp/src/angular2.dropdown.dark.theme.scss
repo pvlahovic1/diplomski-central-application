@@ -6,12 +6,12 @@ $btn-arrow: #fffff;
 
 
 $token-background: $base-color;
-$token-text-color: #fff;
-$token-remove-color: #fff;
+$token-text-color: #ffffff;
+$token-remove-color: #ffffff;
 
 $box-shadow-color: #141414;
 $list-hover-background: #787878;
-$label-color: #000;
+$label-color: #ffffff;
 $selected-background: #212121;
 
 .c-btn{
@@ -45,6 +45,7 @@ $selected-background: #212121;
     ul{
         li:hover{
             background: $list-hover-background;
+            color: white;
         }
     }
 }
@@ -86,7 +87,7 @@ $selected-background: #212121;
         color: $label-color;
     }
     input[type="checkbox"] + label:before{
-        color: $base-color;
+        color: white;
         border: 2px solid $base-color;
     }
     input[type="checkbox"] + label:after{

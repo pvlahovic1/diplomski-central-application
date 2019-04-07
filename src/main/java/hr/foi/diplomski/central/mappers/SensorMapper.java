@@ -2,6 +2,7 @@ package hr.foi.diplomski.central.mappers;
 
 
 import hr.foi.diplomski.central.controllers.api.sensors.data.SensorViewDto;
+import hr.foi.diplomski.central.mappers.reslovers.SensorResolver;
 import hr.foi.diplomski.central.model.Sensor;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -9,12 +10,17 @@ import org.mapstruct.NullValuePropertyMappingStrategy;
 
 import java.util.List;
 
-@Mapper(componentModel = "spring", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+@Mapper(componentModel = "spring", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE,
+        uses = {SensorResolver.class})
 public interface SensorMapper {
 
     @Mapping(source = "sensorName", target = "name")
     SensorViewDto entityToDto(Sensor entity);
 
     List<SensorViewDto> entitysToDtos(List<Sensor> entitys);
+
+    Sensor dtoToEntity(SensorViewDto sensorViewDto);
+
+    List<Sensor> dtosToEntity(List<SensorViewDto> dtos);
 
 }

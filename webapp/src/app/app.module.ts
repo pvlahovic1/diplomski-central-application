@@ -7,8 +7,10 @@ import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {HttpSeviceInterceptor} from "./settings/interceptors/http.sevice.interceptor";
 import {FormsModule} from "@angular/forms";
 import {AngularMultiSelectModule} from "angular2-multiselect-dropdown";
-import {AlertModule} from 'ngx-bootstrap';
+import {AlertModule, ButtonsModule} from 'ngx-bootstrap';
 import {MaterialComponents} from "./settings/material/material.component";
+import {ProstorijeFormComponent} from "./prostorije/prostorije-form/prostorije-form.component";
+import {NgbActiveModal, NgbModule} from "@ng-bootstrap/ng-bootstrap";
 
 @NgModule({
   declarations: [
@@ -22,10 +24,16 @@ import {MaterialComponents} from "./settings/material/material.component";
     AngularMultiSelectModule,
     FormsModule,
     AlertModule.forRoot(),
-    MaterialComponents
+    ButtonsModule.forRoot(),
+    NgbModule,
+    MaterialComponents,
   ],
-  providers: [{provide: HTTP_INTERCEPTORS, useClass: HttpSeviceInterceptor, multi: true}],
-  bootstrap: [AppComponent]
+  providers: [{provide: HTTP_INTERCEPTORS, useClass: HttpSeviceInterceptor, multi: true},
+    NgbActiveModal],
+  bootstrap: [AppComponent],
+  entryComponents: [
+    ProstorijeFormComponent
+  ]
 })
 export class AppModule {
 }

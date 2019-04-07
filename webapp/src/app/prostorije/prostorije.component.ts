@@ -1,8 +1,10 @@
 import {Component, OnInit} from '@angular/core';
 import {ProstorijeService} from "./prostorije.service";
-import {ProstorijaModel} from "../model/prostorija.model";
+import {ProstorijaViewModel} from "../model/prostorija.view.model";
 import {DropdownSettingsBuilder} from "../settings/utils/dropdown.settings.builder";
 import {SenzorViewModel} from "../model/senzor.view.model";
+import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
+import {ProstorijeFormComponent} from "./prostorije-form/prostorije-form.component";
 
 @Component({
   selector: 'app-prostorije',
@@ -10,15 +12,16 @@ import {SenzorViewModel} from "../model/senzor.view.model";
   styleUrls: ['./prostorije.component.scss']
 })
 export class ProstorijeComponent implements OnInit {
-  prostorije: ProstorijaModel[];
+  prostorije: ProstorijaViewModel[];
   senzoriList: SenzorViewModel[];
   columnsToDisplay = ['name', 'beaconDataPurgeInterval', 'beaconDataSendInterval'];
   prikaziUcitavanjeSenzora = false;
 
-  dropdownModel = [];
+  dropdownModel: any = {};
   dropdownSettings = {};
 
-  constructor(private prostorijeService: ProstorijeService) {
+  constructor(private prostorijeService: ProstorijeService,
+              private modalService: NgbModal) {
   }
 
   ngOnInit() {
@@ -39,12 +42,26 @@ export class ProstorijeComponent implements OnInit {
   }
 
   onItemSelect(data) {
-    console.log("Odabrano: " + JSON.stringify(data));
     this.prikaziUcitavanjeSenzora = true;
     this.prostorijeService.dohvatiSveSenzoreProstorije(data.id).subscribe(data => {
       this.senzoriList = data;
       this.prikaziUcitavanjeSenzora = false;
     });
+  }
+
+  editProstorija() {
+    if (this.dropdownModel.idProstorije !== undefined && this.dropdownModel.idProstorije.length > 0) {
+      const modalRef = this.modalService.open(ProstorijeFormComponent, { size: 'lg', backdrop: 'static',windowClass:'app-modal-window animated slideInUp'});
+      modalRef.componentInstance.model = {
+        id: this.dropdownModel.idProstorije[0].id,
+        name: this.dropdownModel.idProstorije[0].itemName
+      }
+    }
+  }
+
+  addProstorija() {
+    const modalRef = this.modalService.open(ProstorijeFormComponent,{ size: 'lg', backdrop: 'static',windowClass:'app-modal-window animated slideInUp'});
+    modalRef.componentInstance.model = {id: 0};
   }
 
 }

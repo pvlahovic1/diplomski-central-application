@@ -21,7 +21,8 @@ public class Room {
     @Column(name = "room_name")
     private String roomName;
 
-    @OneToMany(mappedBy = "room", fetch = FetchType.LAZY)
+    @OneToMany(cascade={CascadeType.ALL})
+    @JoinColumn(name = "id_room")
     @JsonManagedReference
     private List<Sensor> sensors = new ArrayList<>();
 

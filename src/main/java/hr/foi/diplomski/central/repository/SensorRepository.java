@@ -8,10 +8,12 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface SensorRepository extends JpaRepository<Sensor, Integer> {
+public interface SensorRepository extends JpaRepository<Sensor, Long> {
 
     Optional<Sensor> findBySensorId(String sensorId);
 
     List<Sensor> findByRoomId(Long roomId);
+
+    List<Sensor> findAllByRoomIsNull();
 
 }

@@ -27,7 +27,7 @@ public class Sensor {
     @Column(name = "beacon_data_send_interval")
     private Integer beaconDataSendInterval;
 
-    @ManyToOne
+    @ManyToOne(cascade=CascadeType.ALL)
     @JoinColumn(name = "id_room", referencedColumnName = "id_room")
     @JsonBackReference
     private Room room;

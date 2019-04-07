@@ -7,6 +7,7 @@ export class DropdownSettingsBuilder {
   private noDataLabel = 'Nema dostupnih podataka';
   private searchPlaceholderText = 'Pretražite';
   private showCheckbox = true;
+  private labelKey = 'itemName';
 
   setSingleSelection(singleSelection: boolean) {
     this.singleSelection = singleSelection;
@@ -38,8 +39,13 @@ export class DropdownSettingsBuilder {
     return this;
   }
 
-  setShowCheckbox(showCheckbox : boolean) {
+  setShowCheckbox(showCheckbox: boolean) {
     this.showCheckbox = showCheckbox;
+    return this;
+  }
+
+  setLabelKey(labelKey: string) {
+    this.labelKey = labelKey;
     return this;
   }
 
