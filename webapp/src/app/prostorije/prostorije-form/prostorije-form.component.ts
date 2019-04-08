@@ -14,7 +14,7 @@ import {DropdownSettingsBuilder} from "../../settings/utils/dropdown.settings.bu
 export class ProstorijeFormComponent implements OnInit {
   @ViewChild('f') form;
 
-  model: ProstorijaModel;
+  model = new ProstorijaModel();
   slobodniSenzori: SenzorViewModel[];
   dropdownModel: any = {};
   dropdownSettings = {};

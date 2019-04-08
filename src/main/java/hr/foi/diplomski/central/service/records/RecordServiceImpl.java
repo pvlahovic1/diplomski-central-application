@@ -4,6 +4,7 @@ import hr.foi.diplomski.central.controllers.api.records.data.SensorData;
 import hr.foi.diplomski.central.controllers.api.records.data.SensorRecord;
 import hr.foi.diplomski.central.exceptions.BadDataException;
 import hr.foi.diplomski.central.model.Beacon;
+import hr.foi.diplomski.central.model.Room;
 import hr.foi.diplomski.central.model.Sensor;
 import hr.foi.diplomski.central.model.record.Record;
 import hr.foi.diplomski.central.model.record.RecordId;
@@ -41,8 +42,8 @@ public class RecordServiceImpl implements RecordService {
 
     private void saveRecordsFromSensor(Sensor sensor, List<SensorRecord> sensorRecords) {
         for (SensorRecord sensorRecord : sensorRecords) {
-            var beaconOptional = beaconRepository.findByUuidAndMajorAndMinor(sensorRecord.getUuid(), sensorRecord.getMajor(),
-                    sensorRecord.getMinor());
+            var beaconOptional = beaconRepository.findByUuidAndMajorAndMinor(sensorRecord.getUuid(),
+                    sensorRecord.getMajor(), sensorRecord.getMinor());
 
             if (beaconOptional.isPresent()) {
                 Beacon beacon = beaconOptional.get();
@@ -53,13 +54,17 @@ public class RecordServiceImpl implements RecordService {
                 if (lastKnownBeaconRecordOptional.isPresent()) {
                     Record lastKnowBeaconRecord = lastKnownBeaconRecordOptional.get();
 
-                    if (isDataImportant(lastKnowBeaconRecord, sensor, sensorRecord, 1)) {
-                        saveNewRecordData(sensorRecord, sensor, beacon);
-                        log.info("Saving new record: {} for sensor: {}", sensorRecord, sensor.getSensorName());
+                    if (isRecordInsideRoom(sensorRecord, sensor.getRoom())) {
+                        if (isDataImportant(lastKnowBeaconRecord, sensor, sensorRecord, 1)) {
+                            saveNewRecordData(sensorRecord, sensor, beacon);
+                            log.info("Saving new record: {} for sensor: {}", sensorRecord, sensor.getSensorName());
+                        } else {
+                            log.info("There will be update for: {} because beacon is still in range for this sensor.", sensorRecord);
+                            recordRepository.delete(lastKnowBeaconRecord);
+                            saveNewRecordData(sensorRecord, sensor, beacon);
+                        }
                     } else {
-                        log.info("There will be update for: {} because beacon is still in range for this sensor.", sensorRecord);
-                        recordRepository.delete(lastKnowBeaconRecord);
-                        saveNewRecordData(sensorRecord, sensor, beacon);
+                        log.info("Record wont be saved because beacon record is not in room");
                     }
                 } else {
                     saveNewRecordData(sensorRecord, sensor, beacon);
@@ -68,6 +73,24 @@ public class RecordServiceImpl implements RecordService {
                 log.info("Beacon in record data is not recognized: {}", sensorRecord);
             }
         }
+    }
+
+    private boolean isRecordInsideRoom(SensorRecord sensorRecord, Room room) {
+        if (room == null) {
+            return true;
+        }
+
+        boolean status = false;
+        double maxDistance = room.calculateMaxDistance();
+        if (maxDistance >= sensorRecord.getDistance()) {
+            status = true;
+        } else {
+            log.info("Max distance for this room is: {} and actual record is: {}", maxDistance,
+                    sensorRecord.getDistance());
+        }
+
+
+        return status;
     }
 
     private boolean isDataImportant(Record lastKnowBeaconRecord, Sensor currentSensor,

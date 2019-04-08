@@ -13,6 +13,27 @@
                    [(ngModel)]="model.name" required/>
           </div>
         </div>
+        <div class="row">
+          <div class="col-4"><label for="name">Širina prostorije: </label></div>
+          <div class="col-6">
+            <input type="number" class="input-group input-group-text" id="width" min="1" name="width"
+                   [(ngModel)]="model.width" required/>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-4"><label for="name">Duljina prostorije: </label></div>
+          <div class="col-6">
+            <input type="number" class="input-group input-group-text" id="length" min="1" name="length"
+                   [(ngModel)]="model.length" required/>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-4"><label for="name">Visina prostorije: </label></div>
+          <div class="col-6">
+            <input type="number" class="input-group input-group-text" id="height" min="1" name="height"
+                   [(ngModel)]="model.height" required/>
+          </div>
+        </div>
         <div class="row top30"></div>
         <div class="row">
           <div class="col-4">
