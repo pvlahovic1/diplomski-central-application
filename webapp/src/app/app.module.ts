@@ -11,6 +11,7 @@ import {AlertModule, ButtonsModule} from 'ngx-bootstrap';
 import {MaterialComponents} from "./settings/material/material.component";
 import {ProstorijeFormComponent} from "./prostorije/prostorije-form/prostorije-form.component";
 import {NgbActiveModal, NgbModule} from "@ng-bootstrap/ng-bootstrap";
+import {MatPaginatorModule} from "@angular/material";
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import {NgbActiveModal, NgbModule} from "@ng-bootstrap/ng-bootstrap";
     ButtonsModule.forRoot(),
     NgbModule,
     MaterialComponents,
+    MatPaginatorModule
   ],
   providers: [{provide: HTTP_INTERCEPTORS, useClass: HttpSeviceInterceptor, multi: true},
     NgbActiveModal],

@@ -1,20 +1,23 @@
-import {Component, OnInit} from '@angular/core';
+import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
 import {ProstorijeService} from "./prostorije.service";
 import {ProstorijaViewModel} from "../model/prostorija.view.model";
 import {DropdownSettingsBuilder} from "../settings/utils/dropdown.settings.builder";
-import {SenzorViewModel} from "../model/senzor.view.model";
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {ProstorijeFormComponent} from "./prostorije-form/prostorije-form.component";
+import {MatPaginator, MatTableDataSource} from "@angular/material";
+import {SenzorViewModel} from "../model/senzor.view.model";
 
 @Component({
   selector: 'app-prostorije',
   templateUrl: './prostorije.component.html',
   styleUrls: ['./prostorije.component.scss']
 })
-export class ProstorijeComponent implements OnInit {
+export class ProstorijeComponent implements OnInit, AfterViewInit {
   prostorije: ProstorijaViewModel[];
-  senzoriList: SenzorViewModel[];
+  dataSource = new MatTableDataSource<SenzorViewModel>();
   columnsToDisplay = ['name', 'beaconDataPurgeInterval', 'beaconDataSendInterval'];
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+
   prikaziUcitavanjeSenzora = false;
   refreshDropDown = false;
 
@@ -27,9 +30,12 @@ export class ProstorijeComponent implements OnInit {
 
   ngOnInit() {
     this.prostorije = [];
-    this.senzoriList = [];
     this.initProstorije();
     this.initDropDowns();
+  }
+
+  ngAfterViewInit(): void {
+    this.dataSource.paginator = this.paginator;
   }
 
   initProstorije() {
@@ -50,7 +56,7 @@ export class ProstorijeComponent implements OnInit {
   onItemSelect(data) {
     this.prikaziUcitavanjeSenzora = true;
     this.prostorijeService.dohvatiSveSenzoreProstorije(data.id).subscribe(data => {
-      this.senzoriList = data;
+      this.dataSource.data = data;
       this.prikaziUcitavanjeSenzora = false;
     });
   }
@@ -99,7 +105,6 @@ export class ProstorijeComponent implements OnInit {
         console.log("Uspjesno brisanje");
         this.initProstorije();
         this.dropdownModel.idProstorije = [];
-        this.senzoriList = [];
       }, error => {
         console.log(JSON.stringify(error));
       });
