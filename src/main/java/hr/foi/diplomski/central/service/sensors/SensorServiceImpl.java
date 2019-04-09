@@ -3,7 +3,7 @@ package hr.foi.diplomski.central.service.sensors;
 import hr.foi.diplomski.central.controllers.api.sensors.data.out.SensorOutDto;
 import hr.foi.diplomski.central.controllers.api.sensors.data.SensorViewDto;
 import hr.foi.diplomski.central.exceptions.BadDataException;
-import hr.foi.diplomski.central.mappers.SensorMapper;
+import hr.foi.diplomski.central.mappers.sensor.SensorMapper;
 import hr.foi.diplomski.central.model.Sensor;
 import hr.foi.diplomski.central.repository.SensorRepository;
 import lombok.AllArgsConstructor;
@@ -49,6 +49,16 @@ public class SensorServiceImpl implements SensorService {
     @Override
     public List<SensorViewDto> getAllFreeSensors() {
         return sensorMapper.entitysToDtos(sensorRepository.findAllByRoomIsNull());
+    }
+
+    @Override
+    public List<SensorViewDto> getAllSensors() {
+        return sensorMapper.entitysToDtos(sensorRepository.findAll());
+    }
+
+    @Override
+    public void deleteSensor(Long senzorId) {
+        sensorRepository.deleteById(senzorId);
     }
 
 

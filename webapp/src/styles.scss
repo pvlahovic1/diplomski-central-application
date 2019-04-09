@@ -28,10 +28,6 @@ mat-footer-row mat-footer-cell {
   width: 100%;
 }
 
-.top5 {
-  margin-top: 5px;
-}
-
 .top10 {
   margin-top: 10px;
 }
@@ -63,6 +59,14 @@ mat-footer-row mat-footer-cell {
 .dark-modal {
   background-color: #292b2c;
   color: white;
+}
+
+.pull-right {
+  float:right !important;
+}
+
+.pull-left {
+  float:right !important;
 }
 
 form {

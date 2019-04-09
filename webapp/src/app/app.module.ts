@@ -12,11 +12,13 @@ import {MaterialComponents} from "./settings/material/material.component";
 import {ProstorijeFormComponent} from "./prostorije/prostorije-form/prostorije-form.component";
 import {NgbActiveModal, NgbModule} from "@ng-bootstrap/ng-bootstrap";
 import {MatPaginatorModule} from "@angular/material";
+import { SenzoriFormComponent } from './senzori/senzori-form/senzori-form.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    RoutingComponents
+    RoutingComponents,
+    SenzoriFormComponent
   ],
   imports: [
     BrowserModule,

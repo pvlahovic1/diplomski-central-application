@@ -3,6 +3,7 @@ package hr.foi.diplomski.central.mappers;
 import hr.foi.diplomski.central.controllers.api.room.data.RoomDto;
 import hr.foi.diplomski.central.controllers.api.room.data.RoomViewDto;
 import hr.foi.diplomski.central.mappers.reslovers.RoomResolver;
+import hr.foi.diplomski.central.mappers.sensor.SensorMapper;
 import hr.foi.diplomski.central.model.Room;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

@@ -3,4 +3,5 @@ export class SenzorViewModel {
   name: string;
   beaconDataPurgeInterval: number;
   beaconDataSendInterval: number;
+  roomName: string;
 }

@@ -9,5 +9,6 @@ public class SensorViewDto {
     private String name;
     private Integer beaconDataPurgeInterval;
     private Integer beaconDataSendInterval;
+    private String roomName;
 
 }

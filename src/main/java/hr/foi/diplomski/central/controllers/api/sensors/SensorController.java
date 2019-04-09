@@ -30,9 +30,19 @@ public class SensorController {
         return null;
     }
 
+    @GetMapping
+    public ResponseEntity<List<SensorViewDto>> getAllSensors() {
+        return ResponseEntity.ok(sensorService.getAllSensors());
+    }
+
     @GetMapping("/free")
     public ResponseEntity<List<SensorViewDto>> getAllFreeSensors() {
         return ResponseEntity.ok(sensorService.getAllFreeSensors());
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteSensor(@PathVariable("id") Long id) {
+        sensorService.deleteSensor(id);
     }
 
 }

@@ -15,4 +15,8 @@ public interface SensorService {
 
     List<SensorViewDto> getAllFreeSensors();
 
+    List<SensorViewDto> getAllSensors();
+
+    void deleteSensor(Long senzorId);
+
 }
