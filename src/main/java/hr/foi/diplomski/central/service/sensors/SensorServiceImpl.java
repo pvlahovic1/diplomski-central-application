@@ -1,15 +1,22 @@
 package hr.foi.diplomski.central.service.sensors;
 
-import hr.foi.diplomski.central.controllers.api.sensors.data.out.SensorOutDto;
+import hr.foi.diplomski.central.controllers.api.sensors.data.SensorDto;
 import hr.foi.diplomski.central.controllers.api.sensors.data.SensorViewDto;
+import hr.foi.diplomski.central.controllers.api.sensors.data.out.SensorOutDto;
 import hr.foi.diplomski.central.exceptions.BadDataException;
-import hr.foi.diplomski.central.mappers.sensor.SensorMapper;
+import hr.foi.diplomski.central.mappers.sensor.SensorToDtoMapper;
+import hr.foi.diplomski.central.mappers.sensor.SensorToViewMapper;
 import hr.foi.diplomski.central.model.Sensor;
 import hr.foi.diplomski.central.repository.SensorRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.time.LocalDateTime;
+import java.util.Base64;
 import java.util.List;
 
 @Service
@@ -18,7 +25,8 @@ import java.util.List;
 public class SensorServiceImpl implements SensorService {
 
     private final SensorRepository sensorRepository;
-    private final SensorMapper sensorMapper;
+    private final SensorToViewMapper sensorToViewMapper;
+    private final SensorToDtoMapper sensorToDtoMapper;
 
     @Override
     public Sensor updateSensor(SensorOutDto sensorOutDto) throws BadDataException {
@@ -43,22 +51,56 @@ public class SensorServiceImpl implements SensorService {
 
     @Override
     public List<SensorViewDto> getAllSensorsViewByRoom(Long roomId) {
-        return sensorMapper.entitysToDtos(sensorRepository.findByRoomId(roomId));
+        return sensorToViewMapper.entitysToDtos(sensorRepository.findByRoomId(roomId));
     }
 
     @Override
     public List<SensorViewDto> getAllFreeSensors() {
-        return sensorMapper.entitysToDtos(sensorRepository.findAllByRoomIsNull());
+        return sensorToViewMapper.entitysToDtos(sensorRepository.findAllByRoomIsNull());
     }
 
     @Override
     public List<SensorViewDto> getAllSensors() {
-        return sensorMapper.entitysToDtos(sensorRepository.findAll());
+        return sensorToViewMapper.entitysToDtos(sensorRepository.findAll());
+    }
+
+    @Override
+    public SensorDto getSensordById(Long id) {
+        // TODO: napraviti exception
+        Sensor sensor = sensorRepository.findById(id).get();
+
+        return sensorToDtoMapper.entityToDto(sensor);
+    }
+
+    @Override
+    public SensorDto saveSensor(SensorDto sensorDto) {
+        Sensor sensor = sensorToDtoMapper.dtoToEntity(sensorDto);
+        sensor.setSensorId(calculatesensorId(sensor));
+        sensor.setBeaconDataSendInterval(sensor.getBeaconDataPurgeInterval() * 1000);
+        sensor.setBeaconDataPurgeInterval(sensor.getBeaconDataPurgeInterval() * 1000);
+        return sensorToDtoMapper.entityToDto(sensorRepository.save(sensor));
     }
 
     @Override
     public void deleteSensor(Long senzorId) {
         sensorRepository.deleteById(senzorId);
+    }
+
+
+    private String calculatesensorId(Sensor sensor) {
+        StringBuilder sb = new StringBuilder(sensor.getSensorName());
+        sb.append(LocalDateTime.now().toString());
+
+        MessageDigest digest = null;
+        try {
+            digest = MessageDigest.getInstance("SHA-256");
+            byte[] hash = digest.digest(sb.toString().getBytes(StandardCharsets.UTF_8));
+            return Base64.getEncoder().encodeToString(hash);
+        } catch (NoSuchAlgorithmException e) {
+            log.warn("There is no MessageDigest SHA-256");
+        }
+
+        return null;
     }
 
 

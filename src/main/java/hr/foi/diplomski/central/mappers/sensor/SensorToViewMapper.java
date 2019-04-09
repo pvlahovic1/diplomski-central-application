@@ -11,7 +11,7 @@ import java.util.List;
 
 @Mapper(componentModel = "spring", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE,
         uses = {SensorResolver.class})
-public abstract class SensorMapper {
+public abstract class SensorToViewMapper {
 
     @Mapping(source = "sensorName", target = "name")
     @Mapping(source = "room.roomName", target = "roomName")

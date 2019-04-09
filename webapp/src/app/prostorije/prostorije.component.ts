@@ -5,7 +5,7 @@ import {DropdownSettingsBuilder} from "../settings/utils/dropdown.settings.build
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {ProstorijeFormComponent} from "./prostorije-form/prostorije-form.component";
 import {MatPaginator, MatTableDataSource} from "@angular/material";
-import {SenzorViewModel} from "../model/senzor.view.model";
+import {SenzorViewModel} from "../model/senzor.model";
 
 @Component({
   selector: 'app-prostorije',

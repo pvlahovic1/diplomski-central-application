@@ -1,5 +1,6 @@
 package hr.foi.diplomski.central.controllers.api.sensors;
 
+import hr.foi.diplomski.central.controllers.api.sensors.data.SensorDto;
 import hr.foi.diplomski.central.controllers.api.sensors.data.SensorViewDto;
 import hr.foi.diplomski.central.controllers.api.sensors.data.out.SensorOutDto;
 import hr.foi.diplomski.central.exceptions.BadDataException;
@@ -33,6 +34,16 @@ public class SensorController {
     @GetMapping
     public ResponseEntity<List<SensorViewDto>> getAllSensors() {
         return ResponseEntity.ok(sensorService.getAllSensors());
+    }
+
+    @PostMapping
+    public ResponseEntity<SensorDto> saveSensor(@Valid @RequestBody SensorDto sensorDto) {
+        return ResponseEntity.ok(sensorService.saveSensor(sensorDto));
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<SensorDto> getSensorById(@PathVariable("id") Long id) {
+        return ResponseEntity.ok(sensorService.getSensordById(id));
     }
 
     @GetMapping("/free")

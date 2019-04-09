@@ -2,7 +2,7 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 
 import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 import {ProstorijaModel} from "../../model/prostorija.model";
-import {SenzorViewModel} from "../../model/senzor.view.model";
+import {SenzorViewModel} from "../../model/senzor.model";
 import {ProstorijeService} from "../prostorije.service";
 import {DropdownSettingsBuilder} from "../../settings/utils/dropdown.settings.builder";
 

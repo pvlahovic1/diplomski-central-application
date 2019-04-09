@@ -1,5 +1,6 @@
 package hr.foi.diplomski.central.service.sensors;
 
+import hr.foi.diplomski.central.controllers.api.sensors.data.SensorDto;
 import hr.foi.diplomski.central.controllers.api.sensors.data.out.SensorOutDto;
 import hr.foi.diplomski.central.controllers.api.sensors.data.SensorViewDto;
 import hr.foi.diplomski.central.exceptions.BadDataException;
@@ -16,6 +17,10 @@ public interface SensorService {
     List<SensorViewDto> getAllFreeSensors();
 
     List<SensorViewDto> getAllSensors();
+
+    SensorDto getSensordById(Long id);
+
+    SensorDto saveSensor(SensorDto sensorDto);
 
     void deleteSensor(Long senzorId);
 

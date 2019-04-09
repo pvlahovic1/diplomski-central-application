@@ -1,6 +1,6 @@
 import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
 import {MatPaginator, MatTableDataSource} from "@angular/material";
-import {SenzorViewModel} from "../model/senzor.view.model";
+import {SenzorViewModel} from "../model/senzor.model";
 import {SenzoriService} from "./senzori.service";
 import {DijalogService} from "../dijalog/dijalog.service";
 import {SenzoriFormComponent} from "./senzori-form/senzori-form.component";
@@ -37,7 +37,13 @@ export class SenzoriComponent implements OnInit, AfterViewInit {
   }
 
   urediSenzor(senzorId) {
-    console.log("Uredi: " + senzorId);
+    const modalRef = this.modalService.open(SenzoriFormComponent, {size: 'lg', backdrop: 'static'});
+    modalRef.componentInstance.model = {id: senzorId};
+    modalRef.result.then(result => {
+      if (result != 0) {
+        this.osvjeziModel();
+      }
+    });
   }
 
   obrisiSenzor(senzorId) {

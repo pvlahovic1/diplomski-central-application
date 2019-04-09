@@ -1,4 +1,4 @@
-import {SenzorViewModel} from "./senzor.view.model";
+import {SenzorViewModel} from "./senzor.model";
 
 export class ProstorijaModel {
   id: number;
