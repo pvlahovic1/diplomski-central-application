@@ -1,0 +1,41 @@
+<div role="document" class="modal-border-shadow">
+  <div class="modal-content dark-modal">
+    <div class="modal-header dark-modal">
+      <h5
+        class="modal-title">{{model.id == 0 ? 'Dodavanje novog beacona' : 'Uređivanje beacona'}}</h5>
+    </div>
+    <form #f="ngForm">
+      <div class="modal-body dark-modal">
+        <div class="row">
+          <div class="col-4"><label for="uuid">UUID: </label></div>
+          <div class="col-6">
+            <input type="text" class="input-group input-group-text" id="uuid" minlength="36" maxlength="36" name="uuid"
+                   [(ngModel)]="model.uuid" required/>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-4"><label for="major">Major: </label></div>
+          <div class="col-6">
+            <input type="number" class="input-group input-group-text" id="major" min="1" name="major"
+                   [(ngModel)]="model.major" required/>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-4"><label for="minor">Minor: </label></div>
+          <div class="col-6">
+            <input type="number" class="input-group input-group-text" id="minor" min="1" name="minor"
+                   [(ngModel)]="model.minor" required/>
+          </div>
+        </div>
+      </div>
+    </form>
+    <div class="dark-modal">
+      <div class="row pad10">
+        <div class="container-fluid">
+          <button type="button" class="btn btn-primary pull-right" (click)="pohraniBeacon()">Pohrani</button>
+          <button type="button" class="btn btn-danger pull-right" (click)="activeModal.close(0)">Odustani</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
