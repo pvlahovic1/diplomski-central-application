@@ -77,7 +77,7 @@ public class SensorServiceImpl implements SensorService {
     public SensorDto saveSensor(SensorDto sensorDto) {
         Sensor sensor = sensorToDtoMapper.dtoToEntity(sensorDto);
         sensor.setSensorId(calculatesensorId(sensor));
-        sensor.setBeaconDataSendInterval(sensor.getBeaconDataPurgeInterval() * 1000);
+        sensor.setBeaconDataSendInterval(sensor.getBeaconDataSendInterval() * 1000);
         sensor.setBeaconDataPurgeInterval(sensor.getBeaconDataPurgeInterval() * 1000);
         return sensorToDtoMapper.entityToDto(sensorRepository.save(sensor));
     }

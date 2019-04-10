@@ -29,6 +29,13 @@ public abstract class SensorToViewMapper {
             sensorViewDto.setRoomName("Nije postavljena");
         }
 
+        if (sensorViewDto.getBeaconDataPurgeInterval() != null) {
+            sensorViewDto.setBeaconDataPurgeInterval(sensorViewDto.getBeaconDataPurgeInterval() / 1000);
+        }
+        if (sensorViewDto.getBeaconDataSendInterval() != null) {
+            sensorViewDto.setBeaconDataSendInterval(sensorViewDto.getBeaconDataSendInterval() / 1000);
+        }
+
         return sensorViewDto;
     }
 }
