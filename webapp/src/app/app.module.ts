@@ -13,12 +13,14 @@ import {ProstorijeFormComponent} from "./prostorije/prostorije-form/prostorije-f
 import {NgbActiveModal, NgbModule} from "@ng-bootstrap/ng-bootstrap";
 import {MatPaginatorModule} from "@angular/material";
 import { SenzoriFormComponent } from './senzori/senzori-form/senzori-form.component';
+import { BeaconiFormComponent } from './beaconi/beaconi-form/beaconi-form.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     RoutingComponents,
-    SenzoriFormComponent
+    SenzoriFormComponent,
+    BeaconiFormComponent
   ],
   imports: [
     BrowserModule,

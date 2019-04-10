@@ -51,8 +51,13 @@ public class DeviceServiceImpl implements DeviceService {
                 .filter(e -> sensors.contains(e.getRecordId().getSensor())).collect(Collectors.toList());
 
         List<Device> devices = new ArrayList<>();
-        recordsBySensor.forEach(e -> devices.addAll(e.getRecordId().getBeacon().getDevice()));
+        recordsBySensor.forEach(e -> devices.add(e.getRecordId().getBeacon().getDevice()));
 
         return deviceMapper.entitysToDtos(devices);
+    }
+
+    @Override
+    public List<DeviceDto> findAllFreeDevices() {
+        return deviceMapper.entitysToDtos(deviceRepository.findAllByBeaconIsNull());
     }
 }

@@ -8,4 +8,6 @@ public interface DeviceService {
 
     List<DeviceDto> findAllDevicesInRoom(Long roomId);
 
+    List<DeviceDto> findAllFreeDevices();
+
 }

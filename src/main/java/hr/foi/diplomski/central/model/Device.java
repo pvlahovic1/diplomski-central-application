@@ -13,12 +13,12 @@ public class Device {
     @Id
     @GeneratedValue(generator = "device_id_seq")
     @Column(name = "id_device")
-    private Integer id;
+    private Long id;
 
     @Column(name = "device_name")
     private String deviceName;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "id_beacon", referencedColumnName = "id_beacon")
     @JsonBackReference
     private Beacon beacon;

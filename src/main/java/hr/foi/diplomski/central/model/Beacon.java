@@ -16,7 +16,7 @@ public class Beacon {
     @Id
     @GeneratedValue(generator = "beacon_id_seq")
     @Column(name = "id_beacon")
-    private Integer id;
+    private Long id;
 
     @Column(name = "uuid")
     private String uuid;
@@ -27,10 +27,9 @@ public class Beacon {
     @Column(name = "minor")
     private Integer minor;
 
-    @OneToMany(cascade = {CascadeType.ALL})
-    @JoinColumn(name = "id_beacon")
+    @OneToOne(mappedBy = "beacon", cascade = CascadeType.ALL)
     @JsonManagedReference
-    private List<Device> device = new ArrayList<>();
+    private Device device;
 
     @Override
     public String toString() {

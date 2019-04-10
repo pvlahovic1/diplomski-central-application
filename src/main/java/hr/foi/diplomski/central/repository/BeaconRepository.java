@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface BeaconRepository extends JpaRepository<Beacon, Integer> {
+public interface BeaconRepository extends JpaRepository<Beacon, Long> {
 
     Optional<Beacon> findByUuidAndMajorAndMinor(String uuid, Integer major, Integer minor);
 
