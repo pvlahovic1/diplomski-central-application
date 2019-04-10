@@ -4,6 +4,7 @@ import hr.foi.diplomski.central.controllers.api.sensors.data.SensorDto;
 import hr.foi.diplomski.central.controllers.api.sensors.data.SensorViewDto;
 import hr.foi.diplomski.central.controllers.api.sensors.data.out.SensorOutDto;
 import hr.foi.diplomski.central.exceptions.BadDataException;
+import hr.foi.diplomski.central.exceptions.BadRequestException;
 import hr.foi.diplomski.central.mappers.sensor.SensorToDtoMapper;
 import hr.foi.diplomski.central.mappers.sensor.SensorToViewMapper;
 import hr.foi.diplomski.central.model.Sensor;
@@ -66,8 +67,8 @@ public class SensorServiceImpl implements SensorService {
 
     @Override
     public SensorDto getSensordById(Long id) {
-        // TODO: napraviti exception
-        Sensor sensor = sensorRepository.findById(id).get();
+        Sensor sensor = sensorRepository.findById(id).orElseThrow(() -> new BadRequestException(String
+                .format("Ne postoji senzor s id: %s", id)));
 
         return sensorToDtoMapper.entityToDto(sensor);
     }
