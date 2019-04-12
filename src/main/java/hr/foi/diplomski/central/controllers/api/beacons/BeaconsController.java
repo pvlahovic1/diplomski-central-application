@@ -1,6 +1,7 @@
 package hr.foi.diplomski.central.controllers.api.beacons;
 
 import hr.foi.diplomski.central.controllers.api.beacons.dto.BeaconDto;
+import hr.foi.diplomski.central.controllers.api.beacons.dto.BeaconViewDto;
 import hr.foi.diplomski.central.service.beacon.BeaconService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -33,6 +34,11 @@ public class BeaconsController {
     @PostMapping
     public ResponseEntity<BeaconDto> saveNewBeacon(@RequestBody BeaconDto beaconDto) {
         return ResponseEntity.ok(beaconService.saveNewBeacon(beaconDto));
+    }
+
+    @GetMapping("/free")
+    public ResponseEntity<List<BeaconViewDto>> findAllFreeBeacons() {
+        return ResponseEntity.ok(beaconService.findAllFreeBeacons());
     }
 
 }

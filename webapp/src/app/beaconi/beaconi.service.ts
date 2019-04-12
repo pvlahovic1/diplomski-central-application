@@ -1,9 +1,8 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
-import {map} from "rxjs/operators";
 import {BeaconModel} from "../model/beacon.model";
-import {UredajModel} from "../model/uredaj.model";
+import {observableToBeFn} from "rxjs/internal/testing/TestScheduler";
 
 @Injectable({
   providedIn: 'root'
@@ -16,15 +15,11 @@ export class BeaconiService {
   }
 
   dohvatiSveBeacone(): Observable<any> {
-    return this.http.get<BeaconModel[]>(this.BASE_URL).pipe(map(data => {
-      return this.processDataFromServer(data);
-    }));
+    return this.http.get<BeaconModel[]>(this.BASE_URL);
   }
 
   dohvatiBeacon(beaconId: number): Observable<any> {
-    return this.http.get<BeaconModel>(`${this.BASE_URL}/${beaconId}`).pipe(map(data => {
-      return this.processDataFromServer([data]);
-    }));
+    return this.http.get<BeaconModel>(`${this.BASE_URL}/${beaconId}`);
   }
 
   obrisiBeacon(beaconId: number): Observable<any> {
@@ -32,23 +27,11 @@ export class BeaconiService {
   }
 
   pohraniBeacon(model: BeaconModel): Observable<any> {
-    return this.http.post<BeaconModel>(this.BASE_URL, model).pipe(map(data => {
-      return this.processDataFromServer([data]);
-    }))
+    return this.http.post<BeaconModel>(this.BASE_URL, model);
   }
 
-  processDataFromServer(data: BeaconModel[]) {
-    let processedData: BeaconModel[] = [];
-
-    for (let item of data) {
-      if (item.device == null) {
-        item.device = new UredajModel();
-        item.device.id = 0;
-      }
-      processedData.push(item);
-    }
-
-    return processedData;
+  dohvatiSveSlobodneBeacone(): Observable<any> {
+    return this.http.get(`${this.BASE_URL}/free`);
   }
 
 }

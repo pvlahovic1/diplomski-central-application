@@ -10,7 +10,7 @@ export class UredajService {
 
   constructor(private http: HttpClient) { }
 
-  dohvatiSveSlobodneUredaje(): Observable<any> {
-    return this.http.get(`${this.BASE_URL}/free`);
+  dohvatiSveUredaje(): Observable<any> {
+    return this.http.get(this.BASE_URL);
   }
 }

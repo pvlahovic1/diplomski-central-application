@@ -1,6 +1,7 @@
 package hr.foi.diplomski.central.service.beacon;
 
 import hr.foi.diplomski.central.controllers.api.beacons.dto.BeaconDto;
+import hr.foi.diplomski.central.controllers.api.beacons.dto.BeaconViewDto;
 import hr.foi.diplomski.central.exceptions.BadRequestException;
 import hr.foi.diplomski.central.mappers.beacon.BeaconMapper;
 import hr.foi.diplomski.central.model.Beacon;
@@ -57,5 +58,10 @@ public class BeaconServiceImpl implements BeaconService {
         beacon = beaconRepository.save(beacon);
 
         beaconRepository.delete(beacon);
+    }
+
+    @Override
+    public List<BeaconViewDto> findAllFreeBeacons() {
+        return beaconMapper.entitysToViewsDto(beaconRepository.findAllByDeviceIsNull());
     }
 }

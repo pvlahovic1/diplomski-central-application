@@ -23,4 +23,8 @@ public class Device {
     @JsonBackReference
     private Beacon beacon;
 
+    @ManyToOne
+    @JoinColumn(name = "id_user", referencedColumnName = "id_user")
+    User user;
+
 }

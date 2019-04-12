@@ -24,5 +24,5 @@ public class BeaconDto {
     @Min(1)
     private Integer minor;
 
-    private DeviceDto device;
+    private String device;
 }

@@ -20,7 +20,7 @@ export class BeaconiFormComponent implements OnInit {
   ngOnInit() {
     if (this.model.id != 0) {
       this.beaconiService.dohvatiBeacon(this.model.id).subscribe(data => {
-        this.model = data[0];
+        this.model = data;
       });
     } else {
       console.log("Postavlja se novi");

@@ -1,7 +1,8 @@
 package hr.foi.diplomski.central.service.device;
 
 import hr.foi.diplomski.central.controllers.api.device.data.DeviceDto;
-import hr.foi.diplomski.central.mappers.DeviceMapper;
+import hr.foi.diplomski.central.exceptions.BadRequestException;
+import hr.foi.diplomski.central.mappers.device.DeviceMapper;
 import hr.foi.diplomski.central.model.Beacon;
 import hr.foi.diplomski.central.model.Device;
 import hr.foi.diplomski.central.model.Room;
@@ -57,7 +58,30 @@ public class DeviceServiceImpl implements DeviceService {
     }
 
     @Override
-    public List<DeviceDto> findAllFreeDevices() {
-        return deviceMapper.entitysToDtos(deviceRepository.findAllByBeaconIsNull());
+    public List<DeviceDto> findAllDevices() {
+        return deviceMapper.entitysToDtos(deviceRepository.findAll());
+    }
+
+    @Override
+    public DeviceDto findDeviceById(Long id) {
+        Device device = deviceRepository.findById(id)
+                .orElseThrow(() -> new BadRequestException(String.format("Uređaj s id: %s ne postoji", id)));
+
+        return deviceMapper.entityToDto(device);
+    }
+
+    @Override
+    public DeviceDto saveNewDevice(DeviceDto dto) {
+        Device device = deviceMapper.dtoToEntity(dto);
+
+        return deviceMapper.entityToDto(deviceRepository.save(device));
+    }
+
+    @Override
+    public void deleteDevice(Long id) {
+        Device device = deviceRepository.findById(id)
+                .orElseThrow(() -> new BadRequestException(String.format("Uređaj s id: %s ne postoji", id)));
+
+        deviceRepository.delete(device);
     }
 }

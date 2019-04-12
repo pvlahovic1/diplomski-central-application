@@ -8,6 +8,12 @@ public interface DeviceService {
 
     List<DeviceDto> findAllDevicesInRoom(Long roomId);
 
-    List<DeviceDto> findAllFreeDevices();
+    List<DeviceDto> findAllDevices();
+
+    DeviceDto findDeviceById(Long id);
+
+    DeviceDto saveNewDevice(DeviceDto dto);
+
+    void deleteDevice(Long id);
 
 }
