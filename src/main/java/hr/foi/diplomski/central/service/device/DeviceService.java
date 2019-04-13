@@ -1,5 +1,6 @@
 package hr.foi.diplomski.central.service.device;
 
+import hr.foi.diplomski.central.controllers.api.device.data.DeviceInRoomDto;
 import hr.foi.diplomski.central.controllers.api.device.data.DeviceSaveDto;
 import hr.foi.diplomski.central.controllers.api.device.data.DeviceViewDto;
 
@@ -13,7 +14,7 @@ public interface DeviceService {
 
     void deleteDevice(Long id);
 
-    List<DeviceViewDto> findAllDevicesInRoom(Long roomId);
+    List<DeviceInRoomDto> findAllDevicesInRoom(Long roomId);
 
     DeviceSaveDto saveDevice(DeviceSaveDto deviceSaveDto);
 

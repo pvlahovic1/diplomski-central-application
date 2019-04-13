@@ -1,5 +1,6 @@
 package hr.foi.diplomski.central.controllers.api.room;
 
+import hr.foi.diplomski.central.controllers.api.device.data.DeviceInRoomDto;
 import hr.foi.diplomski.central.controllers.api.room.data.RoomDto;
 import hr.foi.diplomski.central.controllers.api.room.data.RoomViewDto;
 import hr.foi.diplomski.central.controllers.api.sensors.data.SensorViewDto;
@@ -12,7 +13,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -40,9 +40,8 @@ public class RoomController {
     }
 
     @GetMapping("/{id}/devices")
-    public ResponseEntity<List<String>> getAllDevicesInRoom(@PathVariable Long id) {
-       // return ResponseEntity.ok(deviceService.findAllDevicesInRoom(id));
-        return  ResponseEntity.ok(new ArrayList<>());
+    public ResponseEntity<List<DeviceInRoomDto>> getAllDevicesInRoom(@PathVariable Long id) {
+        return ResponseEntity.ok(deviceService.findAllDevicesInRoom(id));
     }
 
     @PostMapping

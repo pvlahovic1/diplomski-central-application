@@ -2,7 +2,7 @@ package hr.foi.diplomski.central.service.records;
 
 import hr.foi.diplomski.central.controllers.api.records.data.SensorData;
 import hr.foi.diplomski.central.controllers.api.records.data.SensorRecord;
-import hr.foi.diplomski.central.exceptions.BadDataException;
+import hr.foi.diplomski.central.exceptions.BadRequestException;
 import hr.foi.diplomski.central.model.Beacon;
 import hr.foi.diplomski.central.model.Room;
 import hr.foi.diplomski.central.model.Sensor;
@@ -30,13 +30,13 @@ public class RecordServiceImpl implements RecordService {
     private final BeaconRepository beaconRepository;
 
     @Override
-    public void createNewRecord(SensorData sensorData) throws BadDataException {
+    public void createNewRecord(SensorData sensorData) {
         var sensorOptional = sensorRepository.findBySensorId(sensorData.getDeviceId());
 
         if (sensorOptional.isPresent()) {
             saveRecordsFromSensor(sensorOptional.get(), sensorData.getSensorRecords());
         } else {
-            throw new BadDataException("Sensor identify data is not recognized!");
+            throw new BadRequestException("Sensor identify data is not recognized!");
         }
     }
 
@@ -88,7 +88,6 @@ public class RecordServiceImpl implements RecordService {
             log.info("Max distance for this room is: {} and actual record is: {}", maxDistance,
                     sensorRecord.getDistance());
         }
-
 
         return status;
     }

@@ -3,7 +3,6 @@ package hr.foi.diplomski.central.controllers.api.sensors;
 import hr.foi.diplomski.central.controllers.api.sensors.data.SensorDto;
 import hr.foi.diplomski.central.controllers.api.sensors.data.SensorViewDto;
 import hr.foi.diplomski.central.controllers.api.sensors.data.out.SensorOutDto;
-import hr.foi.diplomski.central.exceptions.BadDataException;
 import hr.foi.diplomski.central.model.Sensor;
 import hr.foi.diplomski.central.service.sensors.SensorService;
 import lombok.AllArgsConstructor;
@@ -22,13 +21,7 @@ public class SensorController {
 
     @PutMapping
     public Sensor updateSensorData(@Valid @RequestBody SensorOutDto sensorDto) {
-        try {
-            return sensorService.updateSensor(sensorDto);
-        } catch (BadDataException e) {
-            e.printStackTrace();
-        }
-        //TODO
-        return null;
+        return sensorService.updateSensor(sensorDto);
     }
 
     @GetMapping

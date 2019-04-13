@@ -1,9 +1,12 @@
 package hr.foi.diplomski.central.service.device;
 
+import hr.foi.diplomski.central.controllers.api.device.data.DeviceInRoom;
+import hr.foi.diplomski.central.controllers.api.device.data.DeviceInRoomDto;
 import hr.foi.diplomski.central.controllers.api.device.data.DeviceSaveDto;
 import hr.foi.diplomski.central.controllers.api.device.data.DeviceViewDto;
 import hr.foi.diplomski.central.exceptions.BadRequestException;
 import hr.foi.diplomski.central.mappers.beacon.BeaconMapper;
+import hr.foi.diplomski.central.mappers.device.DeviceInRoomMapper;
 import hr.foi.diplomski.central.mappers.device.DeviceViewMapper;
 import hr.foi.diplomski.central.model.Beacon;
 import hr.foi.diplomski.central.model.Device;
@@ -35,6 +38,7 @@ public class DeviceServiceImpl implements DeviceService {
     private final RecordRepository recordRepository;
     private final DeviceViewMapper deviceMapper;
     private final BeaconMapper beaconMapper;
+    private final DeviceInRoomMapper devicesInRoomMapper;
 
     @Override
     public List<DeviceViewDto> findAllFreeDevices() {
@@ -59,8 +63,9 @@ public class DeviceServiceImpl implements DeviceService {
     }
 
     @Override
-    public List<DeviceViewDto> findAllDevicesInRoom(Long roomId) {
-        Room room = roomRepository.findById(roomId).get();
+    public List<DeviceInRoomDto> findAllDevicesInRoom(Long roomId) {
+        Room room = roomRepository.findById(roomId)
+                .orElseThrow(() -> new BadRequestException(String.format("Ne postoji prostorija s id %s", roomId)));
         List<Sensor> sensors = room.getSensors();
 
         if (sensors.isEmpty()) {
@@ -78,10 +83,12 @@ public class DeviceServiceImpl implements DeviceService {
         List<Record> recordsBySensor = validRecords.stream()
                 .filter(e -> sensors.contains(e.getRecordId().getSensor())).collect(Collectors.toList());
 
-        List<Device> devices = new ArrayList<>();
-        recordsBySensor.forEach(e -> devices.addAll(e.getRecordId().getBeacon().getDevices()));
+        List<DeviceInRoom> devicesInRoom = new ArrayList<>();
+        recordsBySensor.forEach(e -> e.getRecordId().getBeacon().getDevices().forEach(device -> {
+            devicesInRoom.add(new DeviceInRoom(device, e.getRecordId().getRecordDate(), e.getDistance()));
+        }));
 
-        return deviceMapper.entitysToViews(devices);
+        return devicesInRoomMapper.objectsToDtos(devicesInRoom);
     }
 
     @Override
