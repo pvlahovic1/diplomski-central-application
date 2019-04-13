@@ -76,7 +76,14 @@ public class SensorServiceImpl implements SensorService {
     @Override
     public SensorDto saveSensor(SensorDto sensorDto) {
         Sensor sensor = sensorToDtoMapper.dtoToEntity(sensorDto);
-        sensor.setSensorId(calculatesensorId(sensor));
+
+        if (sensor.getBeaconDataPurgeInterval() <= sensor.getBeaconDataSendInterval()) {
+            throw new BadRequestException("Itreval brisanja podataka mora biti veći od intervala slanja podataka.");
+        }
+
+        if (sensor.getId() == 0 || sensor.getSensorId() == null) {
+            sensor.setSensorId(calculatesensorId(sensor));
+        }
         sensor.setBeaconDataSendInterval(sensor.getBeaconDataSendInterval() * 1000);
         sensor.setBeaconDataPurgeInterval(sensor.getBeaconDataPurgeInterval() * 1000);
         return sensorToDtoMapper.entityToDto(sensorRepository.save(sensor));

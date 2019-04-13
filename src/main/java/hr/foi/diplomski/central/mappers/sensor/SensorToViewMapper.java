@@ -38,4 +38,17 @@ public abstract class SensorToViewMapper {
 
         return sensorViewDto;
     }
+
+    @AfterMapping
+    Sensor afterDtoToEntity(SensorViewDto sensorViewDto, @MappingTarget Sensor sensor) {
+        if (sensorViewDto.getBeaconDataSendInterval() != null) {
+            sensor.setBeaconDataSendInterval(sensorViewDto.getBeaconDataSendInterval() * 1000);
+        }
+
+        if (sensorViewDto.getBeaconDataPurgeInterval() != null) {
+            sensor.setBeaconDataPurgeInterval(sensorViewDto.getBeaconDataPurgeInterval() * 1000);
+        }
+
+        return sensor;
+    }
 }

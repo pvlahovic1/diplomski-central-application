@@ -1,12 +1,14 @@
 package hr.foi.diplomski.central.mappers.sensor;
 
 import hr.foi.diplomski.central.controllers.api.sensors.data.SensorDto;
+import hr.foi.diplomski.central.mappers.reslovers.EntityResolver;
 import hr.foi.diplomski.central.model.Sensor;
 import org.mapstruct.*;
 
 import java.util.List;
 
-@Mapper(componentModel = "spring", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+@Mapper(componentModel = "spring", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE
+, uses = {EntityResolver.class})
 public abstract class SensorToDtoMapper {
 
     @Mapping(source = "sensorName", target = "name")
