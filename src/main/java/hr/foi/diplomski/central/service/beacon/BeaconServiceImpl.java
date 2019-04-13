@@ -8,6 +8,7 @@ import hr.foi.diplomski.central.model.Beacon;
 import hr.foi.diplomski.central.model.Device;
 import hr.foi.diplomski.central.repository.BeaconRepository;
 import hr.foi.diplomski.central.repository.DeviceRepository;
+import hr.foi.diplomski.central.repository.RecordRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -21,6 +22,7 @@ public class BeaconServiceImpl implements BeaconService {
 
     private final BeaconRepository beaconRepository;
     private final DeviceRepository deviceRepository;
+    private final RecordRepository recordRepository;
     private final BeaconMapper beaconMapper;
 
     @Override
@@ -37,31 +39,30 @@ public class BeaconServiceImpl implements BeaconService {
     }
 
     @Override
-    public BeaconDto saveNewBeacon(BeaconDto beaconDto) {
+    public BeaconDto saveBeacon(BeaconDto beaconDto) {
         Beacon beacon = beaconMapper.dtoToEntity(beaconDto);
 
-        return beaconMapper.entityToDto(beaconRepository.save(beacon));
+        beacon = beaconRepository.save(beacon);
+
+        return beaconMapper.entityToDto(beacon);
     }
 
     @Override
     public void deleteBeaon(Long idBeacon) {
         Beacon beacon = beaconRepository.findById(idBeacon)
-                .orElseThrow(() -> new BadRequestException("Beacon ne može biti obrisan jer ne postoji"));
+                .orElseThrow(() -> new BadRequestException(String
+                        .format("Ne postoji beacon s id: %s", idBeacon)));
 
-        Device device = beacon.getDevice();
-        if (device != null) {
-            device.setBeacon(null);
-            deviceRepository.save(device);
-        }
+        recordRepository.deleteAllByRecordId_Beacon(beacon);
 
-        beacon.setDevice(null);
-        beacon = beaconRepository.save(beacon);
+        beacon.getDevices().forEach(e -> e.setBeacon(null));
+        beacon.getDevices().clear();
 
         beaconRepository.delete(beacon);
     }
 
     @Override
     public List<BeaconViewDto> findAllFreeBeacons() {
-        return beaconMapper.entitysToViewsDto(beaconRepository.findAllByDeviceIsNull());
+        return beaconMapper.entitysToViewDtos(beaconRepository.findAllByDevicesEmpty());
     }
 }

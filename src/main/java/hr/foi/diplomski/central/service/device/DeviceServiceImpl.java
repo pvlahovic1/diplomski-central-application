@@ -1,8 +1,10 @@
 package hr.foi.diplomski.central.service.device;
 
-import hr.foi.diplomski.central.controllers.api.device.data.DeviceDto;
+import hr.foi.diplomski.central.controllers.api.device.data.DeviceSaveDto;
+import hr.foi.diplomski.central.controllers.api.device.data.DeviceViewDto;
 import hr.foi.diplomski.central.exceptions.BadRequestException;
-import hr.foi.diplomski.central.mappers.device.DeviceMapper;
+import hr.foi.diplomski.central.mappers.beacon.BeaconMapper;
+import hr.foi.diplomski.central.mappers.device.DeviceViewMapper;
 import hr.foi.diplomski.central.model.Beacon;
 import hr.foi.diplomski.central.model.Device;
 import hr.foi.diplomski.central.model.Room;
@@ -17,7 +19,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
@@ -29,10 +33,33 @@ public class DeviceServiceImpl implements DeviceService {
     private final RoomRepository roomRepository;
     private final BeaconRepository beaconRepository;
     private final RecordRepository recordRepository;
-    private final DeviceMapper deviceMapper;
+    private final DeviceViewMapper deviceMapper;
+    private final BeaconMapper beaconMapper;
 
     @Override
-    public List<DeviceDto> findAllDevicesInRoom(Long roomId) {
+    public List<DeviceViewDto> findAllFreeDevices() {
+        return deviceMapper.entitysToViews(deviceRepository.findAllByBeaconIsNull());
+    }
+
+    @Override
+    public List<DeviceViewDto> findAllDevices() {
+        return deviceMapper.entitysToViews(deviceRepository.findAll());
+    }
+
+    @Override
+    public void deleteDevice(Long id) {
+        Device device = deviceRepository.findById(id)
+                .orElseThrow(() -> new BadRequestException(String.format("Uredaj s id %s ne postoji", id)));
+
+        if (device.getBeacon() != null) {
+            device.setBeacon(null);
+        }
+
+        deviceRepository.delete(device);
+    }
+
+    @Override
+    public List<DeviceViewDto> findAllDevicesInRoom(Long roomId) {
         Room room = roomRepository.findById(roomId).get();
         List<Sensor> sensors = room.getSensors();
 
@@ -52,36 +79,32 @@ public class DeviceServiceImpl implements DeviceService {
                 .filter(e -> sensors.contains(e.getRecordId().getSensor())).collect(Collectors.toList());
 
         List<Device> devices = new ArrayList<>();
-        recordsBySensor.forEach(e -> devices.add(e.getRecordId().getBeacon().getDevice()));
+        recordsBySensor.forEach(e -> devices.addAll(e.getRecordId().getBeacon().getDevices()));
 
-        return deviceMapper.entitysToDtos(devices);
+        return deviceMapper.entitysToViews(devices);
     }
 
     @Override
-    public List<DeviceDto> findAllDevices() {
-        return deviceMapper.entitysToDtos(deviceRepository.findAll());
+    public DeviceSaveDto saveDevice(DeviceSaveDto deviceSaveDto) {
+        Device device = deviceMapper.saveDtoToEntity(deviceSaveDto);
+
+        if (deviceSaveDto.getBeaconView() != null) {
+            Beacon beacon = beaconMapper.viewDtoToEntity(deviceSaveDto.getBeaconView());
+            device.setBeacon(beacon);
+        } else {
+            device.setBeacon(null);
+        }
+
+        device = deviceRepository.save(device);
+
+        return deviceMapper.entityToSaveDto(device);
     }
 
     @Override
-    public DeviceDto findDeviceById(Long id) {
+    public DeviceSaveDto findById(Long id) {
         Device device = deviceRepository.findById(id)
-                .orElseThrow(() -> new BadRequestException(String.format("Uređaj s id: %s ne postoji", id)));
+                .orElseThrow(() -> new BadRequestException(String.format("Uredaj s id %s ne postoji", id)));
 
-        return deviceMapper.entityToDto(device);
-    }
-
-    @Override
-    public DeviceDto saveNewDevice(DeviceDto dto) {
-        Device device = deviceMapper.dtoToEntity(dto);
-
-        return deviceMapper.entityToDto(deviceRepository.save(device));
-    }
-
-    @Override
-    public void deleteDevice(Long id) {
-        Device device = deviceRepository.findById(id)
-                .orElseThrow(() -> new BadRequestException(String.format("Uređaj s id: %s ne postoji", id)));
-
-        deviceRepository.delete(device);
+        return deviceMapper.entityToSaveDto(device);
     }
 }

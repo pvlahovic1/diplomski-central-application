@@ -27,6 +27,17 @@
                    [(ngModel)]="model.minor" required/>
           </div>
         </div>
+        <div class="row top30"></div>
+        <div class="row">
+          <div class="col-4">
+            <label>Praćeni uređaj: </label>
+          </div>
+          <div class="col-6">
+            <angular2-multiselect [data]="slobodniUredaji" [(ngModel)]="dropdownModel.idUredaj" name="uredaj"
+                                  [settings]="dropdownSettings">
+            </angular2-multiselect>
+          </div>
+        </div>
       </div>
     </form>
     <div class="dark-modal">

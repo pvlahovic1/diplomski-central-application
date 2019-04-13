@@ -1,6 +1,5 @@
 package hr.foi.diplomski.central.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 
@@ -27,9 +26,10 @@ public class Beacon {
     @Column(name = "minor")
     private Integer minor;
 
-    @OneToOne(mappedBy = "beacon", cascade = CascadeType.ALL)
+    @OneToMany(cascade = {CascadeType.ALL})
+    @JoinColumn(name = "id_beacon")
     @JsonManagedReference
-    private Device device;
+    private List<Device> devices = new ArrayList<>();
 
     @Override
     public String toString() {

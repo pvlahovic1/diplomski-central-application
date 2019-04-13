@@ -12,6 +12,6 @@ public interface BeaconRepository extends JpaRepository<Beacon, Long> {
 
     Optional<Beacon> findByUuidAndMajorAndMinor(String uuid, Integer major, Integer minor);
 
-    List<Beacon> findAllByDeviceIsNull();
+    List<Beacon> findAllByDevicesEmpty();
 
 }

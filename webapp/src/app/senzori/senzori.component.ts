@@ -49,7 +49,7 @@ export class SenzoriComponent implements OnInit, AfterViewInit {
   obrisiSenzor(senzorId) {
     let senzor = this.dataSource.data.find(s => s.id === senzorId);
 
-    this.dijalogService.confirm('Molim vas potvrdite', 'Jeste li sigurni da želite obrisati uređaj: ' + senzor.name)
+    this.dijalogService.confirm('Molim vas potvrdite', 'Jeste li sigurni da želite obrisati senzor: ' + senzor.name)
       .then(odluka => {
         if (odluka) {
           this.doDelete(senzorId);

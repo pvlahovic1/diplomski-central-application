@@ -1,11 +1,12 @@
 package hr.foi.diplomski.central.controllers.api.beacons.dto;
 
-import hr.foi.diplomski.central.controllers.api.device.data.DeviceDto;
+import hr.foi.diplomski.central.controllers.api.device.data.DeviceViewDto;
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 @Data
 public class BeaconDto {
@@ -24,5 +25,5 @@ public class BeaconDto {
     @Min(1)
     private Integer minor;
 
-    private String device;
+    private List<DeviceViewDto> devices;
 }

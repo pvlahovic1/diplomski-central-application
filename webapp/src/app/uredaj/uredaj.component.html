@@ -14,17 +14,13 @@
       </ng-container>
       <ng-container matColumnDef="beacon">
         <th mat-header-cell *matHeaderCellDef> Beacon</th>
-        <td mat-cell *matCellDef="let uredaj"> {{getBeaconForUredaj(uredaj) }} </td>
-      </ng-container>
-      <ng-container matColumnDef="user">
-        <th mat-header-cell *matHeaderCellDef> Vlasnik</th>
-        <td mat-cell *matCellDef="let uredaj"> {{getUserForUredaj(uredaj)}} </td>
+        <td mat-cell *matCellDef="let uredaj"> {{uredaj.beaconData}} </td>
       </ng-container>
       <ng-container matColumnDef="actions">
         <th mat-header-cell *matHeaderCellDef> Akcije</th>
-        <td mat-cell *matCellDef="let senzor">
-          <i class="fas fa-pencil-alt pad10" (click)="urediSenzor(senzor.id)"></i>
-          <i class="far fa-trash-alt" (click)="obrisiSenzor(senzor.id)"></i>
+        <td mat-cell *matCellDef="let uredaj">
+          <i class="fas fa-pencil-alt pad10" (click)="urediUredaj(uredaj.id)"></i>
+          <i class="far fa-trash-alt" (click)="obrisiUredaj(uredaj.id)"></i>
         </td>
       </ng-container>
       <ng-container matColumnDef="loading">

@@ -18,7 +18,7 @@ public class Device {
     @Column(name = "device_name")
     private String deviceName;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "id_beacon", referencedColumnName = "id_beacon")
     @JsonBackReference
     private Beacon beacon;

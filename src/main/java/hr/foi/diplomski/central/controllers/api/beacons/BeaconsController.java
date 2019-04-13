@@ -33,11 +33,11 @@ public class BeaconsController {
 
     @PostMapping
     public ResponseEntity<BeaconDto> saveNewBeacon(@RequestBody BeaconDto beaconDto) {
-        return ResponseEntity.ok(beaconService.saveNewBeacon(beaconDto));
+        return ResponseEntity.ok(beaconService.saveBeacon(beaconDto));
     }
 
     @GetMapping("/free")
-    public ResponseEntity<List<BeaconViewDto>> findAllFreeBeacons() {
+    public ResponseEntity<List<BeaconViewDto>> getAllFreeBeacons() {
         return ResponseEntity.ok(beaconService.findAllFreeBeacons());
     }
 

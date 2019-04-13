@@ -1,11 +1,10 @@
 import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
 import {MatPaginator, MatTableDataSource} from "@angular/material";
-import {UredajModel} from "../model/uredaj.model";
+import {UredajViewModel} from "../model/uredaj.model";
 import {UredajService} from "./uredaj.service";
-import {beforeEach} from "selenium-webdriver/testing";
-import {ProstorijeFormComponent} from "../prostorije/prostorije-form/prostorije-form.component";
 import {UredajFormComponent} from "./uredaj-form/uredaj-form.component";
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
+import {DijalogService} from "../dijalog/dijalog.service";
 
 @Component({
   selector: 'app-uredaj',
@@ -13,13 +12,14 @@ import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
   styleUrls: ['./uredaj.component.scss']
 })
 export class UredajComponent implements OnInit, AfterViewInit {
-  dataSource = new MatTableDataSource<UredajModel>();
-  columnsToDisplay = ['name', 'beacon', 'user', "actions"];
+  dataSource = new MatTableDataSource<UredajViewModel>();
+  columnsToDisplay = ['name', 'beacon', "actions"];
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   constructor(private uredajService: UredajService,
-              private modalService: NgbModal) { }
+              private dijalogService: DijalogService,
+              private modalService: NgbModal) {}
 
   ngOnInit() {
     this.refreshModel();
@@ -35,23 +35,6 @@ export class UredajComponent implements OnInit, AfterViewInit {
     })
   }
 
-
-  getBeaconForUredaj(uredaj: UredajModel) {
-    if (uredaj.beacon != null) {
-      return `${uredaj.beacon.uuid} ${uredaj.beacon.major} ${uredaj.beacon.minor}`;
-    }
-
-    return '';
-  }
-
-  getUserForUredaj(uredaj: UredajModel) {
-    if (uredaj.user != null) {
-      return uredaj.user.firstName + uredaj.user.lastName;
-    }
-
-    return '';
-  }
-
   addUredaj() {
     const modalRef = this.modalService.open(UredajFormComponent, {size: 'lg', backdrop: 'static'});
     modalRef.componentInstance.model = {id: 0};
@@ -60,6 +43,36 @@ export class UredajComponent implements OnInit, AfterViewInit {
         this.refreshModel();
       }
     });
+  }
+
+  urediUredaj(idUredaj) {
+    const modalRef = this.modalService.open(UredajFormComponent, {size: 'lg', backdrop: 'static'});
+    modalRef.componentInstance.model = {id: idUredaj};
+    modalRef.result.then(result => {
+      if (result != 0) {
+        this.refreshModel();
+      }
+    });
+  }
+
+  obrisiUredaj(idUredaj) {
+    let uredaj = this.dataSource.data.find(s => s.id === idUredaj);
+
+    this.dijalogService.confirm('Molim vas potvrdite', 'Jeste li sigurni da želite obrisati uređaj: ' + uredaj.name)
+      .then(odluka => {
+        if (odluka) {
+          this.doDelete(idUredaj);
+        }
+      });
+  }
+
+  private doDelete(idUredaj) {
+    this.uredajService.obrisiUredaj(idUredaj).subscribe(() => {
+      console.log("Uspjesno obrisano");
+      this.refreshModel();
+    }, error => {
+      console.log("Error prilikom brisanja uredaja: " + JSON.stringify(error));
+    })
   }
 
 }

@@ -1,19 +1,22 @@
 package hr.foi.diplomski.central.service.device;
 
-import hr.foi.diplomski.central.controllers.api.device.data.DeviceDto;
+import hr.foi.diplomski.central.controllers.api.device.data.DeviceSaveDto;
+import hr.foi.diplomski.central.controllers.api.device.data.DeviceViewDto;
 
 import java.util.List;
 
 public interface DeviceService {
 
-    List<DeviceDto> findAllDevicesInRoom(Long roomId);
+    List<DeviceViewDto> findAllFreeDevices();
 
-    List<DeviceDto> findAllDevices();
-
-    DeviceDto findDeviceById(Long id);
-
-    DeviceDto saveNewDevice(DeviceDto dto);
+    List<DeviceViewDto> findAllDevices();
 
     void deleteDevice(Long id);
+
+    List<DeviceViewDto> findAllDevicesInRoom(Long roomId);
+
+    DeviceSaveDto saveDevice(DeviceSaveDto deviceSaveDto);
+
+    DeviceSaveDto findById(Long id);
 
 }

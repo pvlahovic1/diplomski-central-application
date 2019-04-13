@@ -11,10 +11,9 @@ public interface BeaconService {
 
     BeaconDto findBeaconById(Long id);
 
-    BeaconDto saveNewBeacon(BeaconDto beaconDto);
+    BeaconDto saveBeacon(BeaconDto beaconDto);
 
     void deleteBeaon(Long idBeacon);
 
     List<BeaconViewDto> findAllFreeBeacons();
-
 }

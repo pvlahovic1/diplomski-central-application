@@ -1,11 +1,9 @@
 import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
 import {MatPaginator, MatTableDataSource} from "@angular/material";
-import {SenzorViewModel} from "../model/senzor.model";
 import {DijalogService} from "../dijalog/dijalog.service";
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {BeaconiService} from "./beaconi.service";
 import {BeaconModel} from "../model/beacon.model";
-import {SenzoriFormComponent} from "../senzori/senzori-form/senzori-form.component";
 import {BeaconiFormComponent} from "./beaconi-form/beaconi-form.component";
 
 @Component({
@@ -35,6 +33,15 @@ export class BeaconiComponent implements OnInit, AfterViewInit {
     this.beaconService.dohvatiSveBeacone().subscribe(data => {
       this.dataSource.data = data;
     });
+  }
+
+  dohvatiUredaje(beacon: BeaconModel) {
+    let devices = '';
+    if (beacon.devices != null) {
+      beacon.devices.forEach(e => devices = devices + " " + e.name);
+    }
+
+    return devices;
   }
 
   addBeacon() {

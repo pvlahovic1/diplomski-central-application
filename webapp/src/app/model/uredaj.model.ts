@@ -1,9 +1,5 @@
-import {UserModel} from "./user.model";
-import {BeaconModel} from "./beacon.model";
-
-export class UredajModel {
+export class UredajViewModel {
   id: number;
   name: string;
-  beacon: BeaconModel;
-  user: UserModel;
+  beaconData: string;
 }

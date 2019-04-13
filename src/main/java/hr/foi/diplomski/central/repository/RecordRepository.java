@@ -18,6 +18,8 @@ public interface RecordRepository extends JpaRepository<Record, RecordId> {
 
     void deleteAllByRecordId_Sensor(List<Sensor> sensor);
 
+    void deleteAllByRecordId_Beacon(Beacon beacon);
+
     Optional<Record> findFirstByRecordId_BeaconAndRecordId_RecordDateBetweenOrderByDistanceAsc(Beacon beacon,
                                                                                                LocalDateTime validFrom,
                                                                                                LocalDateTime validTo);
