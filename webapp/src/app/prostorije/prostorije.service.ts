@@ -36,4 +36,8 @@ export class ProstorijeService {
   obrisiProstoriju(idProstorije: number): Observable<any> {
     return this.http.delete(`${this.BASE_ROOM_URL}/${idProstorije}`);
   }
+
+  dohvatiSveUredajeUProstoji(idProstorija: number): Observable<any> {
+    return this.http.get(`${this.BASE_ROOM_URL}/${idProstorija}/devices`);
+  }
 }

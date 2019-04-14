@@ -6,6 +6,7 @@ import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {ProstorijeFormComponent} from "./prostorije-form/prostorije-form.component";
 import {MatPaginator, MatTableDataSource} from "@angular/material";
 import {SenzorViewModel} from "../model/senzor.model";
+import {UredajProstorijaModel} from "../model/uredaj.model";
 
 @Component({
   selector: 'app-prostorije',
@@ -14,8 +15,11 @@ import {SenzorViewModel} from "../model/senzor.model";
 })
 export class ProstorijeComponent implements OnInit, AfterViewInit {
   prostorije: ProstorijaViewModel[];
-  dataSource = new MatTableDataSource<SenzorViewModel>();
+  dataSourceSenzorView = new MatTableDataSource<SenzorViewModel>();
+  dataSourceUredajView = new MatTableDataSource<UredajProstorijaModel>()
+
   columnsToDisplay = ['name', 'beaconDataPurgeInterval', 'beaconDataSendInterval'];
+  columnsToDisplayDevices = ['name', 'beaconData', 'time', 'distance'];
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   prikaziUcitavanjeSenzora = false;
@@ -35,7 +39,7 @@ export class ProstorijeComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.dataSource.paginator = this.paginator;
+    this.dataSourceSenzorView.paginator = this.paginator;
   }
 
   initProstorije() {
@@ -56,8 +60,12 @@ export class ProstorijeComponent implements OnInit, AfterViewInit {
   onItemSelect(data) {
     this.prikaziUcitavanjeSenzora = true;
     this.prostorijeService.dohvatiSveSenzoreProstorije(data.id).subscribe(data => {
-      this.dataSource.data = data;
+      this.dataSourceSenzorView.data = data;
       this.prikaziUcitavanjeSenzora = false;
+    });
+
+    this.prostorijeService.dohvatiSveUredajeUProstoji(data.id).subscribe(data => {
+      this.dataSourceUredajView.data = data;
     });
   }
 
@@ -109,8 +117,6 @@ export class ProstorijeComponent implements OnInit, AfterViewInit {
         console.log(JSON.stringify(error));
       });
     }
-
-
   }
 
 }

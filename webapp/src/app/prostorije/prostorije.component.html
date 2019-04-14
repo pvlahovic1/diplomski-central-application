@@ -16,7 +16,7 @@
   <div class="row top30"></div>
   <div class="row">
     <div class="col-12">
-      <table mat-table [dataSource]="dataSource" class="tablica">
+      <table mat-table [dataSource]="dataSourceSenzorView" class="tablica">
         <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
         <tr mat-row *matRowDef="let row; columns: columnsToDisplay"></tr>
         <ng-container matColumnDef="name">
@@ -43,9 +43,42 @@
         </ng-container>
         <mat-footer-row *matFooterRowDef="['loading']"
                         [ngClass]="{'hide' : !prikaziUcitavanjeSenzora}"></mat-footer-row>
-        <mat-footer-row *matFooterRowDef="['noData']" [ngClass]="{'hide' : dataSource.data.length != 0}"></mat-footer-row>
+        <mat-footer-row *matFooterRowDef="['noData']" [ngClass]="{'hide' : dataSourceSenzorView.data.length != 0}"></mat-footer-row>
       </table>
       <mat-paginator [pageSize]="2" [pageSizeOptions]="[2, 3, 4, 5, 10]">
+      </mat-paginator>
+    </div>
+  </div>
+  <div class="row top50"></div>
+  <div class="row">
+    <div class="col-12">
+      <table mat-table [dataSource]="dataSourceUredajView" class="tablica">
+        <tr mat-header-row *matHeaderRowDef="columnsToDisplayDevices"></tr>
+        <tr mat-row *matRowDef="let row; columns: columnsToDisplayDevices"></tr>
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef> Uređaj</th>
+          <td mat-cell *matCellDef="let uredaj"> {{uredaj.deviceInfo.name}} </td>
+        </ng-container>
+        <ng-container matColumnDef="beaconData">
+          <th mat-header-cell *matHeaderCellDef> Interval brisanja podataka</th>
+          <td mat-cell *matCellDef="let uredaj"> {{uredaj.deviceInfo.beaconData }} </td>
+        </ng-container>
+        <ng-container matColumnDef="time">
+          <th mat-header-cell *matHeaderCellDef> Zadnje vrijeme ažuriranja</th>
+          <td mat-cell *matCellDef="let uredaj"> {{uredaj.timestamp }} </td>
+        </ng-container>
+        <ng-container matColumnDef="distance">
+          <th mat-header-cell *matHeaderCellDef> Udaljenost uređaja od senzora</th>
+          <td mat-cell *matCellDef="let uredaj"> {{uredaj.distance }} </td>
+        </ng-container>
+        <ng-container matColumnDef="noData">
+          <mat-footer-cell *matFooterCellDef>
+            Nema podataka
+          </mat-footer-cell>
+        </ng-container>
+        <mat-footer-row *matFooterRowDef="['noData']" [ngClass]="{'hide' : dataSourceUredajView.data.length != 0}"></mat-footer-row>
+      </table>
+      <mat-paginator [pageSize]="10" [pageSizeOptions]="[10, 20, 30]">
       </mat-paginator>
     </div>
   </div>
