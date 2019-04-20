@@ -12,6 +12,7 @@ import {MaterialComponents} from "./settings/material/material.component";
 import {ProstorijeFormComponent} from "./prostorije/prostorije-form/prostorije-form.component";
 import {NgbActiveModal, NgbModule} from "@ng-bootstrap/ng-bootstrap";
 import {MatPaginatorModule} from "@angular/material";
+import {MomentModule} from "angular2-moment";
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import {MatPaginatorModule} from "@angular/material";
     ButtonsModule.forRoot(),
     NgbModule,
     MaterialComponents,
-    MatPaginatorModule
+    MatPaginatorModule,
+    MomentModule
   ],
   providers: [{provide: HTTP_INTERCEPTORS, useClass: HttpSeviceInterceptor, multi: true},
     NgbActiveModal],

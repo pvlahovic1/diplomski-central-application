@@ -15,7 +15,7 @@ export class WebSocketService {
   }
 
   private initWebSocket() {
-    let socket = new WebSocket("ws://localhost:8080/data-binding");
+    let socket = new WebSocket("ws://153.92.209.230:8080/data-binding");
     this.webSocket = Stomp.over(socket);
     let that = this;
     this.webSocket.connect({}, function (frame) {
