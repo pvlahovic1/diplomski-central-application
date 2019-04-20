@@ -12,6 +12,6 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class DeviceInRoom{
     private Device deviceInfo;
-    private LocalDateTime timestamp;
+    private LocalDateTime dateTime;
     private Double distance;
 }

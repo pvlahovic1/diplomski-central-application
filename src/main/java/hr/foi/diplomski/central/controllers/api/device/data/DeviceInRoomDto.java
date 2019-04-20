@@ -7,6 +7,6 @@ import java.time.LocalDateTime;
 @Data
 public class DeviceInRoomDto {
     private DeviceViewDto deviceInfo;
-    private LocalDateTime timestamp;
+    private LocalDateTime dateTime;
     private Double distance;
 }

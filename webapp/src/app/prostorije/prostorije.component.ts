@@ -7,6 +7,7 @@ import {ProstorijeFormComponent} from "./prostorije-form/prostorije-form.compone
 import {MatPaginator, MatTableDataSource} from "@angular/material";
 import {SenzorViewModel} from "../model/senzor.model";
 import {UredajProstorijaModel} from "../model/uredaj.model";
+import {WebSocketService} from "../settings/service/web-socket.service";
 
 @Component({
   selector: 'app-prostorije',
@@ -16,7 +17,7 @@ import {UredajProstorijaModel} from "../model/uredaj.model";
 export class ProstorijeComponent implements OnInit, AfterViewInit {
   prostorije: ProstorijaViewModel[];
   dataSourceSenzorView = new MatTableDataSource<SenzorViewModel>();
-  dataSourceUredajView = new MatTableDataSource<UredajProstorijaModel>()
+  dataSourceUredajView = new MatTableDataSource<UredajProstorijaModel>();
 
   columnsToDisplay = ['name', 'beaconDataPurgeInterval', 'beaconDataSendInterval'];
   columnsToDisplayDevices = ['name', 'beaconData', 'time', 'distance'];
@@ -29,17 +30,34 @@ export class ProstorijeComponent implements OnInit, AfterViewInit {
   dropdownSettings = {};
 
   constructor(private prostorijeService: ProstorijeService,
-              private modalService: NgbModal) {
+              private modalService: NgbModal,
+              private webSocketService: WebSocketService) {
   }
 
   ngOnInit() {
     this.prostorije = [];
     this.initProstorije();
     this.initDropDowns();
+    this.initWebSockets();
   }
 
   ngAfterViewInit(): void {
     this.dataSourceSenzorView.paginator = this.paginator;
+  }
+
+  initWebSockets() {
+    this.webSocketService.roomSubject.subscribe(data => {
+      const idSobe = JSON.parse(data);
+
+      console.log("Potrebno azurirati sobu: " + idSobe[0]);
+      if (this.dropdownModel.idProstorije !== undefined && this.dropdownModel.idProstorije.length > 0) {
+        const present = this.dropdownModel.idProstorije.find(e => e.id == idSobe[0]);
+
+        if (present !== undefined) {
+          this.dohvatiSveUredajeUProstoriji(present);
+        }
+      }
+    });
   }
 
   initProstorije() {
@@ -64,6 +82,10 @@ export class ProstorijeComponent implements OnInit, AfterViewInit {
       this.prikaziUcitavanjeSenzora = false;
     });
 
+    this.dohvatiSveUredajeUProstoriji(data);
+  }
+
+  dohvatiSveUredajeUProstoriji(data) {
     this.prostorijeService.dohvatiSveUredajeUProstoji(data.id).subscribe(data => {
       this.dataSourceUredajView.data = data;
     });

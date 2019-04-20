@@ -8,6 +8,6 @@ export class UredajViewModel {
 
 export class UredajProstorijaModel {
   deviceInfo: UredajViewModel;
-  timestamp: Moment;
+  dateTime: Moment;
   distance: number;
 }

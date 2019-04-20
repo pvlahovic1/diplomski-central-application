@@ -1,4 +1,4 @@
-package hr.foi.diplomski.central.configuration;
+package hr.foi.diplomski.central.configuration.exceptionhandler;
 
 import hr.foi.diplomski.central.exceptions.BadRequestException;
 import org.apache.commons.lang3.StringUtils;

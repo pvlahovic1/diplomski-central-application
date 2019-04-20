@@ -11,12 +11,14 @@ import hr.foi.diplomski.central.model.record.RecordId;
 import hr.foi.diplomski.central.repository.BeaconRepository;
 import hr.foi.diplomski.central.repository.RecordRepository;
 import hr.foi.diplomski.central.repository.SensorRepository;
+import hr.foi.diplomski.central.service.socket.WebSocketService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -28,15 +30,17 @@ public class RecordServiceImpl implements RecordService {
     private final RecordRepository recordRepository;
     private final SensorRepository sensorRepository;
     private final BeaconRepository beaconRepository;
+    private final WebSocketService websocketService;
 
     @Override
     public void createNewRecord(SensorData sensorData) {
-        var sensorOptional = sensorRepository.findBySensorId(sensorData.getDeviceId());
+        Sensor sensor = sensorRepository.findBySensorId(sensorData.getDeviceId())
+                .orElseThrow(() -> new BadRequestException("Sensor identify data is not recognized!"));
 
-        if (sensorOptional.isPresent()) {
-            saveRecordsFromSensor(sensorOptional.get(), sensorData.getSensorRecords());
-        } else {
-            throw new BadRequestException("Sensor identify data is not recognized!");
+        saveRecordsFromSensor(sensor, sensorData.getSensorRecords());
+
+        if (sensor.getRoom() != null) {
+            websocketService.refreshRoomsState(Collections.singletonList(sensor.getRoom().getId()));
         }
     }
 

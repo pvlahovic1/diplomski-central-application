@@ -1,4 +1,4 @@
-package hr.foi.diplomski.central.configuration;
+package hr.foi.diplomski.central.configuration.exceptionhandler;
 
 import lombok.Data;
 
