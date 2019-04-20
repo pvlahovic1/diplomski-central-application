@@ -10,6 +10,7 @@ import hr.foi.diplomski.central.mappers.sensor.SensorToViewMapper;
 import hr.foi.diplomski.central.model.Sensor;
 import hr.foi.diplomski.central.repository.SensorRepository;
 import hr.foi.diplomski.central.service.mqtt.MqttService;
+import hr.foi.diplomski.central.service.socket.WebSocketService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -31,6 +32,7 @@ public class SensorServiceImpl implements SensorService {
     private final SensorToDtoMapper sensorToDtoMapper;
     private final EntityResolver entityResolver;
     private final MqttService mqttService;
+    private final WebSocketService webSocketService;
 
     @Override
     public Sensor updateSensor(SensorOutDto sensorOutDto) {
@@ -47,7 +49,11 @@ public class SensorServiceImpl implements SensorService {
             sensor.setBeaconDataPurgeInterval(sensorOutDto.getBeaconDataPurgeInterval());
             sensor.setBeaconDataSendInterval(sensorOutDto.getBeaconDataSendInterval());
 
-            return sensorRepository.save(sensor);
+            sensor = sensorRepository.save(sensor);
+
+            webSocketService.refreshSensorState(sensor.getId());
+
+            return sensor;
         } else {
             throw new BadRequestException(String
                     .format("Sensor with id: %s does not exist", sensorOutDto.getDeviceId()));

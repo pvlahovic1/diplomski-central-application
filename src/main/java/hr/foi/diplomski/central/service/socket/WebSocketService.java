@@ -15,4 +15,8 @@ public class WebSocketService {
     public void refreshRoomsState(List<Long> roomIds) {
         webSocket.convertAndSend("/topic/room", new Gson().toJson(roomIds));
     }
+
+    public void refreshSensorState(Long sensorId) {
+        webSocket.convertAndSend("/topic/sensor", String.valueOf(sensorId));
+    }
 }

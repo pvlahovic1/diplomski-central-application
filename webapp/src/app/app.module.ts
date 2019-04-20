@@ -13,6 +13,7 @@ import {ProstorijeFormComponent} from "./prostorije/prostorije-form/prostorije-f
 import {NgbActiveModal, NgbModule} from "@ng-bootstrap/ng-bootstrap";
 import {MatPaginatorModule} from "@angular/material";
 import {MomentModule} from "angular2-moment";
+import {WebSocketService} from "./settings/service/web-socket.service";
 
 @NgModule({
   declarations: [
@@ -33,7 +34,7 @@ import {MomentModule} from "angular2-moment";
     MomentModule
   ],
   providers: [{provide: HTTP_INTERCEPTORS, useClass: HttpSeviceInterceptor, multi: true},
-    NgbActiveModal],
+    NgbActiveModal, WebSocketService],
   bootstrap: [AppComponent],
   entryComponents: [
     ProstorijeFormComponent

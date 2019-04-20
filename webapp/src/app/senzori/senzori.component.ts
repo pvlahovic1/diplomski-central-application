@@ -5,6 +5,7 @@ import {SenzoriService} from "./senzori.service";
 import {DijalogService} from "../dijalog/dijalog.service";
 import {SenzoriFormComponent} from "./senzori-form/senzori-form.component";
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
+import {WebSocketService} from "../settings/service/web-socket.service";
 
 @Component({
   selector: 'app-senzori',
@@ -19,11 +20,23 @@ export class SenzoriComponent implements OnInit, AfterViewInit {
 
   constructor(private senzoriService: SenzoriService,
               private dijalogService: DijalogService,
-              private modalService: NgbModal) {
+              private modalService: NgbModal,
+              private webSocketService: WebSocketService) {
   }
 
   ngOnInit() {
     this.osvjeziModel();
+    this.webSocketInit();
+  }
+
+  webSocketInit() {
+    this.webSocketService.sensorSubject.subscribe(data => {
+      const present = this.dataSource.data.find(e => e.id === Number(data));
+
+      if (present !== undefined) {
+        this.osvjeziModel();
+      }
+    })
   }
 
   ngAfterViewInit(): void {
