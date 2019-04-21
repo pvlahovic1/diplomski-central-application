@@ -1,0 +1,16 @@
+<div class="navigacija" *ngIf="!displayLogin()">
+  <nav class="navbar">
+    <ul class="nav navbar">
+      <li class="navbar"><div class="right50"></div></li>
+      <li class="navbar"><a routerLink="/prostorije" routerLinkActive="active">Prostorije</a></li>
+      <li class="navbar"><a routerLink="/senzori" routerLinkActive="active">Senzori</a></li>
+      <li class="navbar"><a routerLink="/uredaji" routerLinkActive="active">Uređaji</a></li>
+      <li class="navbar"><a routerLink="/beaconi" routerLinkActive="active">Beaconi</a></li>
+      <li class="navbar"><a routerLink="/korisnici" routerLinkActive="active">Korisnici</a></li>
+    </ul>
+    <div class="pull-right">
+      <i (click)="logout()" class="fas fa-sign-out-alt gumb-akcija"></i>
+    </div>
+  </nav>
+
+</div>

@@ -13,7 +13,7 @@ public class Sensor {
     @Id
     @GeneratedValue(generator = "sensor_id_seq")
     @Column(name = "id_sensor")
-    private Integer id;
+    private Long id;
 
     @Column(name = "sensor_id")
     private String sensorId;
@@ -27,9 +27,19 @@ public class Sensor {
     @Column(name = "beacon_data_send_interval")
     private Integer beaconDataSendInterval;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "id_room", referencedColumnName = "id_room")
     @JsonBackReference
     private Room room;
 
+    @Override
+    public String toString() {
+        return "Sensor{" +
+                "id=" + id +
+                ", sensorId='" + sensorId + '\'' +
+                ", sensorName='" + sensorName + '\'' +
+                ", beaconDataPurgeInterval=" + beaconDataPurgeInterval +
+                ", beaconDataSendInterval=" + beaconDataSendInterval +
+                '}';
+    }
 }

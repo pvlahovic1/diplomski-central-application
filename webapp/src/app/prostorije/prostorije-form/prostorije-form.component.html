@@ -1,0 +1,55 @@
+<div role="document" class="modal-border-shadow">
+  <div class="modal-content dark-modal">
+    <div class="modal-header dark-modal">
+      <h5
+        class="modal-title">{{model.id == 0 ? 'Dodavanje nove prostorije' : 'Uređivanje prostorije: ' + model.name}}</h5>
+    </div>
+    <form #f="ngForm">
+      <div class="modal-body dark-modal">
+        <div class="row">
+          <div class="col-4"><label for="name">Naziv prostorije: </label></div>
+          <div class="col-6">
+            <input type="text" class="input-group input-group-text" id="name" maxlength="255" name="name"
+                   [(ngModel)]="model.name" required/>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-4"><label for="name">Širina prostorije: </label></div>
+          <div class="col-6">
+            <input type="number" class="input-group input-group-text" id="width" min="1" name="width"
+                   [(ngModel)]="model.width" required/>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-4"><label for="name">Duljina prostorije: </label></div>
+          <div class="col-6">
+            <input type="number" class="input-group input-group-text" id="length" min="1" name="length"
+                   [(ngModel)]="model.length" required/>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-4"><label for="name">Visina prostorije: </label></div>
+          <div class="col-6">
+            <input type="number" class="input-group input-group-text" id="height" min="1" name="height"
+                   [(ngModel)]="model.height" required/>
+          </div>
+        </div>
+        <div class="row top30"></div>
+        <div class="row">
+          <div class="col-4">
+            <label>Senzori unutar prostorije: </label>
+          </div>
+          <div class="col-6">
+            <angular2-multiselect [data]="slobodniSenzori" [(ngModel)]="dropdownModel.idSenzora" name="sensors"
+                                  [settings]="dropdownSettings">
+            </angular2-multiselect>
+          </div>
+        </div>
+      </div>
+    </form>
+    <div class="modal-footer dark-modal">
+      <button type="button" class="btn btn-primary" (click)="saveProstorija()">Pohrani</button>
+      <button type="button" class="btn btn-danger" (click)="activeModal.close(0)">Odustani</button>
+    </div>
+  </div>
+</div>

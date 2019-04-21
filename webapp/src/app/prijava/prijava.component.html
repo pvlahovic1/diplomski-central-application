@@ -1,0 +1,35 @@
+<div class="container">
+  <div class="row col-md-12 container justify-content-sm-center">
+    <div *ngIf="error" class="alert alert-danger col-6">{{error}}</div>
+  </div>
+  <form #f="ngForm">
+    <div class="row col-md-12 container justify-content-sm-center form-signin">
+      <div class="row login-body justify-content-sm-center">
+        <div class="row col-12 justify-content-sm-center">
+          <div class="row col-4">
+            <label for="username">Korisničko ime: </label>
+          </div>
+          <div class="row col-6">
+            <input class="col-12" type="text" id="username" name="username" [(ngModel)]="usrname"
+                   placeholder="Korisničko ime" class="form-control"
+                   required>
+          </div>
+        </div>
+        <div class="row col-12 top10 justify-content-sm-center">
+          <div class="row col-4">
+            <label for="password">Lozinka: </label>
+          </div>
+          <div class="row col-6">
+            <input class="col-12" type="password" id="password" name="password" class="form-control"
+                   [(ngModel)]="password"
+                   placeholder="Lozinka" required>
+          </div>
+        </div>
+        <div class="row col-12 top30 justify-content-sm-center">
+          <button (click)="prijava()" class="btn btn-signin" [disabled]="submitDisabled()">Prijava</button>
+        </div>
+      </div>
+    </div>
+  </form>
+
+</div>

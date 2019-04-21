@@ -1,0 +1,85 @@
+<div class="container app-site-body">
+  <div class="row">
+      <div class="col-2"><label>Raspoložive prostorije: </label></div>
+      <div class="col-4">
+        <angular2-multiselect [data]="prostorije" [(ngModel)]="dropdownModel.idProstorije"
+                              [settings]="dropdownSettings"
+                              (onSelect)="onItemSelect($event)">
+        </angular2-multiselect>
+      </div>
+      <div class="col-5">
+        <i class="fas fa-pencil-alt pad10 gumb-akcija" (click)="editProstorija()"></i>
+        <i class="fas fa-plus pad10 gumb-akcija" (click)="addProstorija()"></i>
+        <i class="far fa-trash-alt gumb-akcija" (click)="deleteProstorija()"></i>
+      </div>
+  </div>
+  <div class="row top30"></div>
+  <div class="row">
+    <div class="col-12">
+      <table mat-table [dataSource]="dataSourceSenzorView" class="tablica">
+        <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+        <tr mat-row *matRowDef="let row; columns: columnsToDisplay"></tr>
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef> Naziv</th>
+          <td mat-cell *matCellDef="let senzor"> {{senzor.name}} </td>
+        </ng-container>
+        <ng-container matColumnDef="beaconDataPurgeInterval">
+          <th mat-header-cell *matHeaderCellDef> Interval brisanja podataka</th>
+          <td mat-cell *matCellDef="let senzor"> {{senzor.beaconDataPurgeInterval }} </td>
+        </ng-container>
+        <ng-container matColumnDef="beaconDataSendInterval">
+          <th mat-header-cell *matHeaderCellDef> Interval slanja podataka</th>
+          <td mat-cell *matCellDef="let senzor"> {{senzor.beaconDataSendInterval }} </td>
+        </ng-container>
+        <ng-container matColumnDef="loading">
+          <mat-footer-cell *matFooterCellDef>
+            Učitavanje podataka
+          </mat-footer-cell>
+        </ng-container>
+        <ng-container matColumnDef="noData">
+          <mat-footer-cell *matFooterCellDef>
+            Nema podataka
+          </mat-footer-cell>
+        </ng-container>
+        <mat-footer-row *matFooterRowDef="['loading']"
+                        [ngClass]="{'hide' : !prikaziUcitavanjeSenzora}"></mat-footer-row>
+        <mat-footer-row *matFooterRowDef="['noData']" [ngClass]="{'hide' : dataSourceSenzorView.data.length != 0}"></mat-footer-row>
+      </table>
+      <mat-paginator [pageSize]="2" [pageSizeOptions]="[2, 3, 4, 5, 10]">
+      </mat-paginator>
+    </div>
+  </div>
+  <div class="row top50"></div>
+  <div class="row">
+    <div class="col-12">
+      <table mat-table [dataSource]="dataSourceUredajView" class="tablica">
+        <tr mat-header-row *matHeaderRowDef="columnsToDisplayDevices"></tr>
+        <tr mat-row *matRowDef="let row; columns: columnsToDisplayDevices"></tr>
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef> Uređaj</th>
+          <td mat-cell *matCellDef="let uredaj"> {{uredaj.deviceInfo.name}} </td>
+        </ng-container>
+        <ng-container matColumnDef="beaconData">
+          <th mat-header-cell *matHeaderCellDef> Interval brisanja podataka</th>
+          <td mat-cell *matCellDef="let uredaj"> {{uredaj.deviceInfo.beaconData }} </td>
+        </ng-container>
+        <ng-container matColumnDef="time">
+          <th mat-header-cell *matHeaderCellDef> Zadnje vrijeme ažuriranja</th>
+          <td mat-cell *matCellDef="let uredaj">{{uredaj.dateTime | amDateFormat:'DD.MM.YYYY. HH:mm:ss'}}</td>
+        </ng-container>
+        <ng-container matColumnDef="distance">
+          <th mat-header-cell *matHeaderCellDef> Udaljenost uređaja od senzora</th>
+          <td mat-cell *matCellDef="let uredaj"> {{uredaj.distance }} </td>
+        </ng-container>
+        <ng-container matColumnDef="noData">
+          <mat-footer-cell *matFooterCellDef>
+            Nema podataka
+          </mat-footer-cell>
+        </ng-container>
+        <mat-footer-row *matFooterRowDef="['noData']" [ngClass]="{'hide' : dataSourceUredajView.data.length != 0}"></mat-footer-row>
+      </table>
+      <mat-paginator [pageSize]="10" [pageSizeOptions]="[10, 20, 30]">
+      </mat-paginator>
+    </div>
+  </div>
+</div>

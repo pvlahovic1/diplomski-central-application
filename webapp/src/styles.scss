@@ -1,0 +1,92 @@
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+
+body {
+  background-color: #545454;
+  color: white;
+}
+
+.app-site-body {
+  padding: 10px;
+}
+
+.right50 {
+  padding-right: 50px;
+}
+
+
+.hide {
+  display: none;
+}
+
+mat-footer-row mat-footer-cell {
+  justify-content: center;
+  font-style: italic;
+}
+
+.tablica {
+  width: 100%;
+}
+
+.top10 {
+  margin-top: 10px;
+}
+
+.top20 {
+  margin-top: 20px;
+}
+
+.top30 {
+  margin-top: 30px;
+}
+
+.top40 {
+  margin-top: 40px;
+}
+
+.top50 {
+  margin-top: 50px;
+}
+
+.pad10 {
+  padding: 10px;
+}
+
+.modal-border-shadow {
+  background-color: rgba(5, 5, 5, 0.7);
+}
+
+.dark-modal {
+  background-color: #292b2c;
+  color: white;
+}
+
+.pull-right {
+  float:right !important;
+}
+
+.pull-left {
+  float:right !important;
+}
+
+form {
+  display: inline;
+  padding: 0px;
+  spacing: 0px;
+}
+
+.gumb-akcija {
+  margin-right: 10px;
+  padding:10px;
+  background-color: #222222;
+  border: solid 1px black;
+  border-radius: 5px;
+  transition: all 0.218s;
+}
+
+.gumb-akcija:hover {
+  box-shadow: 1px 1px 5px 2px #121212 inset;
+}
+
+.gumb-akcija:active {
+  box-shadow: 3px 3px 20px 3px #020202 inset;
+}
