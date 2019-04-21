@@ -2,6 +2,8 @@ package hr.foi.diplomski.central.model.dto;
 
 import lombok.Data;
 
+import java.time.LocalDateTime;
+
 @Data
 public class UserDto {
 
@@ -9,5 +11,6 @@ public class UserDto {
     private String username;
     private String firstName;
     private String lastName;
+    private LocalDateTime expiration;
 
 }
