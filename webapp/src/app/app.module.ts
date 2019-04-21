@@ -14,6 +14,8 @@ import {NgbActiveModal, NgbModule} from "@ng-bootstrap/ng-bootstrap";
 import {MatPaginatorModule} from "@angular/material";
 import {MomentModule} from "angular2-moment";
 import {WebSocketService} from "./settings/service/web-socket.service";
+import {AuthenticationService} from "./settings/service/authentication.service";
+import {HttpErrorInterceptor} from "./settings/interceptors/http.error.interceptor";
 
 @NgModule({
   declarations: [
@@ -33,8 +35,10 @@ import {WebSocketService} from "./settings/service/web-socket.service";
     MatPaginatorModule,
     MomentModule
   ],
-  providers: [{provide: HTTP_INTERCEPTORS, useClass: HttpSeviceInterceptor, multi: true},
-    NgbActiveModal, WebSocketService],
+  providers: [
+    {provide: HTTP_INTERCEPTORS, useClass: HttpSeviceInterceptor, multi: true},
+    { provide: HTTP_INTERCEPTORS, useClass: HttpErrorInterceptor, multi: true},
+    NgbActiveModal, WebSocketService, AuthenticationService],
   bootstrap: [AppComponent],
   entryComponents: [
     ProstorijeFormComponent

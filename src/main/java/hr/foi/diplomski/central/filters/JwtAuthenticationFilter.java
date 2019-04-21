@@ -79,6 +79,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         userDto.setFirstName(user.getFirstName());
         userDto.setLastName(user.getLastName());
         userDto.setExpiration(convertToLocalDateTime(expirationDate));
+        userDto.setToken(token);
 
         Gson gson = new GsonBuilder().registerTypeAdapter(LocalDateTime.class, new GsonLocalDateAdapter()).create();
 
