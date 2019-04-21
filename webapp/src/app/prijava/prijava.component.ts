@@ -29,7 +29,7 @@ export class PrijavaComponent implements OnInit {
       console.log(JSON.stringify(data));
       this.router.navigate(['/prostorije']);
     }, error => {
-      this.error = error;
+      this.error = 'Neispravni korisnički podaci';
     });
   }
 
