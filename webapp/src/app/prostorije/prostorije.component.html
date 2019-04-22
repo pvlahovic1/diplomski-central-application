@@ -15,7 +15,10 @@
   </div>
   <div class="row top30"></div>
   <div class="row">
-    <div class="col-12">
+    <div class="col-10">
+      <span class="col-12">Senzori unutar prostorije:</span>
+    </div>
+    <div class="col-12 top10">
       <table mat-table [dataSource]="dataSourceSenzorView" class="tablica">
         <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
         <tr mat-row *matRowDef="let row; columns: columnsToDisplay"></tr>
@@ -25,19 +28,19 @@
         </ng-container>
         <ng-container matColumnDef="beaconDataPurgeInterval">
           <th mat-header-cell *matHeaderCellDef> Interval brisanja podataka</th>
-          <td mat-cell *matCellDef="let senzor"> {{senzor.beaconDataPurgeInterval }} </td>
+          <td mat-cell *matCellDef="let senzor"> {{secondsToTime(senzor.beaconDataPurgeInterval) | amDateFormat:'HH:mm:ss'}}  </td>
         </ng-container>
         <ng-container matColumnDef="beaconDataSendInterval">
           <th mat-header-cell *matHeaderCellDef> Interval slanja podataka</th>
-          <td mat-cell *matCellDef="let senzor"> {{senzor.beaconDataSendInterval }} </td>
+          <td mat-cell *matCellDef="let senzor"> {{secondsToTime(senzor.beaconDataSendInterval) | amDateFormat:'HH:mm:ss'}}  </td>
         </ng-container>
         <ng-container matColumnDef="loading">
-          <mat-footer-cell *matFooterCellDef>
+          <mat-footer-cell class="footer" *matFooterCellDef>
             Učitavanje podataka
           </mat-footer-cell>
         </ng-container>
         <ng-container matColumnDef="noData">
-          <mat-footer-cell *matFooterCellDef>
+          <mat-footer-cell class="footer" *matFooterCellDef>
             Nema podataka
           </mat-footer-cell>
         </ng-container>
@@ -45,13 +48,16 @@
                         [ngClass]="{'hide' : !prikaziUcitavanjeSenzora}"></mat-footer-row>
         <mat-footer-row *matFooterRowDef="['noData']" [ngClass]="{'hide' : dataSourceSenzorView.data.length != 0}"></mat-footer-row>
       </table>
-      <mat-paginator [pageSize]="2" [pageSizeOptions]="[2, 3, 4, 5, 10]">
+      <mat-paginator class="tablica" [pageSize]="2" [pageSizeOptions]="[2, 3, 4, 5, 10]">
       </mat-paginator>
     </div>
   </div>
   <div class="row top50"></div>
   <div class="row">
-    <div class="col-12">
+    <div class="col-10">
+      <span class="col-12">Uređaji unutar prostorije:</span>
+    </div>
+    <div class="col-12 top10">
       <table mat-table [dataSource]="dataSourceUredajView" class="tablica">
         <tr mat-header-row *matHeaderRowDef="columnsToDisplayDevices"></tr>
         <tr mat-row *matRowDef="let row; columns: columnsToDisplayDevices"></tr>
@@ -60,7 +66,7 @@
           <td mat-cell *matCellDef="let uredaj"> {{uredaj.deviceInfo.name}} </td>
         </ng-container>
         <ng-container matColumnDef="beaconData">
-          <th mat-header-cell *matHeaderCellDef> Interval brisanja podataka</th>
+          <th mat-header-cell *matHeaderCellDef> Beacon uređaja</th>
           <td mat-cell *matCellDef="let uredaj"> {{uredaj.deviceInfo.beaconData }} </td>
         </ng-container>
         <ng-container matColumnDef="time">
@@ -72,13 +78,13 @@
           <td mat-cell *matCellDef="let uredaj"> {{uredaj.distance }} </td>
         </ng-container>
         <ng-container matColumnDef="noData">
-          <mat-footer-cell *matFooterCellDef>
+          <mat-footer-cell class="footer" *matFooterCellDef>
             Nema podataka
           </mat-footer-cell>
         </ng-container>
         <mat-footer-row *matFooterRowDef="['noData']" [ngClass]="{'hide' : dataSourceUredajView.data.length != 0}"></mat-footer-row>
       </table>
-      <mat-paginator [pageSize]="10" [pageSizeOptions]="[10, 20, 30]">
+      <mat-paginator class="tablica" [pageSize]="10" [pageSizeOptions]="[10, 20, 30]">
       </mat-paginator>
     </div>
   </div>
