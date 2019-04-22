@@ -4,7 +4,10 @@
 
 export const environment = {
   name: 'default',
-  apiUrl:'http://localhost:8080',
+  apiUrl: 'http://localhost:8080',
+  apiAuthenticationUrl: '/api/authenticate',
+  tokenPrefix: 'Bearer ',
+  failedAuthenticationCodes: [401, 403],
   production: false
 };
 

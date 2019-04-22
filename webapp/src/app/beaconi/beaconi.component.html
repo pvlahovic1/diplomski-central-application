@@ -1,10 +1,11 @@
 <div class="container app-site-body">
   <div class="row top30"></div>
   <div class="row">
-    <div class="container-fluid">
-      <i class="fas fa-plus pad10 pull-right" (click)="addBeacon()"></i>
+    <div class="container-fluid col-md-11">
+      <i class="fas fa-plus pad10 pull-right gumb-akcija" (click)="addBeacon()"></i>
     </div>
   </div>
+  <div class="row top10"></div>
   <div class="row">
     <div class="col-12">
       <table mat-table [dataSource]="dataSource" class="tablica">
@@ -33,21 +34,14 @@
             <i class="far fa-trash-alt" (click)="obrisiBeacon(beacon.id)"></i>
           </td>
         </ng-container>
-        <ng-container matColumnDef="loading">
-          <mat-footer-cell *matFooterCellDef>
-            Učitavanje podataka
-          </mat-footer-cell>
-        </ng-container>
         <ng-container matColumnDef="noData">
-          <mat-footer-cell *matFooterCellDef>
+          <mat-footer-cell class="footer" *matFooterCellDef>
             Nema podataka
           </mat-footer-cell>
         </ng-container>
-        <mat-footer-row *matFooterRowDef="['loading']"
-                        [ngClass]="{'hide' : !prikaziUcitavanjeSenzora}"></mat-footer-row>
         <mat-footer-row *matFooterRowDef="['noData']" [ngClass]="{'hide' : dataSource.data.length != 0}"></mat-footer-row>
       </table>
-      <mat-paginator [pageSize]="5" [pageSizeOptions]="[5, 10, 15]">
+      <mat-paginator class="tablica" [pageSize]="5" [pageSizeOptions]="[5, 10, 15]">
       </mat-paginator>
     </div>
   </div>
