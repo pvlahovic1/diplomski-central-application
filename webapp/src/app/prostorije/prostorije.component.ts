@@ -8,6 +8,7 @@ import {MatPaginator, MatTableDataSource} from "@angular/material";
 import {SenzorViewModel} from "../model/senzor.model";
 import {UredajProstorijaModel} from "../model/uredaj.model";
 import {WebSocketService} from "../settings/service/web-socket.service";
+import {AuthenticationService} from "../settings/service/authentication.service";
 
 @Component({
   selector: 'app-prostorije',
@@ -31,7 +32,8 @@ export class ProstorijeComponent implements OnInit, AfterViewInit {
 
   constructor(private prostorijeService: ProstorijeService,
               private modalService: NgbModal,
-              private webSocketService: WebSocketService) {
+              private webSocketService: WebSocketService,
+              private authenticationService: AuthenticationService) {
   }
 
   ngOnInit() {

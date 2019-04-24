@@ -2,7 +2,8 @@
   <div class="row top30"></div>
   <div class="row">
     <div class="container-fluid col-md-11">
-      <i class="fas fa-plus pad10 pull-right gumb-akcija" (click)="addSenzor()"></i>
+      <i class="fas fa-plus pad10 pull-right gumb-akcija" *ngIf="authenticationService.hasRole(['ROLE_ADMIN'])"
+         (click)="addSenzor()"></i>
     </div>
   </div>
   <div class="row top10"></div>

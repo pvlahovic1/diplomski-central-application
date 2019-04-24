@@ -91,7 +91,7 @@ public class SensorServiceImpl implements SensorService {
             throw new BadRequestException("Itreval brisanja podataka mora biti veći od intervala slanja podataka.");
         }
 
-        if (sensor.getId() == 0 || sensor.getSensorId() == null) {
+        if (sensor.getSensorId() == null || sensor.getId() == 0) {
             return saveNewSensor(sensorDto);
         } else {
             try {

@@ -6,6 +6,7 @@ import {DijalogService} from "../dijalog/dijalog.service";
 import {SenzoriFormComponent} from "./senzori-form/senzori-form.component";
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {WebSocketService} from "../settings/service/web-socket.service";
+import {AuthenticationService} from "../settings/service/authentication.service";
 
 @Component({
   selector: 'app-senzori',
@@ -14,17 +15,23 @@ import {WebSocketService} from "../settings/service/web-socket.service";
 })
 export class SenzoriComponent implements OnInit, AfterViewInit {
   dataSource = new MatTableDataSource<SenzorViewModel>();
-  columnsToDisplay = ['name', 'beaconDataPurgeInterval', 'beaconDataSendInterval', 'roomName', "actions"];
-
+  columnsToDisplay = [];
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   constructor(private senzoriService: SenzoriService,
               private dijalogService: DijalogService,
               private modalService: NgbModal,
-              private webSocketService: WebSocketService) {
+              private webSocketService: WebSocketService,
+              private authenticationService: AuthenticationService) {
   }
 
   ngOnInit() {
+    if (this.authenticationService.hasRole(['ROLE_ADMIN'])) {
+      this.columnsToDisplay = ['name', 'beaconDataPurgeInterval', 'beaconDataSendInterval', 'roomName', 'actions'];
+    } else {
+      this.columnsToDisplay = ['name', 'beaconDataPurgeInterval', 'beaconDataSendInterval', 'roomName'];
+    }
+
     this.osvjeziModel();
     this.webSocketInit();
   }
@@ -90,9 +97,9 @@ export class SenzoriComponent implements OnInit, AfterViewInit {
   }
 
   secondsToTime(seconds: number) {
-      const d = new Date(0,0,0,0,0,0,0);
-      d.setSeconds(seconds);
-      return d;
+    const d = new Date(0, 0, 0, 0, 0, 0, 0);
+    d.setSeconds(seconds);
+    return d;
   }
 
 }

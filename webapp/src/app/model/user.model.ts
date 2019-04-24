@@ -4,4 +4,5 @@ export class UserModel {
   firstName: string;
   lastName: string;
   token: string;
+  roles: string[];
 }

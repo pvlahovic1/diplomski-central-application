@@ -23,6 +23,19 @@ export class AuthenticationService {
     return this.currentUserSubject.value;
   }
 
+  public getCurrentRoles(): string[] {
+    if (this.currentUserSubject.value) {
+      return this.currentUserSubject.value.roles;
+    } else {
+      return [];
+    }
+  }
+
+  public hasRole(role: string[]) {
+    return role.some(r=> this.getCurrentRoles().includes(r));
+  }
+
+
   login(username: string, password: string) {
     return this.http.post<any>(`/api/authenticate?username=${username}&password=${password}`, null)
       .pipe(map(user => {

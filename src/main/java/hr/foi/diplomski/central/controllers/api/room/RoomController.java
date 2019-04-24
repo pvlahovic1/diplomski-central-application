@@ -9,6 +9,7 @@ import hr.foi.diplomski.central.service.rooms.RoomService;
 import hr.foi.diplomski.central.service.sensors.SensorService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -35,6 +36,7 @@ public class RoomController {
     }
 
     @GetMapping("/{id}")
+    @Secured("ROLE_ADMIN")
     public ResponseEntity<RoomDto> getRoomById(@PathVariable Long id) {
         return ResponseEntity.ok(roomService.getById(id));
     }
@@ -45,11 +47,13 @@ public class RoomController {
     }
 
     @PostMapping
+    @Secured("ROLE_ADMIN")
     public ResponseEntity<RoomDto> saveNewRoom(@Valid @RequestBody RoomDto roomDto) {
         return ResponseEntity.ok(roomService.saveRoom(roomDto));
     }
 
     @DeleteMapping("/{id}")
+    @Secured("ROLE_ADMIN")
     public ResponseEntity<Void> deleteRoom(@PathVariable Long id) {
         roomService.deleteRoom(id);
         return ResponseEntity.ok(null);

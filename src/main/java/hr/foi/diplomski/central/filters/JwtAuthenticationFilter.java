@@ -4,6 +4,7 @@ package hr.foi.diplomski.central.filters;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import hr.foi.diplomski.central.constants.SecurityConstants;
+import hr.foi.diplomski.central.model.Rola;
 import hr.foi.diplomski.central.model.User;
 import hr.foi.diplomski.central.model.dto.UserDto;
 import hr.foi.diplomski.central.utils.GsonLocalDateAdapter;
@@ -79,6 +80,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         userDto.setFirstName(user.getFirstName());
         userDto.setLastName(user.getLastName());
         userDto.setExpiration(convertToLocalDateTime(expirationDate));
+        userDto.setRoles(user.getRoles().stream().map(Rola::getNaziv).collect(Collectors.toList()));
         userDto.setToken(token);
 
         Gson gson = new GsonBuilder().registerTypeAdapter(LocalDateTime.class, new GsonLocalDateAdapter()).create();

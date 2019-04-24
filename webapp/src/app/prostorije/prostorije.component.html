@@ -7,7 +7,7 @@
                               (onSelect)="onItemSelect($event)">
         </angular2-multiselect>
       </div>
-      <div class="col-5">
+      <div class="col-5" *ngIf="authenticationService.hasRole(['ROLE_ADMIN'])">
         <i class="fas fa-pencil-alt pad10 gumb-akcija" (click)="editProstorija()"></i>
         <i class="fas fa-plus pad10 gumb-akcija" (click)="addProstorija()"></i>
         <i class="far fa-trash-alt gumb-akcija" (click)="deleteProstorija()"></i>
