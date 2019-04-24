@@ -8,15 +8,13 @@ import hr.foi.diplomski.central.exceptions.BadRequestException;
 import hr.foi.diplomski.central.mappers.beacon.BeaconMapper;
 import hr.foi.diplomski.central.mappers.device.DeviceInRoomMapper;
 import hr.foi.diplomski.central.mappers.device.DeviceViewMapper;
-import hr.foi.diplomski.central.model.Beacon;
-import hr.foi.diplomski.central.model.Device;
-import hr.foi.diplomski.central.model.Room;
-import hr.foi.diplomski.central.model.Sensor;
+import hr.foi.diplomski.central.model.*;
 import hr.foi.diplomski.central.model.record.Record;
 import hr.foi.diplomski.central.repository.BeaconRepository;
 import hr.foi.diplomski.central.repository.DeviceRepository;
 import hr.foi.diplomski.central.repository.RecordRepository;
 import hr.foi.diplomski.central.repository.RoomRepository;
+import hr.foi.diplomski.central.service.users.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -39,15 +37,16 @@ public class DeviceServiceImpl implements DeviceService {
     private final DeviceViewMapper deviceMapper;
     private final BeaconMapper beaconMapper;
     private final DeviceInRoomMapper devicesInRoomMapper;
+    private final UserService userService;
 
     @Override
     public List<DeviceViewDto> findAllFreeDevices() {
-        return deviceMapper.entitysToViews(deviceRepository.findAllByBeaconIsNull());
+        return deviceMapper.entitysToViews(deviceRepository.findAllByUserAndBeaconIsNull(userService.findCurrentUser()));
     }
 
     @Override
     public List<DeviceViewDto> findAllDevices() {
-        return deviceMapper.entitysToViews(deviceRepository.findAll());
+        return deviceMapper.entitysToViews(deviceRepository.findAllByUser(userService.findCurrentUser()));
     }
 
     @Override
@@ -55,11 +54,19 @@ public class DeviceServiceImpl implements DeviceService {
         Device device = deviceRepository.findById(id)
                 .orElseThrow(() -> new BadRequestException(String.format("Uredaj s id %s ne postoji", id)));
 
-        if (device.getBeacon() != null) {
-            device.setBeacon(null);
-        }
+        User user = userService.findCurrentUser();
 
-        deviceRepository.delete(device);
+        if (user.equals(device.getUser())) {
+
+            if (device.getBeacon() != null) {
+                device.setBeacon(null);
+            }
+
+            deviceRepository.delete(device);
+        } else {
+            throw new BadRequestException(String
+                    .format("Uredaj s id %s nije u vlasništvu korisnika %s", id, user.getUsername()));
+        }
     }
 
     @Override
@@ -94,7 +101,37 @@ public class DeviceServiceImpl implements DeviceService {
     @Override
     public DeviceSaveDto saveDevice(DeviceSaveDto deviceSaveDto) {
         Device device = deviceMapper.saveDtoToEntity(deviceSaveDto);
+        User user = userService.findCurrentUser();
 
+        if (device.getId() != null && device.getId() != 0) {
+            if (user.equals(device.getUser())) {
+                return doSaveDevice(device, deviceSaveDto);
+            } else {
+                throw new BadRequestException(String
+                        .format("Uredaj s id %s nije u vlasništvu korisnika %s", device.getId(), user.getUsername()));
+            }
+        } else {
+            device.setUser(user);
+            return doSaveDevice(device, deviceSaveDto);
+        }
+    }
+
+    @Override
+    public DeviceSaveDto findById(Long id) {
+        Device device = deviceRepository.findById(id)
+                .orElseThrow(() -> new BadRequestException(String.format("Uredaj s id %s ne postoji", id)));
+
+        User user = userService.findCurrentUser();
+
+        if (user.equals(device.getUser())) {
+            return deviceMapper.entityToSaveDto(device);
+        } else {
+            throw new BadRequestException(String.format("Korisnik %s nije vlasnik uređaja %s", user.getUsername(),
+                    device.getId()));
+        }
+    }
+
+    private DeviceSaveDto doSaveDevice(Device device, DeviceSaveDto deviceSaveDto) {
         if (deviceSaveDto.getBeaconView() != null) {
             Beacon beacon = beaconMapper.viewDtoToEntity(deviceSaveDto.getBeaconView());
             device.setBeacon(beacon);
@@ -103,14 +140,6 @@ public class DeviceServiceImpl implements DeviceService {
         }
 
         device = deviceRepository.save(device);
-
-        return deviceMapper.entityToSaveDto(device);
-    }
-
-    @Override
-    public DeviceSaveDto findById(Long id) {
-        Device device = deviceRepository.findById(id)
-                .orElseThrow(() -> new BadRequestException(String.format("Uredaj s id %s ne postoji", id)));
 
         return deviceMapper.entityToSaveDto(device);
     }

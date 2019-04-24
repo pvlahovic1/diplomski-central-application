@@ -31,6 +31,10 @@ public class Beacon {
     @JsonManagedReference
     private List<Device> devices = new ArrayList<>();
 
+    @ManyToOne
+    @JoinColumn(name = "id_central_user", referencedColumnName = "id_central_user")
+    private User user;
+
     @Override
     public String toString() {
         return "Beacon{" +

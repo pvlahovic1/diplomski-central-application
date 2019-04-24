@@ -18,7 +18,7 @@ public class User implements UserDetails {
 
     @Id
     @GeneratedValue(generator = "user_id_seq")
-    @Column(name = "id_user")
+    @Column(name = "id_central_user")
     private Long id;
 
     @Column(name = "username")
@@ -38,7 +38,8 @@ public class User implements UserDetails {
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_rola",
-    joinColumns = {@JoinColumn(name = "id_user")}, inverseJoinColumns = {@JoinColumn(name = "id_rola")})
+            joinColumns = {@JoinColumn(name = "id_central_user")},
+            inverseJoinColumns = {@JoinColumn(name = "id_rola")})
     public List<Rola> roles = new ArrayList<>();
 
     public User() {

@@ -24,7 +24,7 @@ public class Device {
     private Beacon beacon;
 
     @ManyToOne
-    @JoinColumn(name = "id_user", referencedColumnName = "id_user")
-    User user;
+    @JoinColumn(name = "id_central_user", referencedColumnName = "id_central_user")
+    private User user;
 
 }
