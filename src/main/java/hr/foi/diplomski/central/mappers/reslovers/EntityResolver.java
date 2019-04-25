@@ -7,15 +7,10 @@ import hr.foi.diplomski.central.controllers.api.device.data.DeviceViewDto;
 import hr.foi.diplomski.central.controllers.api.room.data.RoomDto;
 import hr.foi.diplomski.central.controllers.api.sensors.data.SensorDto;
 import hr.foi.diplomski.central.controllers.api.sensors.data.SensorViewDto;
+import hr.foi.diplomski.central.controllers.api.users.data.UserDto;
 import hr.foi.diplomski.central.exceptions.BadRequestException;
-import hr.foi.diplomski.central.model.Beacon;
-import hr.foi.diplomski.central.model.Device;
-import hr.foi.diplomski.central.model.Room;
-import hr.foi.diplomski.central.model.Sensor;
-import hr.foi.diplomski.central.repository.BeaconRepository;
-import hr.foi.diplomski.central.repository.DeviceRepository;
-import hr.foi.diplomski.central.repository.RoomRepository;
-import hr.foi.diplomski.central.repository.SensorRepository;
+import hr.foi.diplomski.central.model.*;
+import hr.foi.diplomski.central.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.mapstruct.ObjectFactory;
 import org.mapstruct.TargetType;
@@ -29,6 +24,15 @@ public class EntityResolver {
     private final SensorRepository sensorRepository;
     private final DeviceRepository deviceRepository;
     private final BeaconRepository beaconRepository;
+    private final UserRepository userRepository;
+
+    @ObjectFactory
+    public User resolve(UserDto dto, @TargetType Class<User> type) {
+        return dto != null && dto.getId() != null && dto.getId() != 0L ? userRepository.findById(dto.getId())
+                .orElseThrow(() -> new BadRequestException(String
+                        .format("Korisnik s id %s ne postoji", dto.getId()))) : new User();
+    }
+
 
     @ObjectFactory
     public Room resolve(RoomDto dto, @TargetType Class<Room> type) {

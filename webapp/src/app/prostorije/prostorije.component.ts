@@ -1,6 +1,6 @@
 import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
 import {ProstorijeService} from "./prostorije.service";
-import {ProstorijaViewModel} from "../model/prostorija.view.model";
+import {IdItemModel} from "../model/idItem.model";
 import {DropdownSettingsBuilder} from "../settings/utils/dropdown.settings.builder";
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {ProstorijeFormComponent} from "./prostorije-form/prostorije-form.component";
@@ -16,7 +16,7 @@ import {AuthenticationService} from "../settings/service/authentication.service"
   styleUrls: ['./prostorije.component.scss']
 })
 export class ProstorijeComponent implements OnInit, AfterViewInit {
-  prostorije: ProstorijaViewModel[];
+  prostorije: IdItemModel[];
   dataSourceSenzorView = new MatTableDataSource<SenzorViewModel>();
   dataSourceUredajView = new MatTableDataSource<UredajProstorijaModel>();
 

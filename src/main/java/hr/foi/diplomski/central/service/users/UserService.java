@@ -1,33 +1,25 @@
 package hr.foi.diplomski.central.service.users;
 
-import hr.foi.diplomski.central.exceptions.BadRequestException;
+import hr.foi.diplomski.central.controllers.api.users.data.UserDto;
 import hr.foi.diplomski.central.model.User;
-import hr.foi.diplomski.central.repository.UserRepository;
-import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.stereotype.Service;
 
-import java.util.Optional;
+import java.util.List;
 
-@Service
-@RequiredArgsConstructor
-public class UserService implements UserDetailsService {
+public interface UserService extends UserDetailsService {
 
-    private final UserRepository userRepository;
+    User findCurrentUser();
 
-    @Override
-    public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
-        return userRepository.findByUsername(s)
-                .orElseThrow(() -> new UsernameNotFoundException("User with username: " + s + " not found!"));
-    }
+    List<UserDto> findAllUsers();
 
-    public User findCurrentUser() {
-        var auth = Optional.ofNullable(SecurityContextHolder.getContext().getAuthentication());
+    UserDto findUserById(Long id);
 
-        return userRepository.findByUsername(auth.orElseThrow(() -> new BadRequestException("User is not logged in")).getName())
-                .orElseThrow(() -> new BadRequestException("User is not found"));
-    }
+    UserDto saveUser(UserDto userDto);
+
+    UserDto activateUser(Long id);
+
+    UserDto deactivateUser(Long id);
+
+    void deleteUser(Long id);
+
 }

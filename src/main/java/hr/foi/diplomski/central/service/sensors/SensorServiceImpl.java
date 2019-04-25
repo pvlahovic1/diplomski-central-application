@@ -14,6 +14,10 @@ import hr.foi.diplomski.central.service.socket.WebSocketService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.nio.charset.StandardCharsets;
@@ -21,6 +25,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.StringJoiner;
 
 @Service
 @Slf4j
@@ -130,6 +135,36 @@ public class SensorServiceImpl implements SensorService {
         sensorRepository.deleteById(senzorId);
     }
 
+    @Override
+    public HttpEntity<byte[]> createCongifurationFile(Long sensorId) {
+        Sensor sensor = sensorRepository.findById(sensorId).orElseThrow(() -> new BadRequestException(String
+                .format("Ne posotji senzor s id %s", sensorId)));
+
+        StringJoiner stringJoiner = new StringJoiner("\n");
+
+        stringJoiner.add(String.format("deviceId=%s", sensor.getSensorId()));
+        stringJoiner.add(String.format("deviceName=%s", sensor.getSensorName()));
+        stringJoiner.add(String.format("username=%s", "sensor_device"));
+        stringJoiner.add(String.format("password=%s", "sensor_device_password"));
+        stringJoiner.add(String.format("beaconDataPurgeInterval=%s", sensor.getBeaconDataPurgeInterval()));
+        stringJoiner.add(String.format("beaconDataSendInterval=%s", sensor.getBeaconDataSendInterval()));
+        stringJoiner.add(String.format("mqttTopicUrl=%s", ""));
+        stringJoiner.add(String.format("mqttTopicTitle=%s", "listener_settings"));
+        stringJoiner.add(String.format("centralApplicationUrl=%s", "http://localhost:8080"));
+        stringJoiner.add(String.format("centralApplicationBeaconPath=%s", "/api/records"));
+        stringJoiner.add(String.format("centralApplicationDevicePath=%s", "/api/sensors"));
+        stringJoiner.add(String.format("centralApplicationAuthenticationPath=%s", "/api/authenticate"));
+
+        byte[] document = stringJoiner.toString().getBytes(StandardCharsets.UTF_8);
+
+        HttpHeaders header = new HttpHeaders();
+        header.setContentType(MediaType.TEXT_PLAIN);
+        header.set("Content-Disposition", "inline; filename=" + "listener_configuration.conf");
+        header.setContentLength(document.length);
+
+        return new HttpEntity<>(document, header);
+    }
+
 
     private String calculatesensorId(Sensor sensor) {
         StringBuilder sb = new StringBuilder(sensor.getSensorName());
@@ -147,9 +182,9 @@ public class SensorServiceImpl implements SensorService {
     }
 
     private String bytesToHex(byte[] hash) {
-        StringBuffer hexString = new StringBuffer();
-        for (int i = 0; i < hash.length; i++) {
-            String hex = Integer.toHexString(0xff & hash[i]);
+        StringBuilder hexString = new StringBuilder();
+        for (byte hash1 : hash) {
+            String hex = Integer.toHexString(0xff & hash1);
             if (hex.length() == 1) hexString.append('0');
             hexString.append(hex);
         }

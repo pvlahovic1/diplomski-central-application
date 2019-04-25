@@ -2,6 +2,7 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {NgbActiveModal} from "@ng-bootstrap/ng-bootstrap";
 import {SenzorModel} from "../../model/senzor.model";
 import {SenzoriService} from "../senzori.service";
+import * as fileSaver from 'file-saver';
 
 @Component({
   selector: 'app-senzori-form',
@@ -35,6 +36,13 @@ export class SenzoriFormComponent implements OnInit {
     }
   }
 
+  dohvatiKonfiguraciju() {
+    this.senzoriService.preuzmiKonfiguraciju(this.model.id);
+  }
 
+  saveFile(data: any, filename?: string) {
+    const blob = new Blob([data], {type: 'text/csv; charset=utf-8'});
+    fileSaver.saveAs(blob, filename);
+  }
 
 }

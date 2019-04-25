@@ -12,6 +12,7 @@ import {DijalogComponent} from "./dijalog/dijalog.component";
 import {SenzoriFormComponent} from "./senzori/senzori-form/senzori-form.component";
 import {BeaconiFormComponent} from "./beaconi/beaconi-form/beaconi-form.component";
 import {UredajFormComponent} from "./uredaj/uredaj-form/uredaj-form.component";
+import {KorisniciFormComponent} from "./korisnici/korisnici-form/korisnici-form.component";
 
 const routes: Routes = [
   {
@@ -57,6 +58,10 @@ const routes: Routes = [
   {
     path: 'uredaj-from',
     component: UredajFormComponent
+  },
+  {
+    path: 'korisnici-from',
+    component: KorisniciFormComponent
   }
 ];
 
@@ -68,4 +73,4 @@ export class AppRoutingModule { }
 
 export const RoutingComponents = [HeadersComponent, BeaconiComponent, KorisniciComponent, ProstorijeComponent,
   SenzoriComponent, UredajComponent, PrijavaComponent, ProstorijeFormComponent, DijalogComponent, SenzoriFormComponent,
-  BeaconiFormComponent, UredajFormComponent];
+  BeaconiFormComponent, UredajFormComponent, KorisniciFormComponent];

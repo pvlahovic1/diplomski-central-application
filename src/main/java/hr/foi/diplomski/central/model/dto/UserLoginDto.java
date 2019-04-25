@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Data
-public class UserDto {
+public class UserLoginDto {
 
     private Long id;
     private String username;

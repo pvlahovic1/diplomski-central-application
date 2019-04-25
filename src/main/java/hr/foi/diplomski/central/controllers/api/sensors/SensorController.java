@@ -6,6 +6,7 @@ import hr.foi.diplomski.central.controllers.api.sensors.data.out.SensorOutDto;
 import hr.foi.diplomski.central.model.Sensor;
 import hr.foi.diplomski.central.service.sensors.SensorService;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
@@ -41,6 +42,12 @@ public class SensorController {
     @Secured({"ROLE_ADMIN"})
     public ResponseEntity<SensorDto> getSensorById(@PathVariable("id") Long id) {
         return ResponseEntity.ok(sensorService.getSensordById(id));
+    }
+
+    @GetMapping("/{id}/configuration")
+    @Secured({"ROLE_ADMIN"})
+    public HttpEntity<byte[]> createConfigurationForSensor(@PathVariable("id") Long id) {
+        return sensorService.createCongifurationFile(id);
     }
 
     @GetMapping("/free")

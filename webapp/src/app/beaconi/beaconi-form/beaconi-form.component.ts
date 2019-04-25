@@ -33,7 +33,7 @@ export class BeaconiFormComponent implements OnInit {
       } else {
         console.log("Postavlja se novi");
       }
-    })
+    });
   }
 
   initModel() {

@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {BehaviorSubject, Observable} from "rxjs";
-import {UserModel} from "../../model/user.model";
+import {UserLoginModel} from "../../model/user.model";
 import {HttpClient} from "@angular/common/http";
 import {map} from "rxjs/operators";
 
@@ -10,16 +10,16 @@ import {map} from "rxjs/operators";
 export class AuthenticationService {
   readonly PRIJAVLJENI_KORISNIK_STORAGE = 'prijavljeniKorisnik';
 
-  private currentUserSubject: BehaviorSubject<UserModel>;
-  public currentUser: Observable<UserModel>;
+  private currentUserSubject: BehaviorSubject<UserLoginModel>;
+  public currentUser: Observable<UserLoginModel>;
 
   constructor(private http: HttpClient) {
-    this.currentUserSubject = new BehaviorSubject<UserModel>(JSON.parse(localStorage
+    this.currentUserSubject = new BehaviorSubject<UserLoginModel>(JSON.parse(localStorage
       .getItem(this.PRIJAVLJENI_KORISNIK_STORAGE)));
     this.currentUser = this.currentUserSubject.asObservable();
   }
 
-  public getCurrentUser(): UserModel {
+  public getCurrentUser(): UserLoginModel {
     return this.currentUserSubject.value;
   }
 

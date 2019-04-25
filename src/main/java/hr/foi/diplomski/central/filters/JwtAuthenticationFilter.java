@@ -6,7 +6,7 @@ import com.google.gson.GsonBuilder;
 import hr.foi.diplomski.central.constants.SecurityConstants;
 import hr.foi.diplomski.central.model.Rola;
 import hr.foi.diplomski.central.model.User;
-import hr.foi.diplomski.central.model.dto.UserDto;
+import hr.foi.diplomski.central.model.dto.UserLoginDto;
 import hr.foi.diplomski.central.utils.GsonLocalDateAdapter;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -75,17 +75,17 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                 .claim("rol", roles)
                 .compact();
 
-        UserDto userDto = new UserDto();
-        userDto.setUsername(user.getUsername());
-        userDto.setFirstName(user.getFirstName());
-        userDto.setLastName(user.getLastName());
-        userDto.setExpiration(convertToLocalDateTime(expirationDate));
-        userDto.setRoles(user.getRoles().stream().map(Rola::getNaziv).collect(Collectors.toList()));
-        userDto.setToken(token);
+        UserLoginDto userLoginDto = new UserLoginDto();
+        userLoginDto.setUsername(user.getUsername());
+        userLoginDto.setFirstName(user.getFirstName());
+        userLoginDto.setLastName(user.getLastName());
+        userLoginDto.setExpiration(convertToLocalDateTime(expirationDate));
+        userLoginDto.setRoles(user.getRoles().stream().map(Rola::getNaziv).collect(Collectors.toList()));
+        userLoginDto.setToken(token);
 
         Gson gson = new GsonBuilder().registerTypeAdapter(LocalDateTime.class, new GsonLocalDateAdapter()).create();
 
-        response.getWriter().write(gson.toJson(userDto));
+        response.getWriter().write(gson.toJson(userLoginDto));
         response.addHeader(SecurityConstants.TOKEN_HEADER, SecurityConstants.TOKEN_PREFIX + token);
     }
 
