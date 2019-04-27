@@ -10,5 +10,6 @@ public class SensorViewDto {
     private Integer beaconDataPurgeInterval;
     private Integer beaconDataSendInterval;
     private String roomName;
+    private boolean present;
 
 }

@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.ToString;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "sensor")
@@ -27,6 +28,9 @@ public class Sensor {
 
     @Column(name = "beacon_data_send_interval")
     private Integer beaconDataSendInterval;
+
+    @Column(name = "last_time_present")
+    private LocalDateTime lastTimePresent;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "id_room", referencedColumnName = "id_room")

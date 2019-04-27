@@ -9,7 +9,7 @@ import hr.foi.diplomski.central.mappers.sensor.SensorToDtoMapper;
 import hr.foi.diplomski.central.mappers.sensor.SensorToViewMapper;
 import hr.foi.diplomski.central.model.Sensor;
 import hr.foi.diplomski.central.repository.SensorRepository;
-import hr.foi.diplomski.central.service.mqtt.MqttService;
+import hr.foi.diplomski.central.service.mqtt.service.MqttService;
 import hr.foi.diplomski.central.service.socket.WebSocketService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,7 +17,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.nio.charset.StandardCharsets;
@@ -45,24 +44,18 @@ public class SensorServiceImpl implements SensorService {
             throw new BadRequestException("Beacon data purge interval cannot be greater then beacon data send interval");
         }
 
-        var sensorOptional = sensorRepository.findBySensorId(sensorOutDto.getDeviceId());
+        Sensor sensor = sensorRepository.findBySensorId(sensorOutDto.getDeviceId()).orElseThrow(() -> new BadRequestException(String
+                .format("Sensor with id: %s does not exist", sensorOutDto.getDeviceId())));
 
-        if (sensorOptional.isPresent()) {
-            Sensor sensor = sensorOptional.get();
+        sensor.setSensorName(sensorOutDto.getDeviceName());
+        sensor.setBeaconDataPurgeInterval(sensorOutDto.getBeaconDataPurgeInterval());
+        sensor.setBeaconDataSendInterval(sensorOutDto.getBeaconDataSendInterval());
 
-            sensor.setSensorName(sensorOutDto.getDeviceName());
-            sensor.setBeaconDataPurgeInterval(sensorOutDto.getBeaconDataPurgeInterval());
-            sensor.setBeaconDataSendInterval(sensorOutDto.getBeaconDataSendInterval());
+        sensor = sensorRepository.save(sensor);
 
-            sensor = sensorRepository.save(sensor);
+        webSocketService.refreshSensorState(sensor.getId());
 
-            webSocketService.refreshSensorState(sensor.getId());
-
-            return sensor;
-        } else {
-            throw new BadRequestException(String
-                    .format("Sensor with id: %s does not exist", sensorOutDto.getDeviceId()));
-        }
+        return sensor;
     }
 
     @Override
@@ -114,8 +107,7 @@ public class SensorServiceImpl implements SensorService {
                             sensor.getBeaconDataSendInterval());
                 }
             } catch (Exception e) {
-                log.error("Error while sending mqtt message: {}", e);
-                // TODO: throw internal server error
+                log.error("Error while sending mqtt message:", e);
             }
 
             return sensorToDtoMapper.entityToDto(sensor);
@@ -165,6 +157,11 @@ public class SensorServiceImpl implements SensorService {
         return new HttpEntity<>(document, header);
     }
 
+    @Override
+    public void updateSensorLasPresentTime(Sensor sensor) {
+        sensor.setLastTimePresent(LocalDateTime.now());
+        sensorRepository.save(sensor);
+    }
 
     private String calculatesensorId(Sensor sensor) {
         StringBuilder sb = new StringBuilder(sensor.getSensorName());

@@ -1,4 +1,4 @@
-package hr.foi.diplomski.central.service.mqtt;
+package hr.foi.diplomski.central.service.mqtt.service;
 
 import org.eclipse.paho.client.mqttv3.MqttException;
 

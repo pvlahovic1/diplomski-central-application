@@ -27,9 +27,9 @@ export class SenzoriComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
     if (this.authenticationService.hasRole(['ROLE_ADMIN'])) {
-      this.columnsToDisplay = ['name', 'beaconDataPurgeInterval', 'beaconDataSendInterval', 'roomName', 'actions'];
+      this.columnsToDisplay = ['name', 'beaconDataPurgeInterval', 'beaconDataSendInterval', 'roomName', 'present', 'actions'];
     } else {
-      this.columnsToDisplay = ['name', 'beaconDataPurgeInterval', 'beaconDataSendInterval', 'roomName'];
+      this.columnsToDisplay = ['name', 'beaconDataPurgeInterval', 'beaconDataSendInterval', 'roomName', 'present'];
     }
 
     this.osvjeziModel();

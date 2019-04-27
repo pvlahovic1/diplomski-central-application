@@ -1,5 +1,10 @@
 package hr.foi.diplomski.central.configuration;
 
+import hr.foi.diplomski.central.repository.SensorRepository;
+import hr.foi.diplomski.central.service.mqtt.MqttHolder;
+import hr.foi.diplomski.central.service.mqtt.MqttListenerCallBack;
+import hr.foi.diplomski.central.service.socket.WebSocketService;
+import lombok.RequiredArgsConstructor;
 import org.eclipse.paho.client.mqttv3.MqttClient;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.springframework.beans.factory.annotation.Value;
@@ -9,10 +14,17 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
+@RequiredArgsConstructor
 public class CustomBeanConfiguration {
 
     @Value("${mqttTopicUrl}")
     private String mqttTopicUrl;
+
+    @Value("${mqttTopicTitle}")
+    private String mqttTopicTitle;
+
+    private final SensorRepository sensorRepository;
+    private final WebSocketService webSocketService;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -20,8 +32,20 @@ public class CustomBeanConfiguration {
     }
 
     @Bean
-    public MqttClient createMqttClient() throws MqttException {
-        return new MqttClient(mqttTopicUrl, MqttClient.generateClientId());
+    public MqttHolder createMqttHolder() {
+        MqttHolder mqttHolder = null;
+        try {
+            MqttListenerCallBack mqttListenerCallBack = new MqttListenerCallBack(sensorRepository, webSocketService);
+            MqttClient client = new MqttClient(mqttTopicUrl, MqttClient.generateClientId());
+            client.setCallback(mqttListenerCallBack);
+            client.connect();
+            client.subscribe(mqttTopicTitle);
+            mqttHolder = new MqttHolder(client);
+        } catch (MqttException e) {
+            e.printStackTrace();
+        }
+
+        return mqttHolder;
     }
 
 }

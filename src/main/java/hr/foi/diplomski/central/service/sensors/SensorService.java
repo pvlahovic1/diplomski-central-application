@@ -26,4 +26,6 @@ public interface SensorService {
 
     HttpEntity<byte[]> createCongifurationFile(Long sensorId);
 
+    void updateSensorLasPresentTime(Sensor sensor);
+
 }

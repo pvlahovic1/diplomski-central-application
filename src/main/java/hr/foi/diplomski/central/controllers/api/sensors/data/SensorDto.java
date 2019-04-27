@@ -14,5 +14,6 @@ public class SensorDto {
     private Integer beaconDataPurgeInterval;
     @NotNull
     private Integer beaconDataSendInterval;
+    private boolean present;
     
 }

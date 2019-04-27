@@ -4,6 +4,7 @@ export class SenzorViewModel {
   beaconDataPurgeInterval: number;
   beaconDataSendInterval: number;
   roomName: string;
+  present: boolean;
 }
 
 export class SenzorModel {
@@ -11,4 +12,5 @@ export class SenzorModel {
   name: string;
   beaconDataPurgeInterval: number;
   beaconDataSendInterval: number;
+  present: boolean;
 }

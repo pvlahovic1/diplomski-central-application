@@ -28,6 +28,13 @@
           <th mat-header-cell *matHeaderCellDef> Prostorija</th>
           <td mat-cell *matCellDef="let senzor"> {{senzor.roomName }} </td>
         </ng-container>
+        <ng-container matColumnDef="present">
+          <th mat-header-cell *matHeaderCellDef> Dostupnost</th>
+          <td mat-cell *matCellDef="let senzor">
+            <i class="fas fa-check-circle pad10" *ngIf="senzor.present"></i>
+            <i class="fas fa-times-circle pad10" *ngIf="!senzor.present"></i>
+          </td>
+        </ng-container>
         <ng-container matColumnDef="actions">
           <th mat-header-cell *matHeaderCellDef> Akcije</th>
           <td mat-cell *matCellDef="let senzor">

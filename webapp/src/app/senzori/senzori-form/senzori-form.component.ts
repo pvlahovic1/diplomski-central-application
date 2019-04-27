@@ -36,6 +36,14 @@ export class SenzoriFormComponent implements OnInit {
     }
   }
 
+  saveDostupan() {
+    if (this.model.id == 0) {
+      return true;
+    } else {
+      return this.model.present;
+    }
+  }
+
   dohvatiKonfiguraciju() {
     this.senzoriService.preuzmiKonfiguraciju(this.model.id);
   }
