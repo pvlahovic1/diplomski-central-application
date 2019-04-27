@@ -16,6 +16,7 @@ import hr.foi.diplomski.central.repository.RecordRepository;
 import hr.foi.diplomski.central.repository.RoomRepository;
 import hr.foi.diplomski.central.service.users.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,6 +30,9 @@ import java.util.stream.Collectors;
 @Transactional
 @RequiredArgsConstructor
 public class DeviceServiceImpl implements DeviceService {
+
+    @Value("${beacon.record.duration}")
+    private Long maxRecordDuration;
 
     private final DeviceRepository deviceRepository;
     private final RoomRepository roomRepository;
@@ -82,7 +86,7 @@ public class DeviceServiceImpl implements DeviceService {
         List<Beacon> beacons = beaconRepository.findAll();
         List<Record> validRecords = new ArrayList<>();
 
-        LocalDateTime validTime = LocalDateTime.now().minusMinutes(1L);
+        LocalDateTime validTime = LocalDateTime.now().minusMinutes(maxRecordDuration);
 
         beacons.forEach(e -> recordRepository.findFirstByRecordId_BeaconAndRecordId_RecordDateBetweenOrderByDistanceAsc(
                 e, validTime, LocalDateTime.now()).ifPresent(validRecords::add));

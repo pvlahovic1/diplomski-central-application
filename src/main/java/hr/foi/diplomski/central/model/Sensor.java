@@ -2,6 +2,7 @@ package hr.foi.diplomski.central.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Data;
+import lombok.ToString;
 
 import javax.persistence.*;
 
@@ -30,16 +31,7 @@ public class Sensor {
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "id_room", referencedColumnName = "id_room")
     @JsonBackReference
+    @ToString.Exclude
     private Room room;
 
-    @Override
-    public String toString() {
-        return "Sensor{" +
-                "id=" + id +
-                ", sensorId='" + sensorId + '\'' +
-                ", sensorName='" + sensorName + '\'' +
-                ", beaconDataPurgeInterval=" + beaconDataPurgeInterval +
-                ", beaconDataSendInterval=" + beaconDataSendInterval +
-                '}';
-    }
 }

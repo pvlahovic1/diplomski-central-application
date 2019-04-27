@@ -2,6 +2,7 @@ package hr.foi.diplomski.central.model;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -29,19 +30,12 @@ public class Beacon {
     @OneToMany(cascade = {CascadeType.ALL})
     @JoinColumn(name = "id_beacon")
     @JsonManagedReference
+    @ToString.Exclude
     private List<Device> devices = new ArrayList<>();
 
     @ManyToOne
     @JoinColumn(name = "id_central_user", referencedColumnName = "id_central_user")
+    @ToString.Exclude
     private User user;
 
-    @Override
-    public String toString() {
-        return "Beacon{" +
-                "id=" + id +
-                ", uuid='" + uuid + '\'' +
-                ", major=" + major +
-                ", minor=" + minor +
-                '}';
-    }
 }
