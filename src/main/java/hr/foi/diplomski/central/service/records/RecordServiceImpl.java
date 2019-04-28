@@ -11,6 +11,7 @@ import hr.foi.diplomski.central.model.record.RecordId;
 import hr.foi.diplomski.central.repository.BeaconRepository;
 import hr.foi.diplomski.central.repository.RecordRepository;
 import hr.foi.diplomski.central.repository.SensorRepository;
+import hr.foi.diplomski.central.service.centralaudit.CentralAuditService;
 import hr.foi.diplomski.central.service.socket.WebSocketService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,6 +23,8 @@ import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 
+import static hr.foi.diplomski.central.model.CentralAudit.ROOM_ENTER_MESSAGE;
+import static hr.foi.diplomski.central.model.CentralAudit.ROOM_EXIT_MESSAGE;
 import static java.time.temporal.ChronoUnit.MINUTES;
 
 @Slf4j
@@ -41,6 +44,7 @@ public class RecordServiceImpl implements RecordService {
     private final SensorRepository sensorRepository;
     private final BeaconRepository beaconRepository;
     private final WebSocketService websocketService;
+    private final CentralAuditService centralAuditService;
 
     @Override
     public void createNewRecord(SensorData sensorData) {
@@ -58,11 +62,11 @@ public class RecordServiceImpl implements RecordService {
 
     private void processSensorData(Sensor sensor, List<SensorRecord> sensorRecords) {
         for (SensorRecord sensorRecord : sensorRecords) {
-            if (isRecordInsideRoom(sensorRecord, sensor.getRoom())) {
-                Beacon beacon = beaconRepository.findByUuidAndMajorAndMinor(sensorRecord.getUuid(),
-                        sensorRecord.getMajor(), sensorRecord.getMinor()).orElseThrow(() -> new BadRequestException(
-                        String.format("Beacon in record data is not recognized: %s", sensorRecord)));
+            Beacon beacon = beaconRepository.findByUuidAndMajorAndMinor(sensorRecord.getUuid(),
+                    sensorRecord.getMajor(), sensorRecord.getMinor()).orElseThrow(() -> new BadRequestException(
+                    String.format("Beacon in record data is not recognized: %s", sensorRecord)));
 
+            if (isRecordInsideRoom(sensorRecord, sensor.getRoom())) {
                 var lastKnownBeaconRecordOptional = recordRepository
                         .findFirstByRecordId_BeaconOrderByRecordId_RecordDateDesc(beacon);
 
@@ -86,11 +90,13 @@ public class RecordServiceImpl implements RecordService {
                                 log.info(String.format("%s Zadnji zapis nije validan zbog vremena. Ažuriram",
                                         LOG_MESSAGE_DIFF_ROOM));
                                 updateSensorRecord(lastKnownBeaconRecord, sensorRecord, sensor, beacon);
+                                centralAuditService.saveAudit(1L, sensor, beacon, ROOM_ENTER_MESSAGE);
                             } else {
                                 if (sensorRecord.getDistance() <= lastKnownBeaconRecord.getDistance()) {
                                     log.info(String.format("%s Udaljenost novog zapisa je manja. Ažuriram",
                                             LOG_MESSAGE_DIFF_ROOM));
                                     updateSensorRecord(lastKnownBeaconRecord, sensorRecord, sensor, beacon);
+                                    centralAuditService.saveAudit(1L, sensor, beacon, ROOM_ENTER_MESSAGE);
                                 } else {
                                     log.info(String.format("%s Udaljenost novog zapisa je veća. Ne ažuriram",
                                             LOG_MESSAGE_DIFF_ROOM));
@@ -100,14 +106,17 @@ public class RecordServiceImpl implements RecordService {
                     } else {
                         log.info("Senzor zadnjeg zapisa nema postavljenu prostoriju. Ažuriram s novim vrijednostima");
                         updateSensorRecord(lastKnownBeaconRecord, sensorRecord, sensor, beacon);
+                        centralAuditService.saveAudit(1L, sensor, beacon, ROOM_ENTER_MESSAGE);
                     }
                 } else {
                     log.info(String.format("Unutar baze ne postoji zapis za beacon %s te se on zapisuje", beacon));
                     saveNewRecordData(sensor, beacon, sensorRecord.getDistance());
+                    centralAuditService.saveAudit(1L, sensor, beacon, ROOM_ENTER_MESSAGE);
                 }
             } else {
                 log.info(String.format("Zapis %s se ne nalazi unutar prostorije %s jer je udaljenost veća od maksimalne udaljenosti prostorije %s",
                         sensorRecord, sensor.getRoom().getRoomName(), sensor.getRoom().calculateMaxDistance()));
+                centralAuditService.saveAudit(1L, sensor, beacon, ROOM_EXIT_MESSAGE);
             }
         }
     }
