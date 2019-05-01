@@ -1,0 +1,25 @@
+<div class="container app-site-body">
+  <div class="row top30"></div>
+  <div class="row justify-content-center align-content-center">
+    <button class="far fa-images fa-3x gumb-akcija" (click)="onFilePressed()" [disabled]="spiner"></button>
+    <button class="fas fa-camera fa-3x gumb-akcija" (click)="onCameraPressed()" [disabled]="spiner"></button>
+  </div>
+  <div class="row top40"></div>
+
+  <div *ngIf="showFileUpload()" class="row justify-content-center align-content-center">
+    <input #selectedFile style="display: none;" type="file" (change)="onFileChange($event)"/>
+    <button class="fas fa-folder-open fa-3x gumb-akcija" (click)="selectedFile.click()" [disabled]="spiner"></button>
+    <img *ngIf="showImage()" [src]="imagePreviewUrl" height="250"/>
+  </div>
+
+  <div *ngIf="showCameraUpload()">
+    <p>Ovo je camera upload</p>
+  </div>
+
+  <div class="row top30"></div>
+  <div class="row justify-content-center align-content-center" *ngIf="isSelected">
+    <button class="fas fa-upload fa-3x gumb-akcija" (click)="processImage()" [disabled]="spiner"></button>
+    <div *ngIf="spiner" class="spinner"></div>
+  </div>
+
+</div>

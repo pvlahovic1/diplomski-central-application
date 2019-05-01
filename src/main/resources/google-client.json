@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "delta-crane-235511",
+  "private_key_id": "7bc72c02f5bdcf68ca7f93c07cfd28bdf8149f34",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDFCk4RJCg7GgRo\nVJ+Dbz/ERqSlfcvpXL/Pvmfap5pqapxXSFmVdjfMs4svJ4vtaoOPSX52caL/Gv5r\niSD1RbW1H1P1WABA+JNlPuF4BDnfzh+XiDTwtL1KHrOltXTOo7ASQEGzj+9pYuWJ\nIk4lrkyk9ZtrV7NmwHccOotozYJUHIrFSetKtY/XiFjSW8b8rBXWFg59BKnlKITs\n5UYkIrYDKGG3m8GbAAws4XgY0T8pu7ROhogS5PZrjCA8WqrDRcRESC9SGDxEZj4e\nXR6j+QlHduaEm4vhJWJri8E8Osl4e5dPACxPkPbBsv0qHgxGIPuXynewGEfbQpym\nMtlcI6sbAgMBAAECggEAHfqTOx9rBub5TF2yW/8qpAnIK4JdanbZRi8m7PPQK328\npg5UzEfiyyshXj4gQjHmV1WBaghLGjuOAb1+PWMVojuPJ3Eer26X5RvGlonfZlJI\nUzf+2gVIbC+0pIiG/5jpr9/alIqDN1+7zaa3CMZL/1MmX5QbMGMlxtk6HxVuzVi6\nqC8KujOK6P7tkn676HX0o/oOUo5ott/roDFAqnzxbcV5efH0hMr2lr+h6kZU9g6w\nS3rulso+yOZZLYRb8UeltwHxwrgwJ3ytv2QfBJL/qFKPjVrS4TEIrB2wN+TKR+GH\n/VwNFTcFhV5a+jIUf8SsnVKjtxnNJsGSd+hnVp/15QKBgQDnXw6EAwq1YOwb/pVy\nwG4NbkB74UYK9kMwLM1vTzT2pHzn36+OZE5uCKYCUrhgTivuaWvjtkxg8RrRROMW\nvPokx66iaiI7ztvuIxshBzocoJ+0Zcd8zwNUg+CO0ZrV8xPjvlIfJD6L+w7Gq1rO\nSl3hAkh8ZzjLQBWxMoJZJtVXDQKBgQDaA7c3/Z7wESjFbYmDmDkXnoPQi0kwf2Tz\nzWZQw61fPrmq1fki6+A6SjCd/GrDvpSRvgxNIxYQVD2SxESS0qmiAvpUkIQ7B6n8\n940elv+o6T7CbGfWOmerLQj0RTnhMsPlWZLl+sPxC50Wh5oDYLiFRcMQc3UMcGsO\n1eRA2kEAxwKBgHEcOHVzIz4Otv7sk9U4m9S3DJFDTUG4qJoZnQkImOTm/yVAZovf\nH7SNR9Mk63wxWyq/oP3+thJCbJDX84i/NC7c69P8vOWuODiQMwgPh2pNYCYKB99N\nONyNaC+J6v8jSZryBSWyS12Vi+C2DruBAaopupQOxmYe2zv4bF73LB7VAoGBAKPe\nHx0quQhhHXAoATC0flVOhG2ABCc72jmWrc0PB4WLtCrAYl7pRMULdreJPwaafTl+\ny+g+8xqa9x0WASUKyw5HhrmBVqK4BAFsYNoZTVk82DtzGCliBQIY+53/Wp32dmAx\nj8TlU9oejJienBjl3kvuP8xhvBz5cr7X7pUAd9OJAoGBALgrKJ57+pzcai/cKSHY\nl1Ly5oVKM26stG6wRvvVRNBa1/lkb0Hk1vZcUDmuPplAOuZDEIXIAnU3KuGjozs6\nJluDToMAha7iFzGtedeCGm4dMyIGxItzMlDAh7izbXi1OXTNwAGY1DWtHxJxXNM+\n810LadDT2MJbuyf0X0EHJSVg\n-----END PRIVATE KEY-----\n",
+  "client_email": "ucenje@delta-crane-235511.iam.gserviceaccount.com",
+  "client_id": "100945070690362236575",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/ucenje%40delta-crane-235511.iam.gserviceaccount.com"
+}

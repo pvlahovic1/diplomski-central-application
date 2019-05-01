@@ -1,5 +1,6 @@
 package hr.foi.diplomski.central.configuration;
 
+import com.google.gson.Gson;
 import hr.foi.diplomski.central.repository.SensorRepository;
 import hr.foi.diplomski.central.service.mqtt.MqttHolder;
 import hr.foi.diplomski.central.service.mqtt.MqttListenerCallBack;
@@ -8,10 +9,12 @@ import lombok.RequiredArgsConstructor;
 import org.eclipse.paho.client.mqttv3.MqttClient;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.client.RestTemplate;
 
 @Configuration
 @RequiredArgsConstructor
@@ -25,6 +28,7 @@ public class CustomBeanConfiguration {
 
     private final SensorRepository sensorRepository;
     private final WebSocketService webSocketService;
+    private final RestTemplateBuilder restTemplateBuilder;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -46,6 +50,16 @@ public class CustomBeanConfiguration {
         }
 
         return mqttHolder;
+    }
+
+    @Bean
+    public RestTemplate createRestTemplate() {
+        return  restTemplateBuilder.build();
+    }
+
+    @Bean
+    public Gson createGson() {
+        return new Gson();
     }
 
 }

@@ -16,7 +16,6 @@ import {MomentModule} from "angular2-moment";
 import {WebSocketService} from "./settings/service/web-socket.service";
 import {AuthenticationService} from "./settings/service/authentication.service";
 import {HttpErrorInterceptor} from "./settings/interceptors/http.error.interceptor";
-
 @NgModule({
   declarations: [
     AppComponent,

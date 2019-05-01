@@ -6,4 +6,6 @@ export class BeaconModel {
   major: number;
   minor: number;
   devices: UredajViewModel[];
+  createFromImage: boolean;
+
 }

@@ -13,6 +13,7 @@ import {SenzoriFormComponent} from "./senzori/senzori-form/senzori-form.componen
 import {BeaconiFormComponent} from "./beaconi/beaconi-form/beaconi-form.component";
 import {UredajFormComponent} from "./uredaj/uredaj-form/uredaj-form.component";
 import {KorisniciFormComponent} from "./korisnici/korisnici-form/korisnici-form.component";
+import {DodavanjeUredajaComponent} from "./dodavanje-uredaja/dodavanje-uredaja.component";
 
 const routes: Routes = [
   {
@@ -62,6 +63,10 @@ const routes: Routes = [
   {
     path: 'korisnici-from',
     component: KorisniciFormComponent
+  },
+  {
+    path: 'dodvanje-uredaja-from',
+    component: DodavanjeUredajaComponent
   }
 ];
 
@@ -73,4 +78,4 @@ export class AppRoutingModule { }
 
 export const RoutingComponents = [HeadersComponent, BeaconiComponent, KorisniciComponent, ProstorijeComponent,
   SenzoriComponent, UredajComponent, PrijavaComponent, ProstorijeFormComponent, DijalogComponent, SenzoriFormComponent,
-  BeaconiFormComponent, UredajFormComponent, KorisniciFormComponent];
+  BeaconiFormComponent, UredajFormComponent, KorisniciFormComponent, DodavanjeUredajaComponent];

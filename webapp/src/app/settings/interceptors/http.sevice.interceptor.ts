@@ -16,12 +16,12 @@ export class HttpSeviceInterceptor implements HttpInterceptor {
     if (!req.url.includes(environment.apiAuthenticationUrl)) {
       const token = this.authenticationService.getCurrentUser().token;
 
-      const authHeaders = new HttpHeaders({
-        'Authorization': environment.tokenPrefix + token,
-        'Content-Type': 'application/json'
-      });
 
-      req = req.clone({headers: authHeaders});
+      req = req.clone({
+        setHeaders: {
+          'Authorization': environment.tokenPrefix + token
+        }
+      });
     }
 
     return next.handle(req);

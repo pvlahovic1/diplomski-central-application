@@ -18,10 +18,12 @@ export class SenzoriFormComponent implements OnInit {
               private senzoriService: SenzoriService) { }
 
   ngOnInit() {
-    if (this.model.id != 0) {
-      this.senzoriService.dohvatiSenzor(this.model.id).subscribe(data => {
-        this.model = data;
-      });
+    if (!this.model.createFromImage) {
+      if (this.model.id != 0) {
+        this.senzoriService.dohvatiSenzor(this.model.id).subscribe(data => {
+          this.model = data;
+        });
+      }
     }
   }
 

@@ -28,10 +28,12 @@ export class BeaconiFormComponent implements OnInit {
     this.initDropdowns();
     this.uredajService.dohvatiSveSlobodneUredaje().subscribe(data => {
       this.slobodniUredaji = data;
-      if (this.model.id != 0) {
-        this.initModel();
-      } else {
-        console.log("Postavlja se novi");
+      if (!this.model.createFromImage) {
+        if (this.model.id != 0) {
+          this.initModel();
+        } else {
+          console.log("Postavlja se novi");
+        }
       }
     });
   }

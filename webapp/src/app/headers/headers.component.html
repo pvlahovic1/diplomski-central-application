@@ -1,13 +1,18 @@
 <div class="navigacija" *ngIf="!displayLogin()">
   <nav class="navbar">
     <ul class="nav navbar">
-      <li class="navbar"><div class="right50"></div></li>
+      <li class="navbar">
+        <div class="right50"></div>
+      </li>
       <li class="navbar"><a routerLink="/prostorije" routerLinkActive="active">Prostorije</a></li>
       <li class="navbar"><a routerLink="/senzori" routerLinkActive="active">Senzori</a></li>
       <li class="navbar"><a routerLink="/uredaji" routerLinkActive="active">Uređaji</a></li>
       <li class="navbar"><a routerLink="/beaconi" routerLinkActive="active">Beaconi</a></li>
       <li class="navbar" *ngIf="authenticationService.hasRole(['ROLE_ADMIN'])">
         <a routerLink="/korisnici" routerLinkActive="active">Korisnici</a>
+      </li>
+      <li class="navbar" *ngIf="authenticationService.hasRole(['ROLE_ADMIN'])">
+        <a routerLink="/dodvanje-uredaja-from" routerLinkActive="active">Dodavanje putem slike</a>
       </li>
     </ul>
     <div class="pull-right">

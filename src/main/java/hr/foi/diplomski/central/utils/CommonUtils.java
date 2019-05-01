@@ -14,6 +14,7 @@ import static java.time.temporal.ChronoUnit.MINUTES;
 public class CommonUtils {
 
     public static final String DEVICE_ACTIVITY_PROOF_MESSAGE = "^DEVICE_ID ([0-9a-zA-z ]{64});ACTIVITY_PROOF;$";
+    public static final String IMAGE_TEXT_RECOGNITION_REGEX = "<([0-9a-zA-z- ]*)> ?<([1-9][0-9]*)> ?<([1-9][0-9]*)>[^\\n]?";
     public static final Long DEVICE_ACTIVITY_PROOF_TIME = 10L;
 
     public static boolean isSensorActive(Optional<LocalDateTime> lastTimeActive) {

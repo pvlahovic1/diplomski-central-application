@@ -13,4 +13,5 @@ export class SenzorModel {
   beaconDataPurgeInterval: number;
   beaconDataSendInterval: number;
   present: boolean;
+  createFromImage: boolean;
 }
