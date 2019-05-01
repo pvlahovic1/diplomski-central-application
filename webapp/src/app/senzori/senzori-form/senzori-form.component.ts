@@ -47,7 +47,9 @@ export class SenzoriFormComponent implements OnInit {
   }
 
   dohvatiKonfiguraciju() {
-    this.senzoriService.preuzmiKonfiguraciju(this.model.id);
+    this.senzoriService.preuzmiKonfiguraciju(this.model.id).subscribe(data => {
+      this.saveFile(data, 'listener_configuration.conf');
+    })
   }
 
   saveFile(data: any, filename?: string) {

@@ -28,7 +28,7 @@ export class SenzoriService {
     return this.http.delete(`${this.BASE_URL}/${idSenzora}`);
   }
 
-  preuzmiKonfiguraciju(idSensora) {
-    return this.http.get(`${this.BASE_URL}/${idSensora}/configuration`);
+  preuzmiKonfiguraciju(idSensora):Observable<any> {
+    return this.http.get(`${this.BASE_URL}/${idSensora}/configuration`, {responseType: 'text'});
   }
 }
