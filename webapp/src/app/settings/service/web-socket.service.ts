@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Subject} from "rxjs";
 import * as Stomp from 'stompjs';
+import {environment} from "../../../environments/environment";
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +16,7 @@ export class WebSocketService {
   }
 
   private initWebSocket() {
-    let socket = new WebSocket("ws://localhost:8080/data-binding");
+    let socket = new WebSocket(environment.webSocketUrl);
     this.webSocket = Stomp.over(socket);
     let that = this;
     this.webSocket.connect({}, function (frame) {

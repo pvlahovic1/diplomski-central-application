@@ -36,7 +36,7 @@ public class RecordServiceImpl implements RecordService {
     private final static String LOG_MESSAGE_DIFF_ROOM = "Novi zapis se ne nalazi u istoj prostoji kao i zadnji zapis.";
 
     @Value("${beacon.record.distance.threshold}")
-    private Long threshold;
+    private Double threshold;
     @Value("${beacon.record.duration}")
     private Long maxRecordDuration;
 
@@ -62,9 +62,15 @@ public class RecordServiceImpl implements RecordService {
 
     private void processSensorData(Sensor sensor, List<SensorRecord> sensorRecords) {
         for (SensorRecord sensorRecord : sensorRecords) {
-            Beacon beacon = beaconRepository.findByUuidAndMajorAndMinor(sensorRecord.getUuid(),
-                    sensorRecord.getMajor(), sensorRecord.getMinor()).orElseThrow(() -> new BadRequestException(
-                    String.format("Beacon in record data is not recognized: %s", sensorRecord)));
+            var beaconOptional = beaconRepository.findByUuidAndMajorAndMinor(sensorRecord.getUuid(),
+                    sensorRecord.getMajor(), sensorRecord.getMinor());
+
+            if (beaconOptional.isEmpty()) {
+                log.info(String.format("Nepoznati beacon: %s. Podaci o njemu se ne bilježe", sensorRecord));
+                continue;
+            }
+
+            Beacon beacon = beaconOptional.get();
 
             if (isRecordInsideRoom(sensorRecord, sensor.getRoom())) {
                 var lastKnownBeaconRecordOptional = recordRepository

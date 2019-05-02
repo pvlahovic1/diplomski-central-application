@@ -6,6 +6,7 @@ export const environment = {
   name: 'default',
   apiUrl: 'http://localhost:8080',
   apiAuthenticationUrl: '/api/authenticate',
+  webSocketUrl: 'ws://localhost:8080/data-binding',
   tokenPrefix: 'Bearer ',
   failedAuthenticationCodes: [401, 403],
   production: false
