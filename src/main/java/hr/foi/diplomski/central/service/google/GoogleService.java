@@ -51,6 +51,9 @@ public class GoogleService {
     @Value("${google.image.text.api}")
     private String googleImageTextApi;
 
+    @Value("${google.client.file}")
+    private String googleClientFilePath;
+
     public ImageProcessingResult processImage(MultipartFile multipartFile) {
         try {
             String token = makeGoogleAuthentication();
@@ -110,7 +113,7 @@ public class GoogleService {
 
     private String makeGoogleAuthentication() {
         try {
-            File file = new ClassPathResource("google-client.json").getFile();
+            File file = new File(googleClientFilePath);
 
             GoogleCredential credential = GoogleCredential.fromStream(new FileInputStream(file));
             RSAPrivateKey privateKey = (RSAPrivateKey) credential.getServiceAccountPrivateKey();
