@@ -8,6 +8,7 @@ import hr.foi.diplomski.central.service.device.DeviceService;
 import hr.foi.diplomski.central.service.rooms.RoomService;
 import hr.foi.diplomski.central.service.sensors.SensorService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
@@ -26,11 +27,13 @@ public class RoomController {
     private final DeviceService deviceService;
 
     @GetMapping
+    @Secured("ROLE_USER")
     public ResponseEntity<List<RoomViewDto>> getAllRoomsView() {
         return ResponseEntity.ok(roomService.getAllRoomsView());
     }
 
     @GetMapping("/{id}/sensors")
+    @Secured({"ROLE_ADMIN", "ROLE_USER"})
     public ResponseEntity<List<SensorViewDto>> getAllSensorsInRoom(@PathVariable Long id) {
         return ResponseEntity.ok(sensorService.getAllSensorsViewByRoom(id));
     }
@@ -42,6 +45,7 @@ public class RoomController {
     }
 
     @GetMapping("/{id}/devices")
+    @Secured({"ROLE_ADMIN", "ROLE_USER"})
     public ResponseEntity<List<DeviceInRoomDto>> getAllDevicesInRoom(@PathVariable Long id) {
         return ResponseEntity.ok(deviceService.findAllDevicesInRoom(id));
     }
@@ -54,9 +58,9 @@ public class RoomController {
 
     @DeleteMapping("/{id}")
     @Secured("ROLE_ADMIN")
-    public ResponseEntity<Void> deleteRoom(@PathVariable Long id) {
+    public ResponseEntity deleteRoom(@PathVariable Long id) {
         roomService.deleteRoom(id);
-        return ResponseEntity.ok(null);
+        return new ResponseEntity(HttpStatus.OK);
     }
 
 }

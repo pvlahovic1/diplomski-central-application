@@ -1,0 +1,26 @@
+:toc: left
+:toclevels: 4
+:toc-title: Sadržaj
+
+= Tehnička dokumentacija centralne aplikacije
+
+Ovaj dokument predstavlja tehničku dokumentaciju koja služi kao pomoć pri korištenju API-a centralne aplikacije. Unutar dokumenta biti će objašnjene
+glavne funkcionalnosti API-a.
+
+API centralne aplikacije služi za dohvaćanje i izmjenu podataka unutar sustava. API je organiziran kao REST servis te se do podataka dolazi uz pomoć
+HTTP zahtjeva na određeni URL. Dalje u dokumentu nalaze specificirani HTTP zahtjevi za izmjenu podataka sa sustavom.
+
+== Popis HTTP statusa
+Niže u tablici nalaze se popisi svih HTTP statusa koji se mogu dogoditi unutar ovog API-a.
+
+[cols="2", options="header"]
+|==========================
+|HTTP status                |Opis
+|200 OK                     |Standardni pozitivni odgovor HTTP odgovora. Točan odgovor ovisiti će o korištenoj HTTP metodi. U slučaju GET metode, odgovor će sadržavati JSON sadržaj koji odgovara uvjetima u zahtjevu. Prilikom korištenja POST metode, postoji više mogučnosti. 1. odgovor će biti prazan (označava da je zahtjevana akcija uspješno izvršena). 2. Odgovor će sadržavati status izvršene akcije. 3. Dogovor sadrži JSON koji odgovara uvjetima u zahtjevu.
+|400 Bad Request            |Status koji označava da aplikacija ne može obraditi zahtjev zbog korisničke pogreške. Do greške često dolai zbog toga što se u zahtjevu ne specificiraju potrebni parametri.
+|403 Forbidden              |standardni HTTP statusni koji označava da je pristup traženom (važećem) URL-u iz nekog razloga zabranjen. Poslužitelj je razumio zahtjev, ali ga neće ispuniti zbog problema povezanih s klijentom.
+|404 Not Found              |Status koji označava da se zahtjeva sadržaj na URL koji nije specificiran.
+|500 Internal Server Error  |Status koji označava grešku u radu samog API-a.
+|==========================
+
+
