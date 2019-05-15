@@ -22,5 +22,4 @@ public class RecordController {
         recordService.createNewRecord(sensorData);
     }
 
-
 }
