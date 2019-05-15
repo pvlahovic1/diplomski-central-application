@@ -1,0 +1,7 @@
+package hr.foi.diplomski.central;
+
+public class SecurityUtilsTest {
+
+    public static final String TOKEN = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJzZWN1cmUtYXBpIiwiYXVkIjoic2VjdXJlLWFwcCIsInN1YiI6InB2bGFob3ZpYyIsImV4cCI6MTU1ODcxNzAxNiwicm9sIjpbIlJPTEVfQURNSU4iLCJST0xFX1NFTlNPUiIsIlJPTEVfVVNFUiJdfQ.PJH8wJY4xEVka_MMH-9pFipknAXFWutRNT6prTYs4FgswhCDS5UnhfnFmTZREQJo2qW2bcMAI9xUo4h3BgTiYA";
+
+}

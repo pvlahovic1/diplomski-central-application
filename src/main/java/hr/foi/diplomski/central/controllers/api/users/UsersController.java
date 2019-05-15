@@ -3,6 +3,7 @@ package hr.foi.diplomski.central.controllers.api.users;
 import hr.foi.diplomski.central.controllers.api.users.data.UserDto;
 import hr.foi.diplomski.central.service.users.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
@@ -48,9 +49,9 @@ public class UsersController {
 
     @Secured("ROLE_ADMIN")
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteUser(@PathVariable("id") Long id) {
+    public ResponseEntity deleteUser(@PathVariable("id") Long id) {
         userService.deleteUser(id);
 
-        return ResponseEntity.ok(null);
+        return new ResponseEntity(HttpStatus.OK);
     }
 }

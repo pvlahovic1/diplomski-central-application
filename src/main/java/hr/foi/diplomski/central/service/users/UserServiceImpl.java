@@ -45,14 +45,14 @@ public class UserServiceImpl implements UserService {
         User user = userRepository.findById(id).orElseThrow(() -> new BadRequestException(String
                 .format("Korisnik s id %s ne postoji", id)));
 
-        return userMapper.entityTODto(user);
+        return userMapper.entityToDto(user);
     }
 
     @Override
     public UserDto saveUser(UserDto userDto) {
         User user = userMapper.dtoToEntity(userDto);
 
-        return userMapper.entityTODto(userRepository.save(user));
+        return userMapper.entityToDto(userRepository.save(user));
     }
 
     @Override
@@ -65,7 +65,7 @@ public class UserServiceImpl implements UserService {
         }
 
         user.setActive(true);
-        return userMapper.entityTODto(userRepository.save(user));
+        return userMapper.entityToDto(userRepository.save(user));
     }
 
     @Override
@@ -78,7 +78,7 @@ public class UserServiceImpl implements UserService {
         }
 
         user.setActive(false);
-        return userMapper.entityTODto(userRepository.save(user));
+        return userMapper.entityToDto(userRepository.save(user));
     }
 
     @Override

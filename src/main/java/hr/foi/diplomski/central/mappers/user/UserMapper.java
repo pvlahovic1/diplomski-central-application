@@ -19,7 +19,7 @@ public abstract class UserMapper {
     private PasswordEncoder passwordEncoder;
 
     @Mapping(target = "password", ignore = true)
-    public abstract UserDto entityTODto(User user);
+    public abstract UserDto entityToDto(User user);
 
     public abstract List<UserDto> entityToDto(List<User> users);
 
