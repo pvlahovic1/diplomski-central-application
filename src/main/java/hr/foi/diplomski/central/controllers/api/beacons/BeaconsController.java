@@ -5,6 +5,7 @@ import hr.foi.diplomski.central.controllers.api.beacons.dto.BeaconViewDto;
 import hr.foi.diplomski.central.service.beacon.BeaconService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -12,6 +13,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/beacons")
+@Secured({"ROLE_ADMIN", "ROLE_USER"})
 public class BeaconsController {
 
     private final BeaconService beaconService;

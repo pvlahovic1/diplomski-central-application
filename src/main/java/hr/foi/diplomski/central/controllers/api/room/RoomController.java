@@ -27,7 +27,7 @@ public class RoomController {
     private final DeviceService deviceService;
 
     @GetMapping
-    @Secured("ROLE_USER")
+    @Secured({"ROLE_ADMIN", "ROLE_USER"})
     public ResponseEntity<List<RoomViewDto>> getAllRoomsView() {
         return ResponseEntity.ok(roomService.getAllRoomsView());
     }
@@ -39,7 +39,7 @@ public class RoomController {
     }
 
     @GetMapping("/{id}")
-    @Secured("ROLE_ADMIN")
+    @Secured({"ROLE_ADMIN", "ROLE_USER"})
     public ResponseEntity<RoomDto> getRoomById(@PathVariable Long id) {
         return ResponseEntity.ok(roomService.getById(id));
     }

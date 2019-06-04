@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@Secured("ROLE_ADMIN")
 @RequiredArgsConstructor
 @RequestMapping("/api/users")
 public class UsersController {
@@ -18,36 +19,30 @@ public class UsersController {
     private final UserService userService;
 
     @GetMapping
-    @Secured("ROLE_ADMIN")
     public ResponseEntity<List<UserDto>> getAllUsers() {
         return ResponseEntity.ok(userService.findAllUsers());
     }
 
     @GetMapping("/{id}")
-    @Secured("ROLE_ADMIN")
     public ResponseEntity<UserDto> getUserById(@PathVariable("id") Long id) {
         return ResponseEntity.ok(userService.findUserById(id));
     }
 
     @PostMapping
-    @Secured("ROLE_ADMIN")
     public ResponseEntity<UserDto> saveUser(@RequestBody UserDto userDto) {
         return ResponseEntity.ok(userService.saveUser(userDto));
     }
 
-    @Secured("ROLE_ADMIN")
     @PutMapping("/{id}/activate")
     public ResponseEntity<UserDto> activateUser(@PathVariable("id") Long id) {
         return ResponseEntity.ok(userService.activateUser(id));
     }
 
-    @Secured("ROLE_ADMIN")
     @PutMapping("/{id}/deactivate")
     public ResponseEntity<UserDto> deactivateUser(@PathVariable("id") Long id) {
         return ResponseEntity.ok(userService.deactivateUser(id));
     }
 
-    @Secured("ROLE_ADMIN")
     @DeleteMapping("/{id}")
     public ResponseEntity deleteUser(@PathVariable("id") Long id) {
         userService.deleteUser(id);

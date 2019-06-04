@@ -28,6 +28,7 @@ public class SensorController {
     }
 
     @GetMapping
+    @Secured({"ROLE_ADMIN", "ROLE_USER"})
     public ResponseEntity<List<SensorViewDto>> getAllSensors() {
         return ResponseEntity.ok(sensorService.getAllSensors());
     }

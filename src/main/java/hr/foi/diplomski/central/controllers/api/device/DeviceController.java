@@ -5,6 +5,7 @@ import hr.foi.diplomski.central.controllers.api.device.data.DeviceViewDto;
 import hr.foi.diplomski.central.service.device.DeviceService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -12,6 +13,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/devices")
+@Secured({"ROLE_ADMIN", "ROLE_USER"})
 public class DeviceController {
 
     private final DeviceService deviceService;
