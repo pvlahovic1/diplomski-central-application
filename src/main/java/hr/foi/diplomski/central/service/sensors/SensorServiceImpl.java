@@ -9,6 +9,7 @@ import hr.foi.diplomski.central.mappers.sensor.SensorToDtoMapper;
 import hr.foi.diplomski.central.mappers.sensor.SensorToViewMapper;
 import hr.foi.diplomski.central.model.Sensor;
 import hr.foi.diplomski.central.repository.RecordRepository;
+import hr.foi.diplomski.central.repository.RoomRepository;
 import hr.foi.diplomski.central.repository.SensorRepository;
 import hr.foi.diplomski.central.service.centralaudit.CentralAuditService;
 import hr.foi.diplomski.central.service.mqtt.service.MqttService;
@@ -28,6 +29,7 @@ import java.security.NoSuchAlgorithmException;
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.StringJoiner;
 
 @Service
@@ -37,6 +39,7 @@ public class SensorServiceImpl implements SensorService {
 
     private final RecordRepository recordRepository;
     private final CentralAuditService centralAuditService;
+    private final RoomRepository roomRepository;
     private final SensorRepository sensorRepository;
     private final SensorToViewMapper sensorToViewMapper;
     private final SensorToDtoMapper sensorToDtoMapper;
@@ -134,6 +137,10 @@ public class SensorServiceImpl implements SensorService {
         Sensor sensor = sensorRepository.findById(senzorId).orElseThrow(() -> new BadRequestException(String
                 .format("Ne posotji senzor s id %s", senzorId)));
 
+        if (Objects.nonNull(sensor.getRoom())) {
+            sensor.setRoom(null);
+        }
+
         recordRepository.deleteAllByRecordId_Sensor(Collections.singletonList(sensor));
         centralAuditService.delteAuditBySensor(sensor);
         sensorRepository.deleteById(senzorId);
@@ -152,9 +159,9 @@ public class SensorServiceImpl implements SensorService {
         stringJoiner.add(String.format("password=%s", "sensor_device_password"));
         stringJoiner.add(String.format("beaconDataPurgeInterval=%s", sensor.getBeaconDataPurgeInterval()));
         stringJoiner.add(String.format("beaconDataSendInterval=%s", sensor.getBeaconDataSendInterval()));
-        stringJoiner.add(String.format("mqttTopicUrl=%s", ""));
+        stringJoiner.add(String.format("mqttTopicUrl=%s", "tcp://153.92.209.230:1883"));
         stringJoiner.add(String.format("mqttTopicTitle=%s", "listener_settings"));
-        stringJoiner.add(String.format("centralApplicationUrl=%s", "http://localhost:8080"));
+        stringJoiner.add(String.format("centralApplicationUrl=%s", "http://153.92.209.230:8080"));
         stringJoiner.add(String.format("centralApplicationBeaconPath=%s", "/api/records"));
         stringJoiner.add(String.format("centralApplicationDevicePath=%s", "/api/sensors"));
         stringJoiner.add(String.format("centralApplicationAuthenticationPath=%s", "/api/authenticate"));
