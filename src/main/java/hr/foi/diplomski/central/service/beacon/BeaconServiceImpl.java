@@ -9,10 +9,12 @@ import hr.foi.diplomski.central.model.User;
 import hr.foi.diplomski.central.repository.BeaconRepository;
 import hr.foi.diplomski.central.repository.DeviceRepository;
 import hr.foi.diplomski.central.repository.RecordRepository;
+import hr.foi.diplomski.central.service.centralaudit.CentralAuditService;
 import hr.foi.diplomski.central.service.users.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -24,6 +26,7 @@ public class BeaconServiceImpl implements BeaconService {
     private final BeaconRepository beaconRepository;
     private final DeviceRepository deviceRepository;
     private final RecordRepository recordRepository;
+    private final CentralAuditService centralAuditService;
     private final BeaconMapper beaconMapper;
     private final UserService userService;
 
@@ -69,6 +72,7 @@ public class BeaconServiceImpl implements BeaconService {
     }
 
     @Override
+    @Transactional
     public void deleteBeaon(Long idBeacon) {
         Beacon beacon = beaconRepository.findById(idBeacon)
                 .orElseThrow(() -> new BadRequestException(String
@@ -78,6 +82,7 @@ public class BeaconServiceImpl implements BeaconService {
 
         if (user.equals(beacon.getUser())) {
             recordRepository.deleteAllByRecordId_Beacon(beacon);
+            centralAuditService.deleteAuditByBeacon(beacon);
 
             beacon.getDevices().forEach(e -> e.setBeacon(null));
             beacon.getDevices().clear();

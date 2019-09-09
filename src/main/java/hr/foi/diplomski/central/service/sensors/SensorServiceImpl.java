@@ -8,7 +8,9 @@ import hr.foi.diplomski.central.mappers.reslovers.EntityResolver;
 import hr.foi.diplomski.central.mappers.sensor.SensorToDtoMapper;
 import hr.foi.diplomski.central.mappers.sensor.SensorToViewMapper;
 import hr.foi.diplomski.central.model.Sensor;
+import hr.foi.diplomski.central.repository.RecordRepository;
 import hr.foi.diplomski.central.repository.SensorRepository;
+import hr.foi.diplomski.central.service.centralaudit.CentralAuditService;
 import hr.foi.diplomski.central.service.mqtt.service.MqttService;
 import hr.foi.diplomski.central.service.socket.WebSocketService;
 import lombok.AllArgsConstructor;
@@ -18,11 +20,13 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.List;
 import java.util.StringJoiner;
 
@@ -31,6 +35,8 @@ import java.util.StringJoiner;
 @AllArgsConstructor
 public class SensorServiceImpl implements SensorService {
 
+    private final RecordRepository recordRepository;
+    private final CentralAuditService centralAuditService;
     private final SensorRepository sensorRepository;
     private final SensorToViewMapper sensorToViewMapper;
     private final SensorToDtoMapper sensorToDtoMapper;
@@ -123,7 +129,13 @@ public class SensorServiceImpl implements SensorService {
     }
 
     @Override
+    @Transactional
     public void deleteSensor(Long senzorId) {
+        Sensor sensor = sensorRepository.findById(senzorId).orElseThrow(() -> new BadRequestException(String
+                .format("Ne posotji senzor s id %s", senzorId)));
+
+        recordRepository.deleteAllByRecordId_Sensor(Collections.singletonList(sensor));
+        centralAuditService.delteAuditBySensor(sensor);
         sensorRepository.deleteById(senzorId);
     }
 

@@ -18,4 +18,8 @@ public interface CentralAuditService {
 
     void saveAudit(Long auditTypeId, Sensor sensor, String description);
 
+    void deleteAuditByBeacon(Beacon beacon);
+
+    void delteAuditBySensor(Sensor sensor);
+
 }

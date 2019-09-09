@@ -73,5 +73,15 @@ public class CentralAuditServiceIml implements CentralAuditService {
         }
     }
 
+    @Override
+    public void deleteAuditByBeacon(Beacon beacon) {
+        centralAuditRepository.deleteAllByBeacon(beacon);
+    }
+
+    @Override
+    public void delteAuditBySensor(Sensor sensor) {
+        centralAuditRepository.deleteAllBySensor(sensor);
+    }
+
 
 }
