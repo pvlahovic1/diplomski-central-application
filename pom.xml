@@ -25,7 +25,7 @@
         <lombok.version>1.18.6</lombok.version>
         <mqttv3-version>1.2.0</mqttv3-version>
         <gson-version>2.8.5</gson-version>
-        <commons-io-version>2.6</commons-io-version>
+        <commons-io-version>2.7</commons-io-version>
         <google-api-client-version>1.28.0</google-api-client-version>
         <java-jwt-version>3.8.0</java-jwt-version>
         <asciidoctor-maven-plugin-version>1.5.3</asciidoctor-maven-plugin-version>
